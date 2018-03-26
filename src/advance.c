@@ -1,6 +1,8 @@
 #include "advance.h"
 void resolve_collision(entity_t *e1,entity_t *e2)
 {
+	if (e1==e2)
+		return;
 	e2->hp-=e1->str; // Temporary
 	if (e2->hp<=0)
 		e2->hp=0;
