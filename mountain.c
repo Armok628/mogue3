@@ -3,18 +3,12 @@
 #include <time.h>
 #define WIDTH 40
 #define HEIGHT 20
-int avg_pt(int l[WIDTH][HEIGHT],int xc,int yc)
+int avg_pt(int l[WIDTH][HEIGHT],int x,int y)
 {
 	int sum=0;
-	sum+=l[xc+1][yc+1];
-	sum+=l[xc+1][yc];
-	sum+=l[xc+1][yc-1];
-	sum+=l[xc][yc+1];
-	sum+=l[xc][yc];
-	sum+=l[xc][yc-1];
-	sum+=l[xc-1][yc+1];
-	sum+=l[xc-1][yc];
-	sum+=l[xc-1][yc-1];
+	for (int xo=-1;xo<=1;xo++)
+		for (int yo=-1;yo<=1;yo++)
+			sum+=l[x+xo][y+yo];
 	return sum/9;
 }
 void erode(int land[WIDTH][HEIGHT])
