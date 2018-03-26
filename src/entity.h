@@ -2,7 +2,7 @@
 #define ENTITY_H
 #include <stdlib.h>
 #include "terminal.h"
-
+typedef enum {false,true} bool;
 typedef struct entity_s {
 	char *name,symbol;
 	color_t color;

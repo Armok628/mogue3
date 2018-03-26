@@ -20,8 +20,10 @@ int main(int argc,char **argv)
 
 	draw_area();
 
+	/*
 	int choice=menu(argv,argc);
 	announce("ss","You picked ",argv[choice]);
+	*/
 
 	/*
 	entity_t e,*c=&e;
@@ -38,8 +40,7 @@ int main(int argc,char **argv)
 
 	//clear_announcements();
 	*/
-	for (;;) {
+	for (;;)
 		advance();
-	}
 
 }
