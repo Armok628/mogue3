@@ -9,17 +9,15 @@ int avg_pt(int l[WIDTH][HEIGHT],int x,int y)
 {
 	int sum=0;
 	// Add up orthogonal heights (including self)
-	/*
 	for (int xo=-1;xo<=1;xo++)
 		sum+=l[x+xo][y];
 	for (int yo=-1;yo<=1;yo++)
 		sum+=l[x][y+yo];
-	*/
 	// Add up heights in 3x3 grid (including self)
 	for (int yo=-1;yo<=1;yo++)
 		for (int xo=-1;xo<=1;xo++)
 			sum+=l[x+xo][y+yo];
-	return sum/9;//15; // Take average
+	return sum/15; // Take average
 }
 void erode(int land[WIDTH][HEIGHT])
 {
@@ -32,38 +30,36 @@ void erode(int land[WIDTH][HEIGHT])
 			land[x][y]=avg_pt(tmp,x,y);
 }
 color_t height_color(int height)
-{ // TODO: Base the following numbers on AREA
-	if (height>500) // ^
+{
+	if (height>65)
 		return WHITE;
-	else if (height>300) // =
-		return DGRAY;
-	else if (height>200) // -
+	if (height>60)
 		return LGRAY;
-	else if (height>57) // _
+	else if (height>53)
 		return GREEN;
 	else if (height>50)
 		return LGREEN;
-	else if (height>47) // ~
+	else if (height>48)
 		return YELLOW;
 	else if (height>44)
 		return LBLUE;
-	else if (height>20)
+	else if (height>24)
 		return BLUE;
 	else
 		return BLACK;
 }
 char height_symbol(int height)
-{ // TODO: Base the following numbers on AREA
-	if (height>500)
+{
+	if (height>65)
 		return '^';
-	if (height>300)
+	if (height>60)
 		return '=';
-	else if (height>200)
+	else if (height>55)
 		return '-';
-	else if (height>50)
-		return '_';
-	else
+	else if (height>48)
 		return '~';
+	else
+		return '_';
 }
 void draw_land(int land[WIDTH][HEIGHT])
 {
@@ -109,8 +105,8 @@ int main(int argc,char **argv)
 		for (int x=0;x<WIDTH;x++) {
 			if (!x||!y||x==WIDTH-1||y==HEIGHT-1)
 				world[x][y]=0;
-			else // TODO: Base the following numbers on AREA
-				world[x][y]=rand()%(rand()%200?100:10000);
+			else // TODO: Base the following number on AREA
+				world[x][y]=rand()%100;
 		}
 	interactive_gen(world);
 	move_cursor(0,HEIGHT+1);
