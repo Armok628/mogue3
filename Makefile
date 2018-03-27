@@ -6,4 +6,4 @@ game: game.c src/*
 	$(CC) game.c src/*.c $(CFLAGS); rm game.h
 
 islands: islands.c src/terminal.*
-	$(CC) islands.c src/terminal.c $(CFLAGS) && ./a.out
+	$(CC) islands.c src/terminal.c $(CFLAGS)

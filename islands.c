@@ -74,35 +74,26 @@ void draw_land(int land[WIDTH][HEIGHT])
 		putchar('\n');
 	}
 }
-void interactive_gen(int land[WIDTH][HEIGHT])
+void elevate(int land[WIDTH][HEIGHT],int offset)
 {
-	char input='\0';
-	clear_screen();
-	move_cursor(0,HEIGHT);
-	printf("Press e to erode. Press q to quit.\n");
-	set_cursor_visible(0);
-	set_canon(0);
-	while (input!='q') {
-		move_cursor(0,0);
-		draw_land(land);
-		input=fgetc(stdin);
-		if (input=='e')
-			erode(land);
-	}
-	set_canon(1);
-	set_cursor_visible(1);
-	set_color(RESET,BG RESET);
+	for (int x=0;x<WIDTH;x++)
+		for (int y=0;y<HEIGHT;y++)
+			land[x][y]+=offset;
 }
 int main(int argc,char **argv)
 {
 	printf("\e[2J\e[0;0H");
 	int world[WIDTH][HEIGHT];
-	long seed;
+	long seed=time(NULL);
+	int offset=0,erosion=3;
 	if (argc>1)
-		sscanf(argv[1],"%ld",&seed);
-	else
-		seed=time(NULL);
+		for (int i=1;i<argc;i++) {
+			sscanf(argv[i],"seed=%ld",&seed);
+			sscanf(argv[i],"offset=%d",&offset);
+			sscanf(argv[i],"erosion=%d",&erosion);
+		}
 	srand(seed);
+	// Generate world
 	for (int y=0;y<HEIGHT;y++)
 		for (int x=0;x<WIDTH;x++) {
 			if (!x||!y||x==WIDTH-1||y==HEIGHT-1)
@@ -110,8 +101,15 @@ int main(int argc,char **argv)
 			else // TODO: Base the following number on AREA
 				world[x][y]=rand()%100;
 		}
-	interactive_gen(world);
-	move_cursor(0,HEIGHT+1);
+	for (int i=0;i<erosion;i++)
+		erode(world);
+	if (offset)
+		elevate(world,offset);
+	// Display
+	clear_screen();
 	printf("Seed: %ld\n",seed);
+	draw_land(world);
+	set_color(RESET,BG RESET);
+	putchar('\n');
 	return 0;
 }
