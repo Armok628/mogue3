@@ -22,6 +22,25 @@ void erode(int land[WIDTH][HEIGHT])
 		for (int x=1;x<WIDTH-1;x++)
 			land[x][y]=avg_pt(tmp,x,y);
 }
+color_t height_color(int height)
+{
+	if (height>500)
+		return WHITE;
+	else if (height>300)
+		return DGRAY;
+	else if (height>200)
+		return LGRAY;
+	else if (height>75)
+		return GREEN;
+	else if (height>50)
+		return LGREEN;
+	else if (height>47)
+		return YELLOW;
+	else if (height>40)
+		return LBLUE;
+	else
+		return BLUE;
+}
 char height_symbol(int height)
 {
 	if (height>500)
@@ -33,11 +52,14 @@ char height_symbol(int height)
 	else
 		return '_';
 }
-void print_land(int land[WIDTH][HEIGHT])
+void draw_land(int land[WIDTH][HEIGHT])
 {
 	for (int y=0;y<HEIGHT;y++) {
-			for (int x=0;x<WIDTH;x++)
-			putchar(height_symbol(land[x][y]));
+		for (int x=0;x<WIDTH;x++) {
+			int h=land[x][y];
+			set_color(height_color(h),BG BLACK);
+			putchar(height_symbol(h));
+		}
 		putchar('\n');
 	}
 }
@@ -53,10 +75,11 @@ int main(int argc,char **argv)
 			else
 				world[x][y]=rand()%(rand()%200?100:10000);
 		}
-	print_land(world);
+	draw_land(world);
 	putchar('\n');
 	erode(world);
 	erode(world);
 	erode(world);
-	print_land(world);
+	draw_land(world);
+	set_color(RESET,BG RESET);
 }
