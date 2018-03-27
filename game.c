@@ -6,17 +6,14 @@
 int main(int argc,char **argv)
 {
 	srand(time(NULL));
-	for (int i=0;i<AREA;i++) {
-		area[i].bg=grass[rand()%N_GRASS];
-		area[i].bg_c=rand()%2?GREEN:LGREEN;
-	}
 	set_cursor_visible(0);
 	set_canon(0);
 	clear_screen();
+	local_area=new_area();
 
 	player=place_randomly(&playertype);
 	place_randomly(&monstertype);
-	draw_area();
+	draw_local_area();
 	announce_stats(player);
 
 	for (;;)

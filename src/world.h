@@ -6,7 +6,7 @@
 #include "terminal.h"
 #define W_WIDTH 80
 #define W_HEIGHT 24
-#define AREA (W_WIDTH*W_HEIGHT)
+#define W_AREA (W_WIDTH*W_HEIGHT)
 
 int avg_elev(int l[W_WIDTH][W_HEIGHT],int x,int y);
 void erode(int land[W_WIDTH][W_HEIGHT]);

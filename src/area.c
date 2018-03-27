@@ -1,5 +1,5 @@
 #include "area.h"
-tile_t area[AREA];
+tile_t *local_area;
 const char grass[N_GRASS]={',','.','\'','"','`',';'};
 void putc_pos(char ch,int x,int y)
 {
@@ -25,17 +25,26 @@ void draw_pos(int x,int y)
 	if (x<0||x>=WIDTH||y<0||y>=HEIGHT)
 		return;
 	move_cursor(x,y);
-	draw_tile(area[x+y*WIDTH]);
+	draw_tile(local_area[lin(x,y)]);
 }
 void draw_posl(int c)
 {
 	if (c<0||c>=AREA)
 		return;
-	move_cursor(c%WIDTH,c/WIDTH);
-	draw_tile(area[c]);
+	move_cursor(xcmp(c),ycmp(c));
+	draw_tile(local_area[c]);
 }
-void draw_area()
+void draw_local_area()
 {
 	for (int i=0;i<AREA;i++)
 		draw_posl(i);
+}
+tile_t *new_area()
+{
+	tile_t *area=malloc(AREA*sizeof(tile_t));
+	for (int i=0;i<AREA;i++) { // Temporary
+		area[i].bg=grass[rand()%N_GRASS];
+		area[i].bg_c=rand()%2?GREEN:LGREEN;
+	}
+	return area;
 }

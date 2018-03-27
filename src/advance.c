@@ -12,23 +12,23 @@ void move_entity(entity_t *entity,int from,int to)
 {
 	if (to<0||to>=AREA) // Detect vertical wrap
 		return;
-	int h=(to%WIDTH)-(from%WIDTH);
+	int h=xcmp(to)-xcmp(from);
 	if (h>1||h<-1) // Detect horizontal wrap
 		return;
-	if (area[to].fg) // Wall
+	if (local_area[to].fg) // Wall
 		return;
-	if (area[to].e) // Entity
-		resolve_collision(entity,area[to].e);
-	if (area[to].e&&!area[to].e->hp) {
-		if (area[to].corpse)
-			free(area[to].corpse);
-		area[to].corpse=area[to].e;
-		area[to].e=NULL;
+	if (local_area[to].e) // Entity
+		resolve_collision(entity,local_area[to].e);
+	if (local_area[to].e&&!local_area[to].e->hp) {
+		if (local_area[to].corpse)
+			free(local_area[to].corpse);
+		local_area[to].corpse=local_area[to].e;
+		local_area[to].e=NULL;
 	}
-	if (!area[to].e) {
+	if (!local_area[to].e) {
 		entity->coord=to;
-		area[to].e=entity;
-		area[from].e=NULL;
+		local_area[to].e=entity;
+		local_area[from].e=NULL;
 		entity->coord=to;
 	}
 	draw_posl(from);
@@ -86,7 +86,7 @@ void advance()
 	// Unchanging entity pointer array prevents multiple turns per step
 	entity_t *e[AREA];
 	for (int i=0;i<AREA;i++)
-		e[i]=area[i].e;
+		e[i]=local_area[i].e;
 	for (int i=0;i<AREA;i++)
 		if (e[i]&&e[i]->hp>0) // HP check to avoid post-death turns
 			take_turn(e[i]);
