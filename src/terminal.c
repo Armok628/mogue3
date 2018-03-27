@@ -15,7 +15,7 @@ void clear_line()
 }
 void set_cursor_visible(int v)
 {
-	fputs(v?"\e[?25h":"\e[?25l",stdout);
+	printf("\e[?25%c",v?'h':'l');
 }
 void set_canon(int c)
 {

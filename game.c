@@ -18,6 +18,7 @@ int main(int argc,char **argv)
 	place_randomly(&monstertype);
 
 	draw_area();
+	announce_stats(player);
 
 	/*
 	int choice=menu(argv,argc);
