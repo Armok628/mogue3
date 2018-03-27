@@ -8,10 +8,16 @@
 int avg_pt(int l[WIDTH][HEIGHT],int x,int y)
 {
 	int sum=0;
+	// Add up orthogonal heights (including self)
+	for (int xo=-1;xo<=1;xo++)
+		sum+=l[x+xo][y];
+	for (int yo=-1;yo<=1;yo++)
+		sum+=l[x][y+yo];
+	// Add up heights in 3x3 grid (including self)
 	for (int yo=-1;yo<=1;yo++)
 		for (int xo=-1;xo<=1;xo++)
 			sum+=l[x+xo][y+yo];
-	return sum/9;
+	return sum/15; // Take average
 }
 void erode(int land[WIDTH][HEIGHT])
 {
@@ -31,16 +37,18 @@ color_t height_color(int height)
 		return DGRAY;
 	else if (height>200) // -
 		return LGRAY;
-	else if (height>65) // _
+	else if (height>55) // _
 		return GREEN;
 	else if (height>50)
 		return LGREEN;
-	else if (height>47) // ~
+	else if (height>45) // ~
 		return YELLOW;
 	else if (height>40)
 		return LBLUE;
-	else
+	else if (height>20)
 		return BLUE;
+	else
+		return BLACK;
 }
 char height_symbol(int height)
 { // TODO: Base the following numbers on AREA
