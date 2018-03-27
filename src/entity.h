@@ -4,14 +4,16 @@
 #include "terminal.h"
 typedef struct tile_s tile_t;
 #include "area.h"
+typedef struct spell_s spell_t;
+#include "spells.h"
 typedef enum {false,true} bool;
 typedef struct entity_s {
 	char *name,symbol;
 	color_t color;
 	int coord,spellc; // coord can be used by spells
-	void (*spells[16])(struct entity_s *); // oof
-	char *spellnames[16];
+	spell_t *spells[16];
 	int hp,maxhp,str,wis;
+	bool persists;
 } entity_t;
 typedef struct etype_s {
 	char *name,symbol;

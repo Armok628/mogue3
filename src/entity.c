@@ -18,7 +18,7 @@ etype_t monstertype={ // Temporary
 entity_t *player;
 void draw_entity(entity_t *c)
 {
-	set_color(c->color,c->hp>0?BG BLACK:BG RED);
+	set_color(c->color,c->hp?BG BLACK:BG RED);
 	putchar(c->symbol);
 }
 entity_t *make_entity(etype_t *type)
@@ -43,5 +43,5 @@ entity_t *place_randomly(etype_t *type)
 }
 void cast(entity_t *c,int n)
 {
-	c->spells[n](c);
+	c->spells[n]->function(c);
 }

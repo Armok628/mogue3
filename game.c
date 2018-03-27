@@ -16,31 +16,9 @@ int main(int argc,char **argv)
 
 	player=place_randomly(&playertype);
 	place_randomly(&monstertype);
-
 	draw_area();
 	announce_stats(player);
 
-	/*
-	int choice=menu(argv,argc);
-	announce("ss","You picked ",argv[choice]);
-	*/
-
-	/*
-	entity_t e,*c=&e;
-	c->symbol='M';
-	c->color=PURPLE;
-	c->hp=1;
-	c->wis=10;
-	c->spells[0]=&heal_self;
-
-	announce("sdc","c->health=",c->hp);
-	//c->spells[0](c);
-	cast(c,0);
-	announce("sdc","c->health=",c->hp);
-
-	//clear_announcements();
-	*/
 	for (;;)
 		advance();
-
 }
