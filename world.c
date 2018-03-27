@@ -5,15 +5,15 @@
 #define WIDTH 80
 #define HEIGHT 24
 #define AREA (WIDTH*HEIGHT)
-int avg_pt(int l[WIDTH][HEIGHT],int x,int y)
+int avg_elev(int l[WIDTH][HEIGHT],int x,int y)
 {
 	int sum=0;
-	// Add up orthogonal heights (including self)
+	// Add up orthogonal elevations (including self)
 	for (int xo=-1;xo<=1;xo++)
 		sum+=l[x+xo][y];
 	for (int yo=-1;yo<=1;yo++)
 		sum+=l[x][y+yo];
-	// Add up heights in 3x3 grid (including self)
+	// Add up elevations in 3x3 grid (including self)
 	for (int yo=-1;yo<=1;yo++)
 		for (int xo=-1;xo<=1;xo++)
 			sum+=l[x+xo][y+yo];
@@ -27,38 +27,38 @@ void erode(int land[WIDTH][HEIGHT])
 			tmp[x][y]=land[x][y];
 	for (int y=1;y<HEIGHT-1;y++)
 		for (int x=1;x<WIDTH-1;x++)
-			land[x][y]=avg_pt(tmp,x,y);
+			land[x][y]=avg_elev(tmp,x,y);
 }
-color_t height_color(int height)
+color_t elevation_color(int elevation)
 {
-	if (height>65)
+	if (elevation>65)
 		return WHITE;
-	if (height>63)
+	if (elevation>63)
 		return DGRAY;
-	if (height>60)
+	if (elevation>60)
 		return LGRAY;
-	else if (height>53)
+	else if (elevation>53)
 		return GREEN;
-	else if (height>50)
+	else if (elevation>50)
 		return LGREEN;
-	else if (height>48)
+	else if (elevation>48)
 		return YELLOW;
-	else if (height>44)
+	else if (elevation>44)
 		return LBLUE;
-	else if (height>24)
+	else if (elevation>24)
 		return BLUE;
 	else
 		return BLACK;
 }
-char height_symbol(int height)
+char elevation_symbol(int elevation)
 {
-	if (height>65)
+	if (elevation>65)
 		return '^';
-	if (height>60)
+	if (elevation>60)
 		return '=';
-	else if (height>55)
+	else if (elevation>55)
 		return '-';
-	else if (height>48)
+	else if (elevation>48)
 		return '~';
 	else
 		return '_';
@@ -68,8 +68,8 @@ void draw_land(int land[WIDTH][HEIGHT])
 	for (int y=0;y<HEIGHT;y++) {
 		for (int x=0;x<WIDTH;x++) {
 			int h=land[x][y];
-			set_color(height_color(h),BG BLACK);
-			putchar(height_symbol(h));
+			set_color(elevation_color(h),BG BLACK);
+			putchar(elevation_symbol(h));
 		}
 		putchar('\n');
 	}

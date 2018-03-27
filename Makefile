@@ -5,5 +5,5 @@ game: game.c src/*
 	ls src/*.h | sed -n 's/.*\.h/#include \"&\"/p' > game.h
 	$(CC) game.c src/*.c $(CFLAGS); rm game.h
 
-islands: islands.c src/terminal.*
-	$(CC) islands.c src/terminal.c $(CFLAGS)
+world: world.c src/terminal.*
+	$(CC) world.c src/terminal.c $(CFLAGS)
