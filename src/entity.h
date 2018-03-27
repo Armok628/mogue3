@@ -2,6 +2,8 @@
 #define ENTITY_H
 #include <stdlib.h>
 #include "terminal.h"
+typedef struct tile_s tile_t;
+#include "area.h"
 typedef enum {false,true} bool;
 typedef struct entity_s {
 	char *name,symbol;
@@ -20,9 +22,11 @@ typedef struct etype_s {
 } etype_t;
 
 extern etype_t playertype;
+extern etype_t monstertype;
 extern entity_t *player;
 
 void draw_entity(entity_t *);
 entity_t *make_entity(etype_t *);
+entity_t *place_randomly(etype_t *);
 void cast(entity_t *,int);
 #endif

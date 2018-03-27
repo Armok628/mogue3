@@ -1,9 +1,10 @@
 #ifndef WORLD_H
 #define WORLD_H
-#include "entity.h"
 #include "terminal.h"
+typedef struct entity_s entity_t;
+#include "entity.h"
 
-typedef struct {
+typedef struct tile_s {
 	entity_t *e,*corpse;
 	color_t fg_c,bg_c;
 	char fg,bg;

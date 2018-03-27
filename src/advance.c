@@ -41,12 +41,20 @@ int input_offset(char input)
 		switch (input) {
 		case 'h':
 			return -1;
-		case 'l':
-			return 1;
 		case 'j':
 			return WIDTH;
 		case 'k':
 			return -WIDTH;
+		case 'l':
+			return 1;
+		case 'y':
+			return -1-WIDTH;
+		case 'u':
+			return 1-WIDTH;
+		case 'b':
+			return -1+WIDTH;
+		case 'n':
+			return 1+WIDTH;
 		case 'q':
 			quit();
 		default:
@@ -55,28 +63,27 @@ int input_offset(char input)
 }
 int generate_input()
 {
-	return 1+rand()%9+'0';
+	return rand()%10+'0';
 }
 void take_turn(entity_t *e)
 {
 	int old_coord=e->coord,new_coord=old_coord;
 	char input;
-	if (e==player)
+	if (e==player) {
 		input=fgetc(stdin);
-	else
+		clear_announcements();
+	} else
 		input=generate_input();
 	new_coord+=input_offset(input);
 	move_entity(e,old_coord,new_coord);
 }
 void advance()
 {
-	// Unchanging entity pointer array prevents double-turns
+	// Unchanging entity pointer array prevents multiple turns per step
 	entity_t *e[AREA];
 	for (int i=0;i<AREA;i++)
 		e[i]=area[i].e;
-	announce_stats(player);
 	for (int i=0;i<AREA;i++)
-		if (e[i])
+		if (e[i]&&e[i]->hp>0) // HP check to avoid post-death turns
 			take_turn(e[i]);
-	clear_announcements();
 }

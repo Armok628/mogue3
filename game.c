@@ -14,9 +14,8 @@ int main(int argc,char **argv)
 	set_canon(0);
 	clear_screen();
 
-	player=make_entity(&playertype);
-	player->coord=rand()%AREA;
-	area[player->coord].e=player;
+	player=place_randomly(&playertype);
+	place_randomly(&monstertype);
 
 	draw_area();
 
