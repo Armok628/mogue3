@@ -33,6 +33,8 @@ color_t height_color(int height)
 {
 	if (height>65)
 		return WHITE;
+	if (height>63)
+		return DGRAY;
 	if (height>60)
 		return LGRAY;
 	else if (height>53)
