@@ -9,15 +9,17 @@ int avg_pt(int l[WIDTH][HEIGHT],int x,int y)
 {
 	int sum=0;
 	// Add up orthogonal heights (including self)
+	/*
 	for (int xo=-1;xo<=1;xo++)
 		sum+=l[x+xo][y];
 	for (int yo=-1;yo<=1;yo++)
 		sum+=l[x][y+yo];
+	*/
 	// Add up heights in 3x3 grid (including self)
 	for (int yo=-1;yo<=1;yo++)
 		for (int xo=-1;xo<=1;xo++)
 			sum+=l[x+xo][y+yo];
-	return sum/15; // Take average
+	return sum/9;//15; // Take average
 }
 void erode(int land[WIDTH][HEIGHT])
 {
@@ -37,13 +39,13 @@ color_t height_color(int height)
 		return DGRAY;
 	else if (height>200) // -
 		return LGRAY;
-	else if (height>55) // _
+	else if (height>57) // _
 		return GREEN;
 	else if (height>50)
 		return LGREEN;
-	else if (height>45) // ~
+	else if (height>47) // ~
 		return YELLOW;
-	else if (height>40)
+	else if (height>44)
 		return LBLUE;
 	else if (height>20)
 		return BLUE;
@@ -97,7 +99,12 @@ int main(int argc,char **argv)
 {
 	printf("\e[2J\e[0;0H");
 	int world[WIDTH][HEIGHT];
-	srand(time(NULL));
+	long seed;
+	if (argc>1)
+		sscanf(argv[1],"%ld",&seed);
+	else
+		seed=time(NULL);
+	srand(seed);
 	for (int y=0;y<HEIGHT;y++)
 		for (int x=0;x<WIDTH;x++) {
 			if (!x||!y||x==WIDTH-1||y==HEIGHT-1)
@@ -106,4 +113,7 @@ int main(int argc,char **argv)
 				world[x][y]=rand()%(rand()%200?100:10000);
 		}
 	interactive_gen(world);
+	move_cursor(0,HEIGHT+1);
+	printf("Seed: %ld\n",seed);
+	return 0;
 }
