@@ -4,6 +4,7 @@
 #include "src/terminal.h"
 #define WIDTH 80
 #define HEIGHT 24
+#define AREA (WIDTH*HEIGHT)
 int avg_pt(int l[WIDTH][HEIGHT],int x,int y)
 {
 	int sum=0;
@@ -23,18 +24,18 @@ void erode(int land[WIDTH][HEIGHT])
 			land[x][y]=avg_pt(tmp,x,y);
 }
 color_t height_color(int height)
-{
-	if (height>500)
+{ // TODO: Base the following numbers on AREA
+	if (height>500) // ^
 		return WHITE;
-	else if (height>300)
+	else if (height>300) // =
 		return DGRAY;
-	else if (height>200)
+	else if (height>200) // -
 		return LGRAY;
-	else if (height>75)
+	else if (height>65) // _
 		return GREEN;
 	else if (height>50)
 		return LGREEN;
-	else if (height>47)
+	else if (height>47) // ~
 		return YELLOW;
 	else if (height>40)
 		return LBLUE;
@@ -42,15 +43,17 @@ color_t height_color(int height)
 		return BLUE;
 }
 char height_symbol(int height)
-{
+{ // TODO: Base the following numbers on AREA
 	if (height>500)
 		return '^';
-	else if (height>200)
+	if (height>300)
 		return '=';
-	else if (height>50)
+	else if (height>200)
 		return '-';
-	else
+	else if (height>50)
 		return '_';
+	else
+		return '~';
 }
 void draw_land(int land[WIDTH][HEIGHT])
 {
@@ -63,6 +66,25 @@ void draw_land(int land[WIDTH][HEIGHT])
 		putchar('\n');
 	}
 }
+void interactive_gen(int land[WIDTH][HEIGHT])
+{
+	char input='\0';
+	clear_screen();
+	move_cursor(0,HEIGHT);
+	printf("Press e to erode. Press q to quit.\n");
+	set_cursor_visible(0);
+	set_canon(0);
+	while (input!='q') {
+		move_cursor(0,0);
+		draw_land(land);
+		input=fgetc(stdin);
+		if (input=='e')
+			erode(land);
+	}
+	set_canon(1);
+	set_cursor_visible(1);
+	set_color(RESET,BG RESET);
+}
 int main(int argc,char **argv)
 {
 	printf("\e[2J\e[0;0H");
@@ -72,14 +94,8 @@ int main(int argc,char **argv)
 		for (int x=0;x<WIDTH;x++) {
 			if (!x||!y||x==WIDTH-1||y==HEIGHT-1)
 				world[x][y]=0;
-			else
+			else // TODO: Base the following numbers on AREA
 				world[x][y]=rand()%(rand()%200?100:10000);
 		}
-	draw_land(world);
-	putchar('\n');
-	erode(world);
-	erode(world);
-	erode(world);
-	draw_land(world);
-	set_color(RESET,BG RESET);
+	interactive_gen(world);
 }
