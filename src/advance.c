@@ -19,13 +19,17 @@ void move_entity(entity_t *entity,int from,int to)
 		return;
 	if (area[to].e) // Entity
 		resolve_collision(entity,area[to].e);
-	if (!area[to].e||area[to].e->hp==0) {
+	if (area[to].e&&!area[to].e->hp) {
 		if (area[to].corpse)
 			free(area[to].corpse);
 		area[to].corpse=area[to].e;
-		area[to].e=entity;
+		area[to].e=NULL;
+	}
+	if (!area[to].e) {
 		entity->coord=to;
+		area[to].e=entity;
 		area[from].e=NULL;
+		entity->coord=to;
 	}
 	draw_posl(from);
 	draw_posl(to);
