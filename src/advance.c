@@ -43,8 +43,8 @@ void try_move(entity_t *entity,int from,int to)
 	int h=xcmp(to)-xcmp(from);
 	if (h>1||h<-1) // Detect horizontal wrap
 		return;
-	if (dest->fg&&~entity->props&SOLID) { // Wall and solid entity
-		wall_collision(entity,&local_area[to]);
+	if (dest->fg&&(entity->props&SOLID)) { // Wall and solid entity
+		wall_collision(entity,dest);
 		return; // No opportunity to move
 	}
 	if (dest->e) // Entity
@@ -102,7 +102,7 @@ void take_turn(entity_t *e)
 void advance()
 {
 	// Unchanging entity pointer array prevents multiple turns per step
-	entity_t *e[AREA];
+	static entity_t *e[AREA];
 	for (int i=0;i<AREA;i++)
 		e[i]=local_area[i].e;
 	for (int i=0;i<AREA;i++)

@@ -6,7 +6,7 @@ etype_t playertype={
 	.maxhp=100,.minhp=50,
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
-	.props=SOLID&PERSISTS
+	.props=PERSISTS|SOLID
 };
 etype_t monstertype={ // Temporary
 	.name="Monster",
@@ -15,7 +15,7 @@ etype_t monstertype={ // Temporary
 	.maxhp=100,.minhp=50,
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
-	.props=SOLID&~PERSISTS
+	.props=SOLID
 };
 entity_t *player;
 void draw_entity(entity_t *c)

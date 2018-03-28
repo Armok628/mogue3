@@ -9,13 +9,19 @@ int main(int argc,char **argv)
 	set_cursor_visible(0);
 	set_canon(0);
 	clear_screen();
-	local_area=new_area();
 
+	local_area=new_area();
 	player=place_randomly(&playertype);
 	place_randomly(&monstertype);
+
+	/**/
+	int w=rand()%AREA;
+	local_area[w].fg='#';
+	local_area[w].fg_c=LGRAY;
+	/**/
+
 	draw_local_area();
 	announce_stats(player);
-
 	for (;;)
 		advance();
 }

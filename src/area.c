@@ -43,6 +43,8 @@ tile_t *new_area()
 {
 	tile_t *area=malloc(AREA*sizeof(tile_t));
 	for (int i=0;i<AREA;i++) { // Temporary
+		area[i].fg='\0';
+		area[i].fg_c=BLACK;
 		area[i].bg=grass[rand()%N_GRASS];
 		area[i].bg_c=rand()%2?GREEN:LGREEN;
 	}
