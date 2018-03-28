@@ -43,7 +43,7 @@ void try_move(entity_t *entity,int from,int to)
 	int h=xcmp(to)-xcmp(from);
 	if (h>1||h<-1) // Detect horizontal wrap
 		return;
-	if (dest->fg&&(entity->props&SOLID)) { // Wall and solid entity
+	if (dest->fg&&(entity->flags&SOLID)) { // Wall and solid entity
 		wall_collision(entity,dest);
 		return; // No opportunity to move
 	}
@@ -58,7 +58,7 @@ int input_offset(char input)
 	if (0<digit&&digit<10) {
 		// Numpad input handling
 		digit--;
-		return (digit%3-1)+WIDTH*(1-digit/3);
+		return lin(digit%3-1,1-digit/3);
 	} else
 		switch (input) {
 		case 'h':

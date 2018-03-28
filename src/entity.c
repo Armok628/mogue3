@@ -6,7 +6,7 @@ etype_t playertype={
 	.maxhp=100,.minhp=50,
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
-	.props=PERSISTS|SOLID
+	.flags=PERSISTS|SOLID
 };
 etype_t monstertype={ // Temporary
 	.name="Monster",
@@ -15,7 +15,7 @@ etype_t monstertype={ // Temporary
 	.maxhp=100,.minhp=50,
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
-	.props=SOLID
+	.flags=SOLID
 };
 entity_t *player;
 void draw_entity(entity_t *c)
@@ -33,6 +33,7 @@ entity_t *make_entity(etype_t *type)
 	e->hp=e->maxhp;
 	e->str=rand()%(type->maxstr-type->minstr)+type->minstr;
 	e->wis=rand()%(type->maxwis-type->minwis)+type->minwis;
+	e->flags=type->flags;
 	e->spellc=0; // TODO: Spells given to certain creatures?
 	return e;
 }

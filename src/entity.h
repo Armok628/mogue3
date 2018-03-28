@@ -7,14 +7,14 @@ typedef struct tile_s tile_t;
 typedef struct spell_s spell_t;
 #include "spells.h"
 typedef enum {false,true} bool;
-typedef enum {PERSISTS=1,SOLID=2} eflag_t; // TODO: More properties
+typedef enum {PERSISTS=1,SOLID=1<<1} eflag_t; // TODO: More properties
 typedef struct entity_s {
 	char *name,symbol;
 	color_t color;
 	int coord,spellc; // coord can be used by spells
 	spell_t *spells[16];
 	int hp,maxhp,str,wis;
-	eflag_t props;
+	eflag_t flags;
 } entity_t;
 typedef struct etype_s {
 	char *name,symbol;
@@ -22,7 +22,7 @@ typedef struct etype_s {
 	int minhp,maxhp;
 	int minstr,maxstr;
 	int minwis,maxwis;
-	eflag_t props;
+	eflag_t flags;
 } etype_t;
 
 extern etype_t playertype;
