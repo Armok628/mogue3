@@ -1,4 +1,5 @@
 #include "world.h"
+wtile_t *world;
 int avg_elev(int l[W_WIDTH][W_HEIGHT],int x,int y)
 {
 	int sum=0;
@@ -73,4 +74,37 @@ void elevate(int land[W_WIDTH][W_HEIGHT],int offset)
 	for (int x=0;x<W_WIDTH;x++)
 		for (int y=0;y<W_HEIGHT;y++)
 			land[x][y]+=offset;
+}
+wtile_t *worldgen(int erosion,int offset) // Default should be erosion=3, offset=0
+{
+	// Generate height map
+	int elevs[W_WIDTH][W_HEIGHT];
+	for (int y=0;y<W_HEIGHT;y++)
+		for (int x=0;x<W_WIDTH;x++) {
+			if (!x||!y||x==W_WIDTH-1||y==W_HEIGHT-1)
+				elevs[x][y]=0;
+			else // TODO: Base the following number on W_AREA
+				elevs[x][y]=rand()%100;
+		}
+	for (int i=0;i<erosion;i++)
+		erode(elevs);
+	if (offset)
+		elevate(elevs,offset);
+	// Convert to wtiles
+	wtile_t *w=malloc(W_AREA*sizeof(wtile_t));
+	for (int i=0;i<W_AREA;i++) {
+		int e=elevs[xcmp(i)][ycmp(i)];
+		w[i].elevation=e;
+		w[i].symbol=elevation_symbol(e);
+		w[i].color=elevation_color(e);
+		w[i].area=NULL;
+	}
+	return w;
+}
+void draw_world()
+{
+	for (int i=0;i<W_AREA;i++) {
+		set_color(world[i].color,BG BLACK);
+		putc_pos(world[i].symbol,xcmp(i),ycmp(i));
+	}
 }

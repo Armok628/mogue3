@@ -32,7 +32,6 @@ static inline int lin(int x,int y)
 	return (x+y*WIDTH);
 }
 
-void putc_pos(char,int,int);
 void draw_pos(int,int);
 void draw_posl(int);
 void draw_local_area();

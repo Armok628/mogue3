@@ -1,11 +1,6 @@
 #include "area.h"
 tile_t *local_area;
 const char grass[N_GRASS]={',','.','\'','"','`',';'};
-void putc_pos(char ch,int x,int y)
-{
-	move_cursor(x,y);
-	putchar(ch);
-}
 void draw_tile(tile_t tile)
 {
 	if (tile.e)

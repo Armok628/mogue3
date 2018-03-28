@@ -3,6 +3,11 @@ void move_cursor(int x,int y)
 {
 	printf("\e[%d;%dH",y+1,x+1);
 }
+void putc_pos(char ch,int x,int y)
+{
+	move_cursor(x,y);
+	putchar(ch);
+}
 void clear_screen()
 {
 	set_color(RESET,BG RESET);

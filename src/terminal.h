@@ -11,6 +11,7 @@ typedef enum {
 } color_t;
 
 void move_cursor(int,int);
+void putc_pos(char,int,int);
 void clear_screen();
 void clear_line();
 void set_cursor_visible(int);
