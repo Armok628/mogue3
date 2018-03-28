@@ -3,7 +3,7 @@
 #include "entity.h"
 #include "move.h"
 #include "area.h"
-#include "quit.h"
+#include "input.h"
 
 void advance();
 #endif
