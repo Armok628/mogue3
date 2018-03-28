@@ -1,8 +1,8 @@
-#ifndef TURN_H
-#define TURN_H
+#ifndef ADVANCE_H
+#define ADVANCE_H
 #include "entity.h"
+#include "move.h"
 #include "area.h"
-#include "announce.h"
 #include "quit.h"
 
 void advance();
