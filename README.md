@@ -1,5 +1,5 @@
-# temporary
-This is a project I'm not sure I want to follow through to completion
+# mogue3
+The second rewrite of an old game of mine, adding various new features
 
 It's another rewrite of mogue. I guess I keep redoing my old projects until I'm satisfied, I suppose.
 It happened with my LISP interpreter, and now it's actually a pretty good compiler, I like to think.
