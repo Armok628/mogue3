@@ -101,10 +101,15 @@ wtile_t *worldgen(int erosion,int offset) // Default should be erosion=3, offset
 	}
 	return w;
 }
+void draw_world_tile(wtile_t *tile)
+{
+	set_color(tile->color,BG BLACK);
+	putchar(tile->symbol);
+}
 void draw_world()
 {
 	for (int i=0;i<W_AREA;i++) {
-		set_color(world[i].color,BG BLACK);
-		putc_pos(world[i].symbol,xcmp(i),ycmp(i));
+		move_cursor(xcmp(i),ycmp(i));
+		draw_world_tile(&world[i]);
 	}
 }
