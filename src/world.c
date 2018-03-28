@@ -50,7 +50,7 @@ char elevation_symbol(int elevation)
 		return '^';
 	if (elevation>60)
 		return '=';
-	else if (elevation>55)
+	else if (elevation>56)
 		return '-';
 	else if (elevation>48)
 		return '~';
