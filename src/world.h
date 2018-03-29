@@ -20,5 +20,7 @@ extern wtile_t *world;
 
 wtile_t *worldgen(int,int);
 void draw_world_tile(wtile_t *);
+void draw_world_pos(int,int);
+void draw_world_posl(int);
 void draw_world();
 #endif

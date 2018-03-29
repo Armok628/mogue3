@@ -106,10 +106,18 @@ void draw_world_tile(wtile_t *tile)
 	set_color(tile->color,BG BLACK);
 	putchar(tile->symbol);
 }
+void draw_world_pos(int x,int y)
+{
+	move_cursor(x,y);
+	draw_world_tile(&world[lin(x,y)]);
+}
+void draw_world_posl(int l)
+{
+	move_cursor(xcmp(l),ycmp(l));
+	draw_world_tile(&world[l]);
+}
 void draw_world()
 {
-	for (int i=0;i<W_AREA;i++) {
-		move_cursor(xcmp(i),ycmp(i));
-		draw_world_tile(&world[i]);
-	}
+	for (int i=0;i<W_AREA;i++)
+		draw_world_posl(i);
 }

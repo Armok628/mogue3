@@ -35,14 +35,15 @@ entity_t *make_entity(etype_t *type)
 	e->wis=rand()%(type->maxwis-type->minwis)+type->minwis;
 	e->flags=type->flags;
 	e->spellc=0; // TODO: Spells given to certain creatures?
+	e->type=type;
 	return e;
 }
 entity_t *place_randomly(etype_t *type)
 {
 	entity_t *e=make_entity(type);
-	e->coord=rand()%AREA;
+	e->coords=rand()%AREA;
 	// TODO: Error checking
-	local_area[e->coord].e=e;
+	local_area[e->coords].e=e;
 	return e;
 }
 void cast(entity_t *c,int n)

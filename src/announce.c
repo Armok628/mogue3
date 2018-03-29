@@ -50,5 +50,4 @@ void clear_announcements()
 		clear_line();
 	}
 	ann_lines=0;
-	announce_stats(player);
 }

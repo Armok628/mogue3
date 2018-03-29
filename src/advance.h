@@ -4,6 +4,7 @@
 #include "move.h"
 #include "area.h"
 #include "input.h"
+#include "map.h"
 
 void advance();
 #endif

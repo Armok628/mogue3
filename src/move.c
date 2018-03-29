@@ -1,7 +1,7 @@
 #include "move.h"
 void kill_entity(entity_t *entity)
 {
-	int c=entity->coord;
+	int c=entity->coords;
 	entity->hp=0;
 	if (local_area[c].corpse)
 		free(local_area[c].corpse);
@@ -31,7 +31,7 @@ void move_entity(entity_t *entity,int from,int to)
 {
 	local_area[to].e=entity;
 	local_area[from].e=NULL;
-	entity->coord=to;
+	entity->coords=to;
 	draw_posl(from);
 	draw_posl(to);
 }

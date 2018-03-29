@@ -42,6 +42,8 @@ tile_t *new_area()
 		area[i].fg_c=BLACK;
 		area[i].bg=grass[rand()%N_GRASS];
 		area[i].bg_c=rand()%2?GREEN:LGREEN;
+		area[i].e=NULL;
+		area[i].corpse=NULL;
 	}
 	return area;
 }

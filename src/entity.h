@@ -8,14 +8,6 @@ typedef struct spell_s spell_t;
 #include "spells.h"
 typedef enum {false,true} bool;
 typedef enum {PERSISTS=1,SOLID=1<<1} eflag_t; // TODO: More properties
-typedef struct entity_s {
-	char *name,symbol;
-	color_t color;
-	int coord,spellc; // coord can be used by spells
-	spell_t *spells[16];
-	int hp,maxhp,str,wis;
-	eflag_t flags;
-} entity_t;
 typedef struct etype_s {
 	char *name,symbol;
 	color_t color;
@@ -24,6 +16,15 @@ typedef struct etype_s {
 	int minwis,maxwis;
 	eflag_t flags;
 } etype_t;
+typedef struct entity_s {
+	char *name,symbol;
+	color_t color;
+	int coords,spellc; // coords can be used by spells
+	spell_t *spells[16];
+	int hp,maxhp,str,wis;
+	eflag_t flags;
+	etype_t *type;
+} entity_t;
 
 extern etype_t playertype;
 extern etype_t monstertype;

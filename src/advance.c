@@ -1,15 +1,37 @@
 #include "advance.h"
+static bool map_opened=false;
+void handle_key(entity_t *e,char key)
+{
+	int o=input_offset(key);
+	if (o) {
+		try_move(e,e->coords,e->coords+o);
+		return;
+	}
+	switch (key) {
+	case 'm':
+		// TODO: Spellcasting
+		break;
+	case 'w':
+		if (e!=player)
+			break; // Shouldn't happen
+		open_map();
+		map_opened=true;
+		break;
+	case 'q':
+		quit();
+	}
+}
 void take_turn(entity_t *e)
 {
-	int old_coord=e->coord,new_coord=old_coord;
-	char input;
+	int old_coords=e->coords,new_coords=old_coords;
+	char key;
 	if (e==player) {
-		input=fgetc(stdin);
+		key=fgetc(stdin);
 		clear_announcements();
+		announce_stats(player);
 	} else
-		input=generate_input();
-	new_coord+=input_offset(input);
-	try_move(e,old_coord,new_coord);
+		key=generate_input();
+	handle_key(e,key);
 }
 void advance()
 {
@@ -17,7 +39,14 @@ void advance()
 	static entity_t *e[AREA];
 	for (int i=0;i<AREA;i++)
 		e[i]=local_area[i].e;
-	for (int i=0;i<AREA;i++)
-		if (e[i]&&e[i]->hp>0) // HP check to avoid post-death turns
+	for (int i=0;i<AREA;i++) {
+		if (!e[i]||!e[i]->hp)
+			continue; // HP check to avoid post-death turns
+		else
 			take_turn(e[i]);
+		if (map_opened) {
+			map_opened=false;
+			return;
+		}
+	}
 }

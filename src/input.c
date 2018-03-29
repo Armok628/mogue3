@@ -24,8 +24,6 @@ int input_offset(char input)
 			return -1+WIDTH;
 		case 'n':
 			return 1+WIDTH;
-		case 'q':
-			quit();
 		default:
 			return 0;
 		}
