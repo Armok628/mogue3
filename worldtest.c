@@ -13,7 +13,7 @@ int main(int argc,char **argv)
 	world=worldgen(erosion,offset);
 	clear_screen();
 	draw_world();
-	move_cursor(0,W_HEIGHT);
+	move_cursor(0,HEIGHT);
 	set_color(RESET,BG RESET);
 	printf("Seed: %ld\n",seed);
 	putchar('\n');
