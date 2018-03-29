@@ -43,12 +43,15 @@ void try_move(entity_t *entity,int from,int to)
 	int h=xcmp(to)-xcmp(from);
 	if (h>1||h<-1) // Detect horizontal wrap
 		return;
-	if (dest->fg&&(entity->flags&SOLID)) { // Wall and solid entity
+	if (dest->fg&&entity->flags&SOLID) { // Wall and solid entity
 		wall_collision(entity,dest);
+		draw_posl(from);
+		draw_posl(to);
 		return; // No opportunity to move
 	}
 	if (dest->e) // Entity
 		entity_collision(entity,dest->e);
-	if (!dest->e)
+	// Entity may be gone after collision
+	if (!dest->e&&!(dest->fg&&entity->flags&SOLID))
 		move_entity(entity,from,to);
 }

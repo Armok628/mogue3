@@ -19,9 +19,7 @@ int main(int argc,char **argv)
 	place_randomly(&monstertype);
 
 	/**/
-	int c=rand()%AREA;
-	local_area[c].fg='#';
-	local_area[c].fg_c=LGRAY;
+	make_room(10,10,5,5,NORTH);
 	/**/
 
 	draw_local_area();

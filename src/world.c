@@ -28,9 +28,9 @@ color_t elevation_color(int elevation)
 {
 	if (elevation>65)
 		return WHITE;
-	if (elevation>63)
+	else if (elevation>63)
 		return DGRAY;
-	if (elevation>60)
+	else if (elevation>60)
 		return LGRAY;
 	else if (elevation>53)
 		return GREEN;
@@ -49,7 +49,7 @@ char elevation_symbol(int elevation)
 {
 	if (elevation>65)
 		return '^';
-	if (elevation>60)
+	else if (elevation>60)
 		return '=';
 	else if (elevation>57)
 		return '-';

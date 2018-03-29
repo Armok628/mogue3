@@ -6,27 +6,33 @@ int input_offset(char input)
 		// Numpad input handling
 		digit--;
 		return lin(digit%3-1,1-digit/3);
-	} else
-		switch (input) {
-		case 'h':
-			return -1;
-		case 'j':
-			return WIDTH;
-		case 'k':
-			return -WIDTH;
-		case 'l':
-			return 1;
-		case 'y':
-			return -1-WIDTH;
-		case 'u':
-			return 1-WIDTH;
-		case 'b':
-			return -1+WIDTH;
-		case 'n':
-			return 1+WIDTH;
-		default:
-			return 0;
-		}
+	}
+	switch (input) {
+	case 'h':
+		return -1;
+	case 'j':
+		return WIDTH;
+	case 'k':
+		return -WIDTH;
+	case 'l':
+		return 1;
+	case 'y':
+		return -1-WIDTH;
+	case 'u':
+		return 1-WIDTH;
+	case 'b':
+		return -1+WIDTH;
+	case 'n':
+		return 1+WIDTH;
+	case 'R':
+		clear_screen();
+		clear_announcements();
+		draw_local_area();
+		announce_stats(player);
+		return input_offset(fgetc(stdin));
+	default:
+		return 0;
+	}
 }
 char generate_input()
 {
