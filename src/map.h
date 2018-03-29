@@ -9,5 +9,8 @@
 #include "terminal.h"
 #include "world.h"
 
+extern int map_coords;
+
+int rand_land_coords();
 void open_map();
 #endif

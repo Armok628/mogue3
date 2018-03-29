@@ -10,14 +10,18 @@ int main(int argc,char **argv)
 	set_canon(0);
 	clear_screen();
 
-	local_area=new_area();
+	world=worldgen(3,0);
+	map_coords=rand_land_coords();
+	wtile_t *w=&world[map_coords];
+	w->area=generate_area(w->symbol,w->color);
+	local_area=w->area;
 	player=place_randomly(&playertype);
 	place_randomly(&monstertype);
 
 	/**/
-	int w=rand()%AREA;
-	local_area[w].fg='#';
-	local_area[w].fg_c=LGRAY;
+	int c=rand()%AREA;
+	local_area[c].fg='#';
+	local_area[c].fg_c=LGRAY;
 	/**/
 
 	draw_local_area();
