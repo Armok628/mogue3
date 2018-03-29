@@ -5,9 +5,6 @@
 #include <time.h>
 #include "terminal.h"
 #include "area.h"
-#define W_WIDTH 80
-#define W_HEIGHT 24
-#define W_AREA (W_WIDTH*W_HEIGHT)
 
 typedef struct wtile_s {
 	tile_t *area;

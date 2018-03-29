@@ -1,6 +1,6 @@
 #include "world.h"
 wtile_t *world;
-int avg_elev(int l[W_WIDTH][W_HEIGHT],int x,int y)
+int avg_elev(int l[WIDTH][HEIGHT],int x,int y)
 {
 	int sum=0;
 	// Add up orthogonal elevations (including self)
@@ -14,14 +14,14 @@ int avg_elev(int l[W_WIDTH][W_HEIGHT],int x,int y)
 			sum+=l[x+xo][y+yo];
 	return sum/15; // Take average
 }
-void erode(int land[W_WIDTH][W_HEIGHT])
+void erode(int land[WIDTH][HEIGHT])
 {
-	int tmp[W_WIDTH][W_HEIGHT];
-	for (int y=0;y<W_HEIGHT;y++)
-		for (int x=0;x<W_WIDTH;x++)
+	int tmp[WIDTH][HEIGHT];
+	for (int y=0;y<HEIGHT;y++)
+		for (int x=0;x<WIDTH;x++)
 			tmp[x][y]=land[x][y];
-	for (int y=1;y<W_HEIGHT-1;y++)
-		for (int x=1;x<W_WIDTH-1;x++)
+	for (int y=1;y<HEIGHT-1;y++)
+		for (int x=1;x<WIDTH-1;x++)
 			land[x][y]=avg_elev(tmp,x,y);
 }
 color_t elevation_color(int elevation)
@@ -60,10 +60,10 @@ char elevation_symbol(int elevation)
 	else
 		return '_';
 }
-void draw_land(int land[W_WIDTH][W_HEIGHT])
+void draw_land(int land[WIDTH][HEIGHT])
 {
-	for (int y=0;y<W_HEIGHT;y++) {
-		for (int x=0;x<W_WIDTH;x++) {
+	for (int y=0;y<HEIGHT;y++) {
+		for (int x=0;x<WIDTH;x++) {
 			int h=land[x][y];
 			set_color(elevation_color(h),BG BLACK);
 			putchar(elevation_symbol(h));
@@ -71,21 +71,21 @@ void draw_land(int land[W_WIDTH][W_HEIGHT])
 		putchar('\n');
 	}
 }
-void elevate(int land[W_WIDTH][W_HEIGHT],int offset)
+void elevate(int land[WIDTH][HEIGHT],int offset)
 {
-	for (int x=0;x<W_WIDTH;x++)
-		for (int y=0;y<W_HEIGHT;y++)
+	for (int x=0;x<WIDTH;x++)
+		for (int y=0;y<HEIGHT;y++)
 			land[x][y]+=offset;
 }
 wtile_t *worldgen(int erosion,int offset) // Default should be erosion=3, offset=0
 {
 	// Generate height map
-	int elevs[W_WIDTH][W_HEIGHT];
-	for (int y=0;y<W_HEIGHT;y++)
-		for (int x=0;x<W_WIDTH;x++) {
-			if (!x||!y||x==W_WIDTH-1||y==W_HEIGHT-1)
+	int elevs[WIDTH][HEIGHT];
+	for (int y=0;y<HEIGHT;y++)
+		for (int x=0;x<WIDTH;x++) {
+			if (!x||!y||x==WIDTH-1||y==HEIGHT-1)
 				elevs[x][y]=0;
-			else // TODO: Base the following number on W_AREA
+			else // TODO: Base the following number on AREA
 				elevs[x][y]=rand()%100;
 		}
 	for (int i=0;i<erosion;i++)
@@ -93,8 +93,8 @@ wtile_t *worldgen(int erosion,int offset) // Default should be erosion=3, offset
 	if (offset)
 		elevate(elevs,offset);
 	// Convert to wtiles
-	wtile_t *w=malloc(W_AREA*sizeof(wtile_t));
-	for (int i=0;i<W_AREA;i++) {
+	wtile_t *w=malloc(AREA*sizeof(wtile_t));
+	for (int i=0;i<AREA;i++) {
 		int e=elevs[xcmp(i)][ycmp(i)];
 		w[i].elevation=e;
 		w[i].symbol=elevation_symbol(e);
@@ -120,6 +120,6 @@ void draw_world_posl(int l)
 }
 void draw_world()
 {
-	for (int i=0;i<W_AREA;i++)
+	for (int i=0;i<AREA;i++)
 		draw_world_posl(i);
 }

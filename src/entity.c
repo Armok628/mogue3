@@ -2,7 +2,7 @@
 etype_t playertype={
 	.name="Player",
 	.symbol='@',
-	.color=LBLUE,
+	.color=LCYAN,
 	.maxhp=100,.minhp=50,
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,

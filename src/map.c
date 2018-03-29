@@ -2,7 +2,7 @@
 int map_coords;
 void draw_star(int pos)
 {
-	set_color(RED,BG BLACK);
+	set_color(playertype.color,BG BLACK);
 	putc_pos('*',xcmp(pos),ycmp(pos));
 }
 void map_move(int pos)
@@ -16,7 +16,7 @@ void close_map()
 {
 	wtile_t *w=&world[map_coords];
 	if (!w->area)
-		w->area=new_area();
+		w->area=generate_area(w->symbol,w->color);
 	local_area=w->area;
 	int lpos=rand()%AREA;
 	while (local_area[lpos].e||local_area[lpos].fg)
@@ -28,9 +28,9 @@ void close_map()
 }
 int rand_land_coords()
 {
-	int c=rand()%W_AREA;
+	int c=rand()%AREA;
 	while (world[c].elevation<=48)
-		c=rand()%W_AREA;
+		c=rand()%AREA;
 	return c;
 }
 void open_map()
@@ -45,6 +45,7 @@ void open_map()
 	clear_screen();
 	draw_world();
 	for (;;) {
+		clear_announcements();
 		draw_star(map_coords);
 		char input=fgetc(stdin);
 		if (input=='w')

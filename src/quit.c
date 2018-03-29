@@ -10,7 +10,7 @@ void free_area(tile_t *a)
 }
 void free_world(wtile_t *w)
 {
-	for (int i=0;i<W_AREA;i++)
+	for (int i=0;i<AREA;i++)
 		if (w[i].area) {
 			free_area(w[i].area);
 			w[i].area=NULL;

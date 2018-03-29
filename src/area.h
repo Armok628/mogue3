@@ -35,5 +35,4 @@ static inline int lin(int x,int y)
 void draw_pos(int,int);
 void draw_posl(int);
 void draw_local_area();
-tile_t *new_area();
 #endif
