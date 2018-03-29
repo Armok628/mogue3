@@ -49,6 +49,10 @@ void open_map()
 		char input=fgetc(stdin);
 		if (input=='w')
 			break;
+		else if (input=='q') {
+			free(player);
+			quit();
+		}
 		map_move(map_coords+input_offset(input));
 	}
 	close_map();
