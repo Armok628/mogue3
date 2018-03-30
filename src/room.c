@@ -1,55 +1,50 @@
 #include "room.h"
-void make_door(tile_t *a,int x,int y)
+void make_door(tile_t *t)
 {
-	int l=lin(x,y);
-	a[l].fg='+';
-	a[l].fg_c=BROWN;
-	a[l].bg='-';
-	a[l].bg_c=BROWN;
+	t->fg='+';
+	t->fg_c=BROWN;
+	t->bg='-';
+	t->bg_c=BROWN;
+}
+void make_floor(tile_t *t)
+{
+	t->fg='\0';
+	t->bg='#';
+	t->bg_c=LGRAY;
+}
+void make_wall(tile_t *t)
+{
+	t->fg='%';
+	t->fg_c=DGRAY;
+	t->bg='%';
+	t->bg_c=DGRAY;
 }
 void make_room(tile_t *a,int x,int y,int w,int h,dir_t direction)
 {
 	for (int xo=0;xo<w;xo++)
-		for (int yo=0;yo<h;yo++) {
-			int l=lin(x+xo,y+yo);
-			a[l].fg='\0';
-			a[l].bg='#';
-			a[l].bg_c=LGRAY;
-		}
+		for (int yo=0;yo<h;yo++)
+			make_floor(&a[lin(x+xo,y+yo)]);
 	for (int i=0;i<w;i++) {
-		int l1=lin(x+i,y),l2=lin(x+i,y+h-1);
-		a[l1].fg='%';
-		a[l1].fg_c=DGRAY;
-		a[l1].bg='%';
-		a[l1].bg_c=DGRAY;
-		a[l2].fg='%';
-		a[l2].fg_c=DGRAY;
-		a[l2].bg='%';
-		a[l2].bg_c=DGRAY;
+		make_wall(&a[lin(x+i,y)]);
+		make_wall(&a[lin(x+i,y+h-1)]);
 	}
 	for (int i=0;i<h;i++) {
 		int l1=lin(x,y+i),l2=lin(x+w-1,y+i);
-		a[l1].fg='%';
-		a[l1].fg_c=DGRAY;
-		a[l1].bg='%';
-		a[l1].bg_c=DGRAY;
-		a[l2].fg='%';
-		a[l2].fg_c=DGRAY;
-		a[l2].bg='%';
-		a[l2].bg_c=DGRAY;
+		make_wall(&a[l1]);
+		make_wall(&a[l2]);
 	}
 	switch (direction) {
 	case NORTH:
-		make_door(a,x+w/2,y);
+		make_door(&a[lin(x+w/2,y)]);
 		break;
 	case SOUTH:
-		make_door(a,x+w/2,y+h-1);
+		make_door(&a[lin(x+w/2,y+h-1)]);
 		break;
 	case EAST:
-		make_door(a,x+w-1,y+h/2);
+		make_door(&a[lin(x+w-1,y+h/2)]);
 		break;
 	case WEST:
-		make_door(a,x,y+h/2);
+		make_door(&a[lin(x,y+h/2)]);
 	}
 }
 void random_room(tile_t *a)
@@ -66,25 +61,57 @@ void random_room(tile_t *a)
 }
 bool wall_needs_cull(tile_t *area,int i)
 {
-	if (area[i].fg=='%') {
-		if (area[i+1].fg=='+'&&!area[i+2].fg)
+	char sym=area[i].fg;
+	if (area[i].fg!='%'&&area[i].fg!='+')
+		return false;
+	int orthw=0,walls=0,floors=0,doors=0;
+	for (int x=-1;x<=1;x++)
+		for (int y=-1;y<=1;y++) {
+			int c=i+lin(x,y);
+			orthw+=!x^!y&&area[c].bg=='%';
+			walls+=area[c].bg=='%';
+			floors+=area[c].bg=='#';
+			doors+=area[c].bg=='-';
+		}
+	if (walls+floors+doors<9) // Border of room
+		return false;
+	// Inside room
+	if (sym=='+') { // Door
+		if (doors>1||walls>3)
 			return true;
-		if (area[i-1].fg=='+'&&!area[i-2].fg)
+	} else if (sym=='%') { // Wall
+		if (walls>3&&!doors)
 			return true;
-		if (area[i+WIDTH].fg=='+'&&!area[i+2*WIDTH].fg)
-			return true;
-		if (area[i-WIDTH].fg=='+'&&!area[i-2*WIDTH].fg)
-			return true;
-	}
-	if (area[i].fg=='%'||area[i].fg=='+') {
-		if (area[i+1].bg=='#'&&area[i-1].bg=='#')
-			return true;
-		if (area[i+WIDTH].bg=='#'&&area[i-WIDTH].bg=='#')
+		if (walls<2)
 			return true;
 	}
 	return false;
 }
-int cull_iteration(tile_t *area)
+void fix_gap(tile_t *area,int i)
+{
+	char sym=area[i].fg;
+	if (area[i].bg!='#')
+		return;
+	int orthw=0,walls=0,floors=0,doors=0;
+	for (int x=-1;x<=1;x++)
+		for (int y=-1;y<=1;y++) {
+			int c=i+lin(x,y);
+			orthw+=!x^!y&&area[c].bg=='%';
+			walls+=area[c].bg=='%';
+			floors+=area[c].bg=='#';
+			doors+=area[c].bg=='-';
+		}
+	if (walls+floors+doors<9) { // Border of room
+		if (!doors)
+			make_door(&area[i]);
+		else
+			make_wall(&area[i]);
+	} else { // Inside room
+		if (orthw==2&&walls<5&&!doors)
+			make_door(&area[i]);
+	}
+}
+int cull_walls(tile_t *area)
 {
 	int walls_removed=0;
 	for (int i=WIDTH+1;i<AREA-WIDTH-1;i++)
@@ -96,8 +123,10 @@ int cull_iteration(tile_t *area)
 		}
 	return walls_removed;
 }
-void cull_walls(tile_t *area)
+void fix_rooms(tile_t *area)
 {
-	// Call cull_iteration until it does nothing
-	while (cull_iteration(area));
+	while (cull_walls(area));
+	for (int i=0;i<AREA;i++)
+		fix_gap(area,i);
+	while (cull_walls(area));
 }

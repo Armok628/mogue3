@@ -21,8 +21,6 @@ void place_axe(tile_t *area)
 	area[c].fg='P';
 	area[c].fg_c=LGRAY;
 }
-AREA_TYPE(empty_void," ",1,
-	BLACK,;)
 AREA_TYPE(sand,"~~~___.,",8,
 	symbol=='.'||symbol==','?BROWN:YELLOW,;)
 AREA_TYPE(meadow,",.\'\'\"\"`;;*",10,
@@ -58,7 +56,7 @@ tile_t *generate_area(char map_symbol,color_t map_color)
 		case GREEN:
 			return field_gen();
 		default:
-			return empty_void_gen();
+			return NULL;
 		}
 	case '%':
 		return forest_gen();
@@ -71,11 +69,11 @@ tile_t *generate_area(char map_symbol,color_t map_color)
 		case DGRAY:
 			return snowy_rock_gen();
 		default:
-			return empty_void_gen();
+			return NULL;
 		}
 	case '^':
 		return mountain_gen();
 	default:
-		return empty_void_gen();
+		return NULL;
 	}
 }
