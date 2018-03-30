@@ -19,7 +19,9 @@ int main(int argc,char **argv)
 	place_randomly(&monstertype);
 
 	/**/
-	random_room();
+	for (int i=0;i<AREA/96;i++)
+		random_room(local_area);
+	cull_walls(local_area);
 	/**/
 
 	draw_local_area();

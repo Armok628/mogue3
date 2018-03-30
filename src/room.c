@@ -20,15 +20,23 @@ void make_room(tile_t *a,int x,int y,int w,int h,dir_t direction)
 		int l1=lin(x+i,y),l2=lin(x+i,y+h-1);
 		a[l1].fg='%';
 		a[l1].fg_c=DGRAY;
+		a[l1].bg='%';
+		a[l1].bg_c=DGRAY;
 		a[l2].fg='%';
 		a[l2].fg_c=DGRAY;
+		a[l2].bg='%';
+		a[l2].bg_c=DGRAY;
 	}
 	for (int i=0;i<h;i++) {
 		int l1=lin(x,y+i),l2=lin(x+w-1,y+i);
 		a[l1].fg='%';
 		a[l1].fg_c=DGRAY;
+		a[l1].bg='%';
+		a[l1].bg_c=DGRAY;
 		a[l2].fg='%';
 		a[l2].fg_c=DGRAY;
+		a[l2].bg='%';
+		a[l2].bg_c=DGRAY;
 	}
 	switch (direction) {
 	case NORTH:
@@ -46,13 +54,50 @@ void make_room(tile_t *a,int x,int y,int w,int h,dir_t direction)
 }
 void random_room(tile_t *a)
 {
-	int x=1+rand()%(WIDTH-1);
-	int y=1+rand()%(HEIGHT-1);
-	int w=3+rand()%(WIDTH/3);
-	int h=3+rand()%(HEIGHT/3);
+	int w=3+rand()%(WIDTH/4);
+	int h=3+rand()%(HEIGHT/4);
+	int x=1+rand()%(WIDTH-w-2);
+	int y=1+rand()%(HEIGHT-h-2);
 	if (x+w>WIDTH)
 		x-=w;
 	if (y+h>HEIGHT)
 		y-=h;
 	make_room(a,x,y,w,h,(dir_t)rand()%4);
+}
+bool wall_needs_cull(tile_t *area,int i)
+{
+	if (area[i].fg=='%') {
+		if (area[i+1].fg=='+'&&!area[i+2].fg)
+			return true;
+		if (area[i-1].fg=='+'&&!area[i-2].fg)
+			return true;
+		if (area[i+WIDTH].fg=='+'&&!area[i+2*WIDTH].fg)
+			return true;
+		if (area[i-WIDTH].fg=='+'&&!area[i-2*WIDTH].fg)
+			return true;
+	}
+	if (area[i].fg=='%'||area[i].fg=='+') {
+		if (area[i+1].bg=='#'&&area[i-1].bg=='#')
+			return true;
+		if (area[i+WIDTH].bg=='#'&&area[i-WIDTH].bg=='#')
+			return true;
+	}
+	return false;
+}
+int cull_iteration(tile_t *area)
+{
+	int walls_removed=0;
+	for (int i=WIDTH+1;i<AREA-WIDTH-1;i++)
+		if (wall_needs_cull(area,i)) {
+			area[i].fg='\0';
+			area[i].bg='#';
+			area[i].bg_c=LGRAY;
+			walls_removed++;
+		}
+	return walls_removed;
+}
+void cull_walls(tile_t *area)
+{
+	// Call cull_iteration until it does nothing
+	while (cull_iteration(area));
 }
