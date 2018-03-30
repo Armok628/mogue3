@@ -35,12 +35,24 @@ void make_room(int x,int y,int width,int height,dir_t direction)
 		make_door(x+width/2,y);
 		break;
 	case SOUTH:
-		make_door(x+width/2,y+height);
+		make_door(x+width/2,y+height-1);
 		break;
 	case EAST:
-		make_door(x+width,y+height/2);
+		make_door(x+width-1,y+height/2);
 		break;
 	case WEST:
 		make_door(x,y+height/2);
 	}
+}
+void random_room()
+{
+	int x=1+rand()%(WIDTH-1);
+	int y=1+rand()%(HEIGHT-1);
+	int w=3+rand()%(WIDTH/3);
+	int h=3+rand()%(HEIGHT/3);
+	if (x+w>WIDTH)
+		x-=w;
+	if (y+h>HEIGHT)
+		y-=h;
+	make_room(x,y,w,h,(dir_t)rand()%4);
 }

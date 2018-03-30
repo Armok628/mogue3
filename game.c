@@ -19,7 +19,7 @@ int main(int argc,char **argv)
 	place_randomly(&monstertype);
 
 	/**/
-	make_room(10,10,5,5,NORTH);
+	random_room();
 	/**/
 
 	draw_local_area();
