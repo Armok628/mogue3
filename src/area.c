@@ -34,3 +34,10 @@ void draw_local_area()
 	for (int i=0;i<AREA;i++)
 		draw_posl(i);
 }
+int empty_coords(tile_t *area)
+{
+	int c=rand()%AREA;
+	while (area[c].fg||area[c].e)
+		c=rand()%AREA;
+	return c;
+}

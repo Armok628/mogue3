@@ -5,24 +5,33 @@ static inline color_t green() {
 static inline color_t gray() {
 	return (rand()%2?DGRAY:LGRAY);
 }
+void place_tree(tile_t *area)
+{
+	int c=empty_coords(area);
+	area[c].fg='|';
+	area[c].fg_c=BROWN;
+}
 AREA_TYPE(empty_void," ",1,
-		BLACK)
+	BLACK,;)
 AREA_TYPE(sand,"~~~___.,",8,
-		symbol=='.'||symbol==','?BROWN:YELLOW)
+	symbol=='.'||symbol==','?BROWN:YELLOW,;)
 AREA_TYPE(meadow,",.\'\'\"\"`;;*",10,
-		symbol=='*'?YELLOW:(rand()%5?LGREEN:GREEN))
+	symbol=='*'?YELLOW:(rand()%5?LGREEN:GREEN),;)
 AREA_TYPE(field,",.\'`;",5,
-		rand()%5?GREEN:LGREEN)
+	rand()%5?GREEN:LGREEN,;)
 AREA_TYPE(sparse_grass,",.\'`;_",6,
-		symbol=='_'?BROWN:green())
+		symbol=='_'?BROWN:green(),;)
 AREA_TYPE(rock,".,*`:\"",6,
-		symbol=='"'?green():gray())
+		symbol=='"'?green():gray(),;)
 AREA_TYPE(snowy_rock,".,*`:",5,
-		rand()%5?gray():WHITE)
-AREA_TYPE(forest,",.\'\"`;",6,
-		symbol=='.'||symbol==','?(rand()%5?gray():BROWN):green())
+		rand()%5?gray():WHITE,;)
 AREA_TYPE(mountain,"-~~~_.",6,
-		symbol=='.'?LGRAY:WHITE)
+		symbol=='.'?LGRAY:WHITE,;)
+AREA_TYPE(forest,",.\'\"`;",6,
+		symbol=='.'||symbol==','?gray():green(),
+	for (int i=0;i<100;i++)
+		place_tree(area);
+)
 
 tile_t *generate_area(char map_symbol,color_t map_color)
 {

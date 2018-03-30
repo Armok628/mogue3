@@ -12,8 +12,6 @@ void handle_key(entity_t *e,char key)
 		// TODO: Spellcasting
 		break;
 	case 'w':
-		if (e!=player)
-			break; // Shouldn't happen
 		open_map();
 		map_opened=true;
 		break;

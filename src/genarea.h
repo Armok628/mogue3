@@ -3,7 +3,7 @@
 #include "world.h"
 #include "area.h"
 
-#define AREA_TYPE(land,symbols,nsyms,colors) \
+#define AREA_TYPE(land,symbols,nsyms,colors,extras) \
 char land##_s[nsyms]=symbols; \
 tile_t *land##_gen() \
 { \
@@ -17,6 +17,7 @@ tile_t *land##_gen() \
 		area[i].e=NULL; \
 		area[i].corpse=NULL; \
 	} \
+	extras \
 	return area; \
 }
 

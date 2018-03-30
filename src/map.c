@@ -18,9 +18,7 @@ void close_map()
 	if (!w->area)
 		w->area=generate_area(w->symbol,w->color);
 	local_area=w->area;
-	int lpos=rand()%AREA;
-	while (local_area[lpos].e||local_area[lpos].fg)
-		lpos=rand()%AREA;
+	int lpos=empty_coords(local_area);
 	local_area[lpos].e=player;
 	player->coords=lpos;
 	draw_local_area();
