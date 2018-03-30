@@ -29,8 +29,6 @@ int input_offset(char input)
 	case 'a':
 		action_menu();
 		return 0;
-	case '@':
-		fix_rooms(local_area);
 	case 'R':
 		clear_screen();
 		clear_announcements();

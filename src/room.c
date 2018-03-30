@@ -64,23 +64,28 @@ bool wall_needs_cull(tile_t *area,int i)
 	char sym=area[i].fg;
 	if (area[i].fg!='%'&&area[i].fg!='+')
 		return false;
-	int orthw=0,walls=0,floors=0,doors=0;
+	int hw=0,vw=0,walls=0,floors=0,doors=0;
 	for (int x=-1;x<=1;x++)
 		for (int y=-1;y<=1;y++) {
 			int c=i+lin(x,y);
-			orthw+=!x^!y&&area[c].bg=='%';
-			walls+=area[c].bg=='%';
+			vw+=!x&&y&&area[c].fg=='%';
+			hw+=!y&&x&&area[c].fg=='%';
+			walls+=area[c].fg=='%';
 			floors+=area[c].bg=='#';
-			doors+=area[c].bg=='-';
+			doors+=area[c].fg=='+';
 		}
-	if (walls+floors+doors<9) // Border of room
-		return false;
 	// Inside room
 	if (sym=='+') { // Door
-		if (doors>1||walls>3)
+		if ((hw==2&&!vw)||(!hw&&vw==2))
+			return false;
+		if (hw==1||vw==1)
+			return true;
+		if (doors>1||walls<2||walls>4)
 			return true;
 	} else if (sym=='%') { // Wall
-		if (walls>3&&!doors)
+		if (walls+floors+doors<9) // Border of room
+			return false;
+		if (walls>3)//&&!doors)
 			return true;
 		if (walls<2)
 			return true;
@@ -92,14 +97,15 @@ void fix_gap(tile_t *area,int i)
 	char sym=area[i].fg;
 	if (area[i].bg!='#')
 		return;
-	int orthw=0,walls=0,floors=0,doors=0;
+	int hw=0,vw=0,walls=0,floors=0,doors=0;
 	for (int x=-1;x<=1;x++)
 		for (int y=-1;y<=1;y++) {
 			int c=i+lin(x,y);
-			orthw+=!x^!y&&area[c].bg=='%';
-			walls+=area[c].bg=='%';
+			vw+=area[c].fg=='%'&&!x&&y;
+			hw+=area[c].fg=='%'&&!y&&x;
+			walls+=area[c].fg=='%';
 			floors+=area[c].bg=='#';
-			doors+=area[c].bg=='-';
+			doors+=area[c].fg=='+';
 		}
 	if (walls+floors+doors<9) { // Border of room
 		if (!doors)
@@ -107,8 +113,10 @@ void fix_gap(tile_t *area,int i)
 		else
 			make_wall(&area[i]);
 	} else { // Inside room
-		if (orthw==2&&walls<5&&!doors)
+		if (!doors&&walls<5&&((hw==2&&!vw)||(!hw&&vw==2)))
 			make_door(&area[i]);
+		else if (hw==1&&vw==1)
+			make_wall(&area[i]);
 	}
 }
 int cull_walls(tile_t *area)
@@ -126,7 +134,8 @@ int cull_walls(tile_t *area)
 void fix_rooms(tile_t *area)
 {
 	while (cull_walls(area));
-	for (int i=0;i<AREA;i++)
-		fix_gap(area,i);
+	for (int i=0;i<4;i++)
+		for (int c=0;c<AREA;c++)
+			fix_gap(area,c);
 	while (cull_walls(area));
 }
