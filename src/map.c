@@ -7,7 +7,7 @@ void draw_star(int pos)
 }
 void map_move(int pos)
 {
-	if (world[pos].elevation>48) { // TODO: Other conditions
+	if (has_raft||world[pos].elevation>48) { // TODO: Other conditions
 		draw_world_posl(map_coords);
 		map_coords=pos;
 	}

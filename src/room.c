@@ -12,6 +12,7 @@ void make_room(int x,int y,int width,int height,dir_t direction)
 	for (int xo=0;xo<width;xo++)
 		for (int yo=0;yo<height;yo++) {
 			int l=lin(x+xo,y+yo);
+			local_area[l].fg='\0';
 			local_area[l].bg='#';
 			local_area[l].bg_c=LGRAY;
 		}

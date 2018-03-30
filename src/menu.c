@@ -47,9 +47,11 @@ int menu(char **opts,int n_opts)
 		set_color(WHITE,BG BLACK);
 		fputs(opts[index],stdout);
 		switch (input) {
+		case '2':
 		case 'j':
 			index+=index<n_opts-1;
 			break;
+		case '8':
 		case 'k':
 			index-=index>0;
 			break;

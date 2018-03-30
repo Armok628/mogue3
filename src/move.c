@@ -24,7 +24,19 @@ void wall_collision(entity_t *e,tile_t *wall)
 		if (wall->fg_c==BROWN)
 			wall->fg='\0'; // Open door
 		return;
-	// TODO: More cases?
+	case 'P': // Axe
+		if (e==player)
+			has_axe=true;
+		wall->fg='\0';
+		return;
+	case '|': // Tree
+		if (has_axe)
+			wall->fg='=';
+		return;
+	case '=':
+		trees_chopped++;
+		wall->fg='\0';
+		return;
 	}
 }
 void move_entity(entity_t *entity,int from,int to)

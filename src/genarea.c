@@ -8,8 +8,18 @@ static inline color_t gray() {
 void place_tree(tile_t *area)
 {
 	int c=empty_coords(area);
-	area[c].fg='|';
-	area[c].fg_c=BROWN;
+	if (rand()%100) {
+		area[c].fg='|';
+		area[c].fg_c=BROWN;
+	}
+	area[c].bg='o';
+	area[c].bg_c=BROWN;
+}
+void place_axe(tile_t *area)
+{
+	int c=empty_coords(area);
+	area[c].fg='P';
+	area[c].fg_c=LGRAY;
 }
 AREA_TYPE(empty_void," ",1,
 	BLACK,;)
@@ -29,8 +39,11 @@ AREA_TYPE(mountain,"-~~~_.",6,
 		symbol=='.'?LGRAY:WHITE,;)
 AREA_TYPE(forest,",.\'\"`;",6,
 		symbol=='.'||symbol==','?gray():green(),
-	for (int i=0;i<100;i++)
+	int t=50+rand()%50;
+	for (int i=0;i<t;i++)
 		place_tree(area);
+	if (rand()%2)
+		place_axe(area);
 )
 
 tile_t *generate_area(char map_symbol,color_t map_color)

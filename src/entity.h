@@ -6,7 +6,7 @@ typedef struct tile_s tile_t;
 #include "area.h"
 typedef struct spell_s spell_t;
 #include "spells.h"
-typedef enum {false,true} bool;
+#include "bool.h"
 typedef enum {PERSISTS=1,SOLID=1<<1} eflag_t; // TODO: More properties
 typedef struct etype_s {
 	char *name,symbol;
