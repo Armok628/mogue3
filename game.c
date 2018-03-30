@@ -5,24 +5,34 @@
 #include "game.h"
 int main(int argc,char **argv)
 {
-	srand(time(NULL));
+	long seed=time(NULL);
+	int erosion=3,offset=0;
+	if (argc>1)
+		for (int i=1;i<argc;i++) {
+			sscanf(argv[i],"seed=%ld",&seed);
+			sscanf(argv[i],"offset=%d",&offset);
+			sscanf(argv[i],"erosion=%d",&erosion);
+		}
+	fprintf(stderr,"%ld",seed);
+	srand(seed);
 	set_cursor_visible(0);
 	set_canon(0);
 	clear_screen();
 
-	world=worldgen(3,0);
+	world=worldgen(erosion,offset);
 	map_coords=rand_land_coords();
 	wtile_t *w=&world[map_coords];
 	w->area=generate_area(w->symbol,w->color);
 	local_area=w->area;
-	player=place_randomly(&playertype);
-	place_randomly(&monstertype);
 
 	/**/
 	for (int i=0;i<AREA/96;i++)
 		random_room(local_area);
-	cull_walls(local_area);
+	fix_rooms(local_area);
 	/**/
+
+	player=place_randomly(&playertype);
+	place_randomly(&monstertype);
 
 	draw_local_area();
 	announce_stats(player);
