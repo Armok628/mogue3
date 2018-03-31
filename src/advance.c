@@ -12,8 +12,19 @@ void handle_key(entity_t *e,char key)
 		// TODO: Spellcasting
 		break;
 	case 'w':
-		open_map();
-		map_opened=true;
+		if (local_area[e->coords].bg!='#') {
+			open_map();
+			map_opened=true;
+		} else {
+			announce("s","You must be outside to travel");
+		}
+		break;
+	case 'c':
+		o=input_offset(fgetc(stdin));
+		if (local_area[e->coords+o].bg=='-') {
+			local_area[e->coords+o].fg='+';
+			draw_posl(e->coords+o);
+		}
 		break;
 	case 'q':
 		quit();

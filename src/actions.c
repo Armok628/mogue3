@@ -11,7 +11,9 @@ void action_menu()
 			has_raft=true;
 			trees_chopped-=20;
 			announce("s","You build a raft");
-		}
+		} else
+			announce("s sds","Not enough logs.",
+					"(",trees_chopped,"/20)");
 		return;
 	}
 }

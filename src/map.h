@@ -13,5 +13,6 @@
 extern int map_coords;
 
 int rand_land_coords();
+void enter_area(int);
 void open_map();
 #endif

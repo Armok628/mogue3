@@ -5,6 +5,7 @@
 #include "bool.h"
 #include "entity.h"
 #include "items.h"
+#include "map.h"
 
 void try_move(entity_t *,int,int);
 #endif

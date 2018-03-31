@@ -12,13 +12,14 @@ void map_move(int pos)
 		map_coords=pos;
 	}
 }
-void close_map()
+void enter_area(int coords)
 {
-	wtile_t *w=&world[map_coords];
+	wtile_t *w=&world[coords];
 	if (!w->area)
 		w->area=generate_area(w->symbol,w->color);
 	local_area=w->area;
-	int lpos=empty_coords(local_area);
+	map_coords=coords;
+	int lpos=outside_coords(local_area);
 	local_area[lpos].e=player;
 	player->coords=lpos;
 	draw_local_area();
@@ -54,5 +55,5 @@ void open_map()
 		}
 		map_move(map_coords+input_offset(input));
 	}
-	close_map();
+	enter_area(map_coords);
 }

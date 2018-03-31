@@ -8,8 +8,11 @@ static inline color_t gray() {
 void place_tree(tile_t *area)
 {
 	int c=empty_coords(area);
-	if (rand()%100) {
+	if (rand()%10) {
 		area[c].fg='|';
+		area[c].fg_c=BROWN;
+	} else {
+		area[c].fg='=';
 		area[c].fg_c=BROWN;
 	}
 	area[c].bg='o';
@@ -40,7 +43,7 @@ AREA_TYPE(forest,",.\'\"`;",6,
 	int t=50+rand()%50;
 	for (int i=0;i<t;i++)
 		place_tree(area);
-	if (rand()%2)
+	if (!rand()%5)
 		place_axe(area);
 )
 

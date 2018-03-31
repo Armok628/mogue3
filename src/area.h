@@ -36,4 +36,5 @@ void draw_pos(int,int);
 void draw_posl(int);
 void draw_local_area();
 int empty_coords(tile_t *);
+int outside_coords(tile_t *);
 #endif
