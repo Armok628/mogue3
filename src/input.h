@@ -2,6 +2,7 @@
 #define INPUT_H
 #include "area.h"
 #include "actions.h"
+#include "debug.h"
 #include "quit.h"
 
 int input_offset(char);

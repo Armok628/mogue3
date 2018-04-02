@@ -26,6 +26,7 @@ int input_offset(char input)
 	case '3':
 	case 'n':
 		return 1+WIDTH;
+	// Temporary (?) input handling
 	case 'a':
 		action_menu();
 		return 0;
@@ -35,6 +36,9 @@ int input_offset(char input)
 		draw_local_area();
 		announce_stats(player);
 		return input_offset(fgetc(stdin));
+	case 'D':
+		debug_menu();
+		return 0;
 	case 'q':
 		quit();
 	default:
