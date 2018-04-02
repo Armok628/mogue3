@@ -47,13 +47,19 @@ void move_entity(entity_t *entity,int from,int to)
 	draw_posl(from);
 	draw_posl(to);
 }
+bool legal_move(int from,int to)
+{
+	if (to<0||to>=AREA) // Detect vertical wrap
+		return false;
+	int h=xcmp(to)-xcmp(from);
+	if (h>1||h<-1) // Detect horizontal wrap
+		return false;
+	return true;
+}
 void try_move(entity_t *entity,int from,int to)
 {
 	tile_t *dest=&local_area[to];
-	if (to<0||to>=AREA) // Detect vertical wrap
-		return;
-	int h=xcmp(to)-xcmp(from);
-	if (h>1||h<-1) // Detect horizontal wrap
+	if (!legal_move(from,to))
 		return;
 	if (dest->fg&&entity->flags&SOLID) { // Wall and solid entity
 		wall_collision(entity,dest);

@@ -1,5 +1,9 @@
 #include "debug.h"
-static char *debug_options[]={"Make room","Fix rooms"};
+static char *debug_options[]={
+	"Make room",
+	"Fix rooms",
+	"Make path"
+};
 static int n_debug_options=sizeof(debug_options)/sizeof(char *);
 void debug_menu()
 {
@@ -10,6 +14,9 @@ void debug_menu()
 		break;
 	case 1: // Fix rooms
 		fix_rooms(local_area);
+		break;
+	case 2: // Make path
+		while (!random_path(local_area)); // Keep trying
 		break;
 	}
 	draw_local_area();

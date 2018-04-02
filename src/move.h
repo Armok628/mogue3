@@ -7,5 +7,6 @@
 #include "items.h"
 #include "map.h"
 
+bool legal_move(int,int);
 void try_move(entity_t *,int,int);
 #endif

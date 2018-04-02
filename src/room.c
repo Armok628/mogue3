@@ -139,3 +139,48 @@ void fix_rooms(tile_t *area)
 			fix_gap(area,c);
 	while (cull_walls(area));
 }
+int dist_to_room(tile_t *area,int c,char dir)
+{
+	int o=input_offset(dir),d=-1;
+	while (legal_move(c,c+o)) {
+		c+=o;
+		char bg=area[c].bg;
+		if (bg=='#'||bg=='%')
+			return d;
+		d++;
+	}
+	return -1;
+
+}
+void make_path(tile_t *area,int c,int l,char dir)
+{
+	int o=input_offset(dir);
+	for (int i=0;i<l;i++) {
+		int coord=c+=o;
+		area[coord].fg='\0';
+		area[coord].bg='#';
+		area[coord].bg_c=LGRAY;
+	}
+}
+bool random_path(tile_t *area)
+{
+	int c=rand()%AREA;
+	while (area[c].bg!='#')
+		c=rand()%AREA;
+	int h=dist_to_room(area,c,'h');
+	int j=dist_to_room(area,c,'j');
+	int k=dist_to_room(area,c,'k');
+	int l=dist_to_room(area,c,'l');
+	if ((h>0)+(j>0)+(k>0)+(l>0)>2)
+		return false; // Not enough possible directions
+	// Make actual paths
+	if ((h>j)+(h>k)+(h>l)>2)
+		make_path(area,c,h,'h');
+	if ((j>h)+(j>k)+(j>l)>2)
+		make_path(area,c,j,'j');
+	if ((k>h)+(k>j)+(k>l)>2)
+		make_path(area,c,k,'k');
+	if ((l>h)+(l>j)+(l>k)>2)
+		make_path(area,c,l,'l');
+	return true;
+}
