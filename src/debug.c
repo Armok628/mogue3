@@ -16,7 +16,7 @@ void debug_menu()
 		fix_rooms(local_area);
 		break;
 	case 2: // Make path
-		while (!random_path(local_area)); // Keep trying
+		make_path(local_area,player->coords);
 		break;
 	}
 	draw_local_area();
