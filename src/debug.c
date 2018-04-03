@@ -2,7 +2,8 @@
 static char *debug_options[]={
 	"Make room",
 	"Fix rooms",
-	"Make path"
+	"Make path",
+	"Random path"
 };
 static int n_debug_options=sizeof(debug_options)/sizeof(char *);
 void debug_menu()
@@ -17,6 +18,9 @@ void debug_menu()
 		break;
 	case 2: // Make path
 		make_path(local_area,player->coords);
+		break;
+	case 3: // Random path
+		random_path(local_area);
 		break;
 	}
 	draw_local_area();

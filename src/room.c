@@ -141,28 +141,25 @@ void fix_rooms(tile_t *area)
 }
 int dist_to_room(tile_t *area,int c,char dir)
 {
-	int o=input_offset(dir),d=0;
+	int o=input_offset(dir),d=1;
 	while (legal_move(c,c+o)) {
 		c+=o;
 		char bg=area[c].bg;
-		if (bg=='#'||bg=='%')
+		if (bg=='#'||bg=='%'||area[c].fg=='+')
 			return d;
 		d++;
 	}
 	return -1;
-
 }
 void floor_line(tile_t *area,int c,int l,char dir)
 {
 	if (l<0)
 		return;
+	make_floor(&area[c]);
 	int o=input_offset(dir);
-	for (int i=0;i<l;i++) {
-		int coord=c+=o;
-		area[coord].fg='\0';
-		area[coord].bg='#';
-		area[coord].bg_c=LGRAY;
-	}
+	for (int i=0;i<l;i++)
+		make_floor(&area[c+=o]);
+	make_door(&area[c]);
 }
 bool make_path(tile_t *area,int c)
 {
@@ -177,10 +174,8 @@ bool make_path(tile_t *area,int c)
 	/*
 	if ((h>0)+(j>0)+(k>0)+(l>0)>=2)
 		return false; // Not enough possible directions
-		*/
 	announce("s","Making paths");
 	// Make actual paths
-	/*
 	if ((h>j)+(h>k)+(h>l)>=2)
 		floor_line(area,c,h,'h');
 	if ((j>h)+(j>k)+(j>l)>=2)
