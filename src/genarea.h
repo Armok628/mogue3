@@ -21,5 +21,5 @@ tile_t *land##_gen() \
 	return area; \
 }
 
-tile_t *generate_area(char,color_t);
+tile_t *generate_area(wtile_t *);
 #endif

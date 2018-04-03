@@ -22,7 +22,7 @@ int main(int argc,char **argv)
 	world=worldgen(erosion,offset);
 	map_coords=rand_land_coords();
 	wtile_t *w=&world[map_coords];
-	w->area=generate_area(w->symbol,w->color);
+	w->area=generate_area(w);
 	local_area=w->area;
 
 	/**/

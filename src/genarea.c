@@ -47,36 +47,53 @@ AREA_TYPE(forest,",.\'\"`;",6,
 		place_axe(area);
 )
 
-tile_t *generate_area(char map_symbol,color_t map_color)
+tile_t *generate_area(wtile_t *w)
 {
+	char map_symbol=w->symbol;
+	color_t map_color=w->color;
+	tile_t *area;
 	switch (map_symbol) {
 	case '~':
 		switch (map_color) {
 		case YELLOW:
-			return sand_gen();
+			area=sand_gen();
+			break;
 		case LGREEN:
-			return meadow_gen();
+			area=meadow_gen();
+			break;
 		case GREEN:
-			return field_gen();
+			area=field_gen();
+			break;
 		default:
-			return NULL;
+			area=NULL;
+			break;
 		}
+		break;
 	case '%':
-		return forest_gen();
+		area=forest_gen();
+		break;
 	case '-':
-		return sparse_grass_gen();
+		area=sparse_grass_gen();
+		break;
 	case '=':
 		switch (map_color) {
 		case LGRAY:
-			return rock_gen();
+			area=rock_gen();
+			break;
 		case DGRAY:
-			return snowy_rock_gen();
+			area=snowy_rock_gen();
+			break;
 		default:
-			return NULL;
+			area=NULL;
+			break;
 		}
+		break;
 	case '^':
-		return mountain_gen();
+		area=mountain_gen();
+		break;
 	default:
-		return NULL;
+		area=NULL;
+		break;
 	}
+	return area;
 }

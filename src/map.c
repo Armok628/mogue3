@@ -16,7 +16,7 @@ void enter_area(int coords)
 {
 	wtile_t *w=&world[coords];
 	if (!w->area)
-		w->area=generate_area(w->symbol,w->color);
+		w->area=generate_area(w);
 	local_area=w->area;
 	map_coords=coords;
 	int lpos=outside_coords(local_area);
