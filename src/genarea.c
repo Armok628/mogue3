@@ -95,5 +95,13 @@ tile_t *generate_area(wtile_t *w)
 		area=NULL;
 		break;
 	}
+	if (w->elevation>50&&!(rand()%20)) {
+		int r=10+rand()%20;
+		for (int i=0;i<r;i++)
+			random_room(area);
+		fix_rooms(area);
+		w->symbol='#';
+		w->color=LGRAY;
+	}
 	return area;
 }

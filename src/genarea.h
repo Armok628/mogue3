@@ -1,7 +1,8 @@
 #ifndef GENAREA_H
 #define GENAREA_H
-#include "world.h"
 #include "area.h"
+#include "room.h"
+#include "world.h"
 
 #define AREA_TYPE(land,symbols,nsyms,colors,extras) \
 char land##_s[nsyms]=symbols; \

@@ -25,12 +25,6 @@ int main(int argc,char **argv)
 	w->area=generate_area(w);
 	local_area=w->area;
 
-	/**/
-	for (int i=0;i<AREA/96;i++)
-		random_room(local_area);
-	fix_rooms(local_area);
-	/**/
-
 	player=place_randomly(&playertype);
 	place_randomly(&monstertype);
 
