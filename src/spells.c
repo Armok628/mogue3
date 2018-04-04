@@ -14,8 +14,24 @@ void heal_self(entity_t *caster)
 	announce("e s d s",caster,"casts Heal Self, gaining",effect,"HP");
 }
 */
+void cast(entity_t *c,int n)
+{
+	c->spells[n]->function(c);
+}
+void spell_menu(entity_t *c)
+{
+	if (!c->spellc)
+		return;
+	char *strs[c->spellc];
+	for (int i=0;i<c->spellc;i++)
+		strs[i]=c->spells[i]->name;
+	int choice=menu(strs,c->spellc);
+	c->spells[choice]->function(c);
+}
 SPELL_START(heal_self,Heal Self,DEFENSE) ON(caster)
 	int effect=rand()%caster->wis;
 	target->hp+=effect;
+	if (target->hp>target->maxhp)
+		target->hp=target->maxhp;
 	announce("e s d s",caster,"casts Heal Self, gaining",effect,"HP");
 SPELL_END

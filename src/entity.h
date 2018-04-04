@@ -14,6 +14,8 @@ typedef struct etype_s {
 	int minhp,maxhp;
 	int minstr,maxstr;
 	int minwis,maxwis;
+	spell_t *spells[16];
+	int spellc;
 	eflag_t flags;
 } etype_t;
 typedef struct entity_s {
@@ -31,7 +33,6 @@ extern etype_t human_etype;
 extern etype_t monster_etype;
 extern entity_t *player;
 
-void cast(entity_t *,int);
 void draw_entity(entity_t *);
 entity_t *spawn(etype_t *);
 entity_t *spawn_randomly(tile_t *area,etype_t *);

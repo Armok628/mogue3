@@ -39,6 +39,9 @@ int input_offset(char input)
 	case 'D':
 		debug_menu();
 		return 0;
+	case 'm':
+		spell_menu(player);
+		return 0;
 	case 'q':
 		quit();
 	default:

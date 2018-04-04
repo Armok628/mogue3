@@ -2,8 +2,9 @@
 #define SPELLS_H
 #include <stdlib.h>
 typedef struct entity_s entity_t;
-#include "entity.h"
 #include "announce.h"
+#include "entity.h"
+#include "menu.h"
 
 #define SPELL(name) \
 extern spell_t name##_spell; \
@@ -31,5 +32,7 @@ typedef struct spell_s {
 	spelltype_t type;
 } spell_t;
 
+void cast(entity_t *,int);
+void spell_menu(entity_t *);
 SPELL(heal_self);
 #endif

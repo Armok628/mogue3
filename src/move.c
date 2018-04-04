@@ -12,10 +12,11 @@ void entity_collision(entity_t *e1,entity_t *e2)
 {
 	if (e1==e2)
 		return;
-	e2->hp-=e1->str; // Temporary
+	int damage=rand()%e1->str;
+	e2->hp-=damage; // Temporary
 	if (e2->hp<=0)
 		kill_entity(e2);
-	announce("e s e s d s",e1,"strikes",e2,"for",e1->str,"damage");
+	announce("e s e s d s",e1,"strikes",e2,"for",damage,"damage");
 }
 void wall_collision(entity_t *e,tile_t *wall)
 { // Handles interactions with "walls"

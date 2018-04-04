@@ -27,10 +27,6 @@ etype_t monster_etype={ // Temporary
 	.flags=SOLID
 };
 entity_t *player;
-void cast(entity_t *c,int n)
-{
-	c->spells[n]->function(c);
-}
 void draw_entity(entity_t *c)
 {
 	set_color(c->color,c->hp?BG BLACK:BG RED);
@@ -47,7 +43,8 @@ entity_t *spawn(etype_t *type)
 	e->str=rand()%(type->maxstr-type->minstr)+type->minstr;
 	e->wis=rand()%(type->maxwis-type->minwis)+type->minwis;
 	e->flags=type->flags;
-	e->spellc=0; // TODO: Spells given to certain creatures?
+	e->spells[0]=&heal_self_spell; // Temporary
+	e->spellc=1; // TODO: Spells given to certain creatures?
 	e->type=type;
 	return e;
 }
