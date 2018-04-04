@@ -7,10 +7,21 @@ void draw_star(int pos)
 }
 void map_move(int pos)
 {
-	if (has_raft||world[pos].elevation>48) { // TODO: Other conditions
+	if (has_raft||world[pos].elevation>48) // TODO: Other conditions
 		draw_world_posl(map_coords);
-		map_coords=pos;
+	else
+		return;
+	int l1=world[map_coords].elevation>48;
+	int l2=world[pos].elevation>48;
+	if (l1^l2) { // Land <=> Sea
+		if (l2) {
+			announce("s","The raft breaks in the landing");
+			has_raft=false;
+		} else if (l1) {
+			announce("s","You embark on your raft");
+		}
 	}
+	map_coords=pos;
 }
 void enter_area(int coords)
 {
@@ -55,7 +66,6 @@ void open_map()
 	clear_screen();
 	draw_world();
 	for (;;) {
-		clear_announcements();
 		draw_star(map_coords);
 		char input=fgetc(stdin);
 		if (input=='w')
@@ -66,5 +76,6 @@ void open_map()
 		}
 		map_move(map_coords+input_offset(input));
 	}
+	clear_announcements();
 	enter_area(map_coords);
 }

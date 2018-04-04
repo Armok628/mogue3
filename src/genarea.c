@@ -20,9 +20,9 @@ void place_tree(tile_t *area)
 }
 void place_axe(tile_t *area)
 {
-	int c=empty_coords(area);
+	int c=inside_coords(area);
 	area[c].fg='P';
-	area[c].fg_c=LGRAY;
+	area[c].fg_c=WHITE;
 }
 AREA_TYPE(sand,"~~~___.,",8,
 	symbol=='.'||symbol==','?BROWN:YELLOW,;)
@@ -43,8 +43,6 @@ AREA_TYPE(forest,",.\'\"`;",6,
 	int t=50+rand()%50;
 	for (int i=0;i<t;i++)
 		place_tree(area);
-	if (!rand()%5)
-		place_axe(area);
 )
 
 tile_t *generate_area(wtile_t *w)
@@ -104,6 +102,8 @@ tile_t *generate_area(wtile_t *w)
 		w->color=LRED;
 		for (int i=0;i<r;i++)
 			spawn_inside(area,&human_etype);
+		if (rand()%2)
+			place_axe(area);
 	}
 	return area;
 }
