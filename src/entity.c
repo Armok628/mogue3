@@ -1,5 +1,5 @@
 #include "entity.h"
-etype_t playertype={
+etype_t player_etype={
 	.name="Player",
 	.symbol='@',
 	.color=LCYAN,
@@ -8,7 +8,16 @@ etype_t playertype={
 	.maxstr=15,.minstr=5,
 	.flags=PERSISTS|SOLID
 };
-etype_t monstertype={ // Temporary
+etype_t human_etype={ // Temporary
+	.name="Human",
+	.symbol='U',
+	.color=CYAN,
+	.maxhp=100,.minhp=50,
+	.maxwis=15,.minwis=5,
+	.maxstr=15,.minstr=5,
+	.flags=PERSISTS|SOLID
+};
+etype_t monster_etype={ // Temporary
 	.name="Monster",
 	.symbol='&',
 	.color=DGRAY,
@@ -18,12 +27,16 @@ etype_t monstertype={ // Temporary
 	.flags=SOLID
 };
 entity_t *player;
+void cast(entity_t *c,int n)
+{
+	c->spells[n]->function(c);
+}
 void draw_entity(entity_t *c)
 {
 	set_color(c->color,c->hp?BG BLACK:BG RED);
 	putchar(c->symbol);
 }
-entity_t *make_entity(etype_t *type)
+entity_t *spawn(etype_t *type)
 {
 	entity_t *e=malloc(sizeof(entity_t));
 	e->name=type->name;
@@ -38,15 +51,24 @@ entity_t *make_entity(etype_t *type)
 	e->type=type;
 	return e;
 }
-entity_t *place_randomly(etype_t *type)
+entity_t *spawn_randomly(tile_t *area,etype_t *type)
 {
-	entity_t *e=make_entity(type);
-	e->coords=rand()%AREA;
-	// TODO: Error checking
-	local_area[e->coords].e=e;
+	entity_t *e=spawn(type);
+	e->coords=empty_coords(area);
+	area[e->coords].e=e;
 	return e;
 }
-void cast(entity_t *c,int n)
+entity_t *spawn_inside(tile_t *area,etype_t *type)
 {
-	c->spells[n]->function(c);
+	entity_t *e=spawn(type);
+	e->coords=inside_coords(area);
+	area[e->coords].e=e;
+	return e;
+}
+entity_t *spawn_outside(tile_t *area,etype_t *type)
+{
+	entity_t *e=spawn(type);
+	e->coords=outside_coords(area);
+	area[e->coords].e=e;
+	return e;
 }

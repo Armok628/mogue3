@@ -101,7 +101,9 @@ tile_t *generate_area(wtile_t *w)
 			random_room(area);
 		fix_rooms(area);
 		w->symbol='#';
-		w->color=LGRAY;
+		w->color=LRED;
+		for (int i=0;i<r;i++)
+			spawn_inside(area,&human_etype);
 	}
 	return area;
 }

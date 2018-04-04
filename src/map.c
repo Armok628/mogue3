@@ -2,7 +2,7 @@
 int map_coords;
 void draw_star(int pos)
 {
-	set_color(playertype.color,BG BLACK);
+	set_color(player_etype.color,BG BLACK);
 	putc_pos('*',xcmp(pos),ycmp(pos));
 }
 void map_move(int pos)
@@ -18,6 +18,8 @@ void enter_area(int coords)
 	if (!w->area)
 		w->area=generate_area(w);
 	local_area=w->area;
+	for (int i=0;i<10;i++) // Spawn monsters
+		spawn_outside(local_area,&monster_etype);
 	map_coords=coords;
 	int lpos=outside_coords(local_area);
 	local_area[lpos].e=player;
@@ -32,8 +34,17 @@ int rand_land_coords()
 		c=rand()%AREA;
 	return c;
 }
+void remove_temps(tile_t *area)
+{
+	for (int i=0;i<AREA;i++)
+		if (area[i].e&&~area[i].e->flags&PERSISTS) {
+			free(area[i].e);
+			area[i].e=NULL;
+		}
+}
 void open_map()
 {
+	remove_temps(local_area);
 	if (!world) {
 		world=worldgen(3,0);
 		map_coords=rand_land_coords();

@@ -26,12 +26,15 @@ typedef struct entity_s {
 	etype_t *type;
 } entity_t;
 
-extern etype_t playertype;
-extern etype_t monstertype;
+extern etype_t player_etype;
+extern etype_t human_etype;
+extern etype_t monster_etype;
 extern entity_t *player;
 
-void draw_entity(entity_t *);
-entity_t *make_entity(etype_t *);
-entity_t *place_randomly(etype_t *);
 void cast(entity_t *,int);
+void draw_entity(entity_t *);
+entity_t *spawn(etype_t *);
+entity_t *spawn_randomly(tile_t *area,etype_t *);
+entity_t *spawn_inside(tile_t *area,etype_t *);
+entity_t *spawn_outside(tile_t *area,etype_t *);
 #endif

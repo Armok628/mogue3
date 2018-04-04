@@ -41,6 +41,13 @@ int empty_coords(tile_t *area)
 		c=rand()%AREA;
 	return c;
 }
+int inside_coords(tile_t *area)
+{
+	int c=empty_coords(area);
+	while (area[c].bg!='#')
+		c=empty_coords(area);
+	return c;
+}
 int outside_coords(tile_t *area)
 {
 	int c=empty_coords(area);

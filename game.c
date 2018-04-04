@@ -20,16 +20,9 @@ int main(int argc,char **argv)
 	clear_screen();
 
 	world=worldgen(erosion,offset);
-	map_coords=rand_land_coords();
-	wtile_t *w=&world[map_coords];
-	w->area=generate_area(w);
-	local_area=w->area;
+	player=spawn(&player_etype);
+	enter_area(rand_land_coords());
 
-	player=place_randomly(&playertype);
-	place_randomly(&monstertype);
-
-	draw_local_area();
-	announce_stats(player);
 	for (;;)
 		advance();
 }
