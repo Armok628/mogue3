@@ -26,7 +26,15 @@ int input_offset(char input)
 	case '3':
 	case 'n':
 		return 1+WIDTH;
-	// Temporary (?) input handling
+	case 'q':
+		quit();
+	default:
+		return 0;
+	}
+}
+int handle_input(char input)
+{
+	switch (input) {
 	case 'a':
 		action_menu();
 		return 0;
@@ -35,17 +43,20 @@ int input_offset(char input)
 		clear_announcements();
 		draw_local_area();
 		announce_stats(player);
-		return input_offset(fgetc(stdin));
+		return handle_input(fgetc(stdin));
 	case 'D':
 		debug_menu();
 		return 0;
 	case 'm':
 		spell_menu(player);
 		return 0;
+	case '?':
+		player_target();
+		return 0;
 	case 'q':
 		quit();
 	default:
-		return 0;
+		return input_offset(input);
 	}
 }
 char generate_input()

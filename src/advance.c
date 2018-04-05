@@ -2,7 +2,7 @@
 static bool map_opened=false;
 void handle_key(entity_t *e,char key)
 {
-	int o=input_offset(key);
+	int o=handle_input(key);
 	if (o) {
 		try_move(e,e->coords,e->coords+o);
 		return;
@@ -20,7 +20,7 @@ void handle_key(entity_t *e,char key)
 		}
 		break;
 	case 'c':
-		o=input_offset(fgetc(stdin));
+		o=handle_input(fgetc(stdin));
 		if (local_area[e->coords+o].bg=='-') {
 			local_area[e->coords+o].fg='+';
 			draw_posl(e->coords+o);
