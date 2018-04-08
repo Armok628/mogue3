@@ -27,10 +27,16 @@ etype_t monster_etype={ // Temporary
 	.flags=SOLID
 };
 entity_t *player;
-void draw_entity(entity_t *c)
+void draw_entity(entity_t *e)
 {
-	set_color(c->color,c->hp?BG BLACK:BG RED);
-	putchar(c->symbol);
+	set_color(e->color,e->hp?BG BLACK:BG RED);
+	putchar(e->symbol);
+}
+void redraw(entity_t *e)
+{
+	int c=e->coords;
+	move_cursor(xcmp(c),ycmp(c));
+	draw_entity(e);
 }
 entity_t *spawn(etype_t *type)
 {
@@ -46,7 +52,8 @@ entity_t *spawn(etype_t *type)
 	// Temporary
 	e->spells[0]=&heal_self_spell;
 	e->spells[1]=&magic_missile_spell;
-	e->spellc=2;
+	e->spells[2]=&raise_dead_spell;
+	e->spellc=3;
 	e->type=type;
 	return e;
 }

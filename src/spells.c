@@ -45,4 +45,21 @@ SPELL_START(magic_missile,Magic Missile,OFFENSE)
 	if (target->hp<0)
 		target->hp=0;
 	announce("e s es d s",caster,"casts Magic Missile on",target,", doing",effect,"damage");
+	redraw(target);
+SPELL_END
+SPELL_START(raise_dead,Raise Dead,OFFENSE)
+	ON(local_area[target_by(caster)].corpse)
+	if (!target)
+		return;
+	tile_t *t=&local_area[target->coords];
+	if (t->fg||t->e)
+		return;
+	int effect=rand()%caster->wis;
+	announce("e s es d s",caster,"casts Raise Dead on",target,", giving",effect,"health");
+	target->hp+=effect;
+	t->e=target;
+	t->corpse=NULL;
+	if (target->hp>target->maxhp)
+		target->hp=target->maxhp;
+	redraw(target);
 SPELL_END
