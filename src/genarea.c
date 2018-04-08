@@ -93,7 +93,7 @@ tile_t *generate_area(wtile_t *w)
 		area=NULL;
 		break;
 	}
-	if (w->elevation>50&&!(rand()%20)) {
+	if (w->city) {
 		int r=10+rand()%20;
 		for (int i=0;i<r;i++)
 			random_room(area);

@@ -96,17 +96,25 @@ wtile_t *worldgen(int erosion,int offset) // Default should be erosion=3, offset
 	wtile_t *w=malloc(AREA*sizeof(wtile_t));
 	for (int i=0;i<AREA;i++) {
 		int e=elevs[xcmp(i)][ycmp(i)];
+		if (e>50&&!(rand()%20)) {
+		}
 		w[i].elevation=e;
 		w[i].symbol=elevation_symbol(e);
 		w[i].color=elevation_color(e);
 		w[i].area=NULL;
+		w[i].city=e>50&&!(rand()%20);
 	}
 	return w;
 }
 void draw_world_tile(wtile_t *tile)
 {
-	set_color(tile->color,BG BLACK);
-	putchar(tile->symbol);
+	if (tile->city) {
+		set_color(LRED,BG BLACK);
+		putchar('#');
+	} else {
+		set_color(tile->color,BG BLACK);
+		putchar(tile->symbol);
+	}
 }
 void draw_world_pos(int x,int y)
 {

@@ -3,14 +3,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "terminal.h"
 #include "area.h"
+#include "bool.h"
+#include "terminal.h"
 
 typedef struct wtile_s {
 	tile_t *area;
 	int elevation;
 	char symbol;
 	color_t color;
+	bool city;
 } wtile_t;
 
 extern wtile_t *world;
