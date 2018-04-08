@@ -43,8 +43,10 @@ entity_t *spawn(etype_t *type)
 	e->str=rand()%(type->maxstr-type->minstr)+type->minstr;
 	e->wis=rand()%(type->maxwis-type->minwis)+type->minwis;
 	e->flags=type->flags;
-	e->spells[0]=&heal_self_spell; // Temporary
-	e->spellc=1; // TODO: Spells given to certain creatures?
+	// Temporary
+	e->spells[0]=&heal_self_spell;
+	e->spells[1]=&magic_missile_spell;
+	e->spellc=2;
 	e->type=type;
 	return e;
 }

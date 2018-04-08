@@ -13,7 +13,13 @@ int player_target()
 		draw_posl(c);
 		c+=input_offset(input);
 		clear_announcements();
-	} while (input!='q');
+	} while (input!='\n'&&input!='q');
 	clear_announcements();
 	return c;
+}
+int target_by(entity_t *caster)
+{
+	if (caster==player)
+		return player_target();
+	return rand()%AREA; // Temporary
 }

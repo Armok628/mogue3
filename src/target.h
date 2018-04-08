@@ -4,5 +4,5 @@
 #include "input.h"
 #include "terminal.h"
 
-int player_target();
+int target_by(entity_t *);
 #endif

@@ -2,6 +2,7 @@
 #define GENAREA_H
 #include "area.h"
 #include "room.h"
+typedef struct wtile_s wtile_t;
 #include "world.h"
 
 #define AREA_TYPE(land,symbols,nsyms,colors,extras) \

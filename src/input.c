@@ -26,8 +26,6 @@ int input_offset(char input)
 	case '3':
 	case 'n':
 		return 1+WIDTH;
-	case 'q':
-		quit();
 	default:
 		return 0;
 	}
@@ -51,7 +49,7 @@ int handle_input(char input)
 		spell_menu(player);
 		return 0;
 	case '?':
-		player_target();
+		target_by(player);
 		return 0;
 	case 'q':
 		quit();

@@ -28,10 +28,21 @@ void spell_menu(entity_t *c)
 	int choice=menu(strs,c->spellc);
 	c->spells[choice]->function(c);
 }
-SPELL_START(heal_self,Heal Self,DEFENSE) ON(caster)
+SPELL_START(heal_self,Heal Self,DEFENSE)
+	ON(caster)
 	int effect=rand()%caster->wis;
 	target->hp+=effect;
 	if (target->hp>target->maxhp)
 		target->hp=target->maxhp;
 	announce("e s d s",caster,"casts Heal Self, gaining",effect,"HP");
+SPELL_END
+SPELL_START(magic_missile,Magic Missile,OFFENSE)
+	ON(local_area[target_by(caster)].e)
+	if (!target)
+		return;
+	int effect=rand()%caster->wis;
+	target->hp-=effect;
+	if (target->hp<0)
+		target->hp=0;
+	announce("e s es d s",caster,"casts Magic Missile on",target,", doing",effect,"damage");
 SPELL_END

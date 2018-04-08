@@ -5,6 +5,7 @@ typedef struct entity_s entity_t;
 #include "announce.h"
 #include "entity.h"
 #include "menu.h"
+#include "target.h"
 
 #define SPELL(name) \
 extern spell_t name##_spell; \
@@ -18,10 +19,9 @@ spell_t cname##_spell={ \
 	.type=stype \
 }; \
 void cname(entity_t *caster) \
-{ \
-	entity_t *target=
+{
 
-#define ON(target) target;
+#define ON(t) entity_t *target=t;
 
 #define SPELL_END }
 
@@ -35,4 +35,5 @@ typedef struct spell_s {
 void cast(entity_t *,int);
 void spell_menu(entity_t *);
 SPELL(heal_self);
+SPELL(magic_missile);
 #endif
