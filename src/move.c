@@ -31,12 +31,14 @@ void wall_collision(entity_t *e,tile_t *wall)
 		wall->fg='\0';
 		return;
 	case '|': // Tree
-		if (has_axe)
+		if (e==player&&has_axe)
 			wall->fg='=';
 		return;
 	case '=':
-		trees_chopped++;
-		wall->fg='\0';
+		if (e==player) {
+			trees_chopped++;
+			wall->fg='\0';
+		}
 		return;
 	}
 }
