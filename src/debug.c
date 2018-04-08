@@ -4,7 +4,7 @@ static char *debug_options[]={
 	"Fix rooms",
 	"Make path",
 	"Random path",
-	"World tile elevation=55"
+	"Give canoe"
 };
 static int n_debug_options=sizeof(debug_options)/sizeof(char *);
 void debug_menu()
@@ -23,8 +23,8 @@ void debug_menu()
 	case 3: // Random path
 		random_path(local_area);
 		break;
-	case 4:
-		world[map_coords].elevation=55;
+	case 4: // Give canoe
+		has_canoe=true;
 	}
 	draw_local_area();
 }

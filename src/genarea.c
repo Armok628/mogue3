@@ -18,6 +18,11 @@ void place_tree(tile_t *area)
 	area[c].bg='o';
 	area[c].bg_c=BROWN;
 }
+void place_trees(tile_t *area,int n)
+{
+	for (int i=0;i<n;i++)
+		place_tree(area);
+}
 void place_axe(tile_t *area)
 {
 	int c=inside_coords(area);
@@ -27,9 +32,13 @@ void place_axe(tile_t *area)
 AREA_TYPE(sand,"~~~___.,",8,
 	symbol=='.'||symbol==','?BROWN:YELLOW,;)
 AREA_TYPE(meadow,",.\'\'\"\"`;;*",10,
-	symbol=='*'?YELLOW:(rand()%5?LGREEN:GREEN),;)
+	symbol=='*'?YELLOW:(rand()%5?LGREEN:GREEN),
+	place_trees(area,rand()%5); // 0-4 trees
+)
 AREA_TYPE(field,",.\'`;",5,
-	rand()%5?GREEN:LGREEN,;)
+	rand()%5?GREEN:LGREEN,
+	place_trees(area,rand()%25); // 0-24 trees
+)
 AREA_TYPE(sparse_grass,",.\'`;_",6,
 		symbol=='_'?BROWN:green(),;)
 AREA_TYPE(rock,".,*`:\"",6,
@@ -40,9 +49,7 @@ AREA_TYPE(mountain,"-~~~_.",6,
 		symbol=='.'?LGRAY:WHITE,;)
 AREA_TYPE(forest,",.\'\"`;",6,
 		symbol=='.'||symbol==','?gray():green(),
-	int t=50+rand()%50;
-	for (int i=0;i<t;i++)
-		place_tree(area);
+	place_trees(area,50+rand()%50); // 50-99 trees
 )
 
 tile_t *generate_area(wtile_t *w)

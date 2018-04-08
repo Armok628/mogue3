@@ -1,19 +1,86 @@
 #include "actions.h"
-static char *actions[]={"Do nothing","Build a raft"};
-void action_menu()
+static char *actions[]={
+	"Do nothing",
+	"Build a boat",
+	"Pick up a rock",
+	"Make an axe"
+};
+static int n_actions=sizeof(actions)/sizeof(char *);
+static char *boats[]={
+	"Build a raft",
+	"Build a canoe"
+};
+static int n_boats=sizeof(boats)/sizeof(char *);
+void boat_menu()
 {
-	int choice=menu(actions,2);
-	switch (choice) {
-	case 0:
+	if (has_raft||has_canoe) {
+		announce("s","You already have a boat");
 		return;
-	case 1:
-		if (trees_chopped>=20) {
+	}
+	int choice=menu(boats,n_boats);
+	switch (choice) {
+	case 0: // Raft
+		if (logs>=8) {
 			has_raft=true;
-			trees_chopped-=20;
+			logs-=8;
 			announce("s","You build a raft");
 		} else
-			announce("s sds","Not enough logs.",
-					"(",trees_chopped,"/20)");
+			announce("s sds","Not enough logs",
+					"(",logs,"/8)");
+		return;
+	case 1: // Canoe
+		if (!has_axe) {
+			announce("s","You need an axe");
+			return;
+		}
+		if (logs>=24) {
+			has_canoe=true;
+			logs-=24;
+			announce("s","You build a canoe");
+		} else
+			announce("s sds","Not enough logs",
+					"(",logs,"/24)");
+		return;
+	}
+}
+void action_menu()
+{
+	tile_t *t;
+	int choice=menu(actions,n_actions);
+	switch (choice) {
+	case 0: // Do nothing
+		return;
+	case 1: // Build a boat
+		boat_menu();
+		return;
+	case 2: // Pick up a rock
+		t=&local_area[player->coords];
+		if (t->bg!='.'&&t->bg!=',') {
+			announce("s","You are not near any rocks");
+		} else if (t->bg_c!=DGRAY&&t->bg_c!=LGRAY) {
+			rocks+=!(rand()%10);
+			announce("s","You have trouble finding one here");
+		} else if (rand()%3) {
+			announce("s","You fail to find a useful rock");
+		} else {
+			announce("s","You pick up a good-sized rock");
+			rocks++;
+		}
+		announce("s d s","You now have",rocks,"rocks");
+		return;
+	case 3: // Make an axe
+		if (has_axe) {
+			announce("s","You already have one");
+			return;
+		}
+		if (logs>0&&rocks>1) {
+			logs--;
+			rocks-=2;
+			has_axe=true;
+			announce("s","You make an axe");
+		} else {
+			announce("s","You don't have the materials");
+		}
 		return;
 	}
 }

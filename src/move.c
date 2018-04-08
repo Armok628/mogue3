@@ -31,12 +31,19 @@ void wall_collision(entity_t *e,tile_t *wall)
 		wall->fg='\0';
 		return;
 	case '|': // Tree
-		if (e==player&&has_axe)
-			wall->fg='=';
+		if (e!=player)
+			break;
+		if (!has_axe)
+			break;
+		wall->fg='=';
+		if (!(rand()%5)) {
+			announce("s","The axe breaks");
+			has_axe=false;
+		}
 		return;
 	case '=':
 		if (e==player) {
-			trees_chopped++;
+			logs++;
 			wall->fg='\0';
 		}
 		return;

@@ -12,7 +12,7 @@ typedef struct wtile_s {
 	int elevation;
 	char symbol;
 	color_t color;
-	bool city;
+	bool city,landing;
 } wtile_t;
 
 extern wtile_t *world;

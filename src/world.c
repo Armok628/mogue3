@@ -108,7 +108,10 @@ wtile_t *worldgen(int erosion,int offset) // Default should be erosion=3, offset
 }
 void draw_world_tile(wtile_t *tile)
 {
-	if (tile->city) {
+	if (tile->landing) {
+		set_color(BROWN,BG BLACK);
+		putchar('>');
+	} else if (tile->city) {
 		set_color(LRED,BG BLACK);
 		putchar('#');
 	} else {

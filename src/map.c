@@ -7,20 +7,35 @@ void draw_star(int pos)
 }
 void map_move(int pos)
 {
-	if (has_raft||world[pos].elevation>48) // TODO: Other conditions
-		draw_world_posl(map_coords);
-	else
+	int elevation=world[pos].elevation;
+	if (elevation<25) // World border
+		return;
+	bool landing=world[map_coords].landing;
+	if (!(landing||has_canoe)&&elevation<45) // Deep sea
+		return;
+	if (!(has_raft||has_canoe||landing)&&elevation<49) // Shallow water
 		return;
 	int l1=world[map_coords].elevation>48;
-	int l2=world[pos].elevation>48;
+	int l2=elevation>48;
 	if (l1^l2) { // Land <=> Sea
-		if (l2) {
+		if (l2&&has_raft) {
 			announce("s","The raft breaks in the landing");
 			has_raft=false;
-		} else if (l1) {
+		} else if (l2) {
+			announce("s","You land your canoe");
+			world[pos].landing=true;
+			has_canoe=false;
+		} else if (l1&&has_raft) {
 			announce("s","You embark on your raft");
+		} else if (l1&&(has_canoe||landing)) {
+			announce("s","You embark on your canoe");
+			if (!has_canoe) {
+				has_canoe=true;
+				world[map_coords].landing=false;
+			}
 		}
 	}
+	draw_world_posl(map_coords);
 	map_coords=pos;
 }
 void enter_area(int coords)
@@ -47,11 +62,17 @@ int rand_land_coords()
 }
 void remove_temps(tile_t *area)
 {
-	for (int i=0;i<AREA;i++)
-		if (area[i].e&&~area[i].e->flags&PERSISTS) {
-			free(area[i].e);
+	for (int i=0;i<AREA;i++) {
+		entity_t *e=area[i].e,*c=area[i].corpse;
+		if (e&&~e->flags&PERSISTS) {
+			free(e);
 			area[i].e=NULL;
 		}
+		if (c&&~c->flags&PERSISTS) {
+			free(c);
+			area[i].corpse=NULL;
+		}
+	}
 }
 void open_map()
 {
@@ -68,6 +89,7 @@ void open_map()
 	for (;;) {
 		draw_star(map_coords);
 		char input=fgetc(stdin);
+		clear_announcements();
 		if (input=='w')
 			break;
 		else if (input=='q') {
