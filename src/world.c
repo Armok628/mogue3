@@ -102,7 +102,8 @@ wtile_t *worldgen(int erosion,int offset) // Default should be erosion=3, offset
 		w[i].symbol=elevation_symbol(e);
 		w[i].color=elevation_color(e);
 		w[i].area=NULL;
-		w[i].city=e>50&&!(rand()%20);
+		w[i].city=e>50&&!(rand()%50);
+		w[i].landing=false;
 	}
 	return w;
 }
