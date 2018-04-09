@@ -6,7 +6,13 @@ etype_t player_etype={
 	.maxhp=100,.minhp=50,
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
-	.flags=PERSISTS|SOLID
+	.flags=PERSISTS|SOLID,
+	.spellc=3,
+	.spells={
+		&heal_self_spell,
+		&magic_missile_spell,
+		&raise_dead_spell
+	}
 };
 etype_t human_etype={ // Temporary
 	.name="Human",
@@ -15,7 +21,11 @@ etype_t human_etype={ // Temporary
 	.maxhp=100,.minhp=50,
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
-	.flags=PERSISTS|SOLID
+	.flags=PERSISTS|SOLID,
+	.spellc=1,
+	.spells={
+		&heal_self_spell
+	}
 };
 etype_t monster_etype={ // Temporary
 	.name="Monster",
@@ -24,7 +34,11 @@ etype_t monster_etype={ // Temporary
 	.maxhp=100,.minhp=50,
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
-	.flags=SOLID
+	.flags=SOLID,
+	.spellc=1,
+	.spells={
+		&magic_missile_spell
+	}
 };
 entity_t *player;
 void draw_entity(entity_t *e)
@@ -49,11 +63,9 @@ entity_t *spawn(etype_t *type)
 	e->str=rand()%(type->maxstr-type->minstr)+type->minstr;
 	e->wis=rand()%(type->maxwis-type->minwis)+type->minwis;
 	e->flags=type->flags;
-	// Temporary
-	e->spells[0]=&heal_self_spell;
-	e->spells[1]=&magic_missile_spell;
-	e->spells[2]=&raise_dead_spell;
-	e->spellc=3;
+	for (int i=0;i<type->spellc;i++)
+		e->spells[i]=type->spells[i];
+	e->spellc=type->spellc;
 	e->type=type;
 	return e;
 }
