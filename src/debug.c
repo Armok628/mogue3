@@ -14,6 +14,7 @@ void debug_menu()
 	switch (opt) {
 	case 0: // Make room
 		random_room(local_area);
+		world[map_coords].city=true;
 		break;
 	case 1: // Fix rooms
 		fix_rooms(local_area);

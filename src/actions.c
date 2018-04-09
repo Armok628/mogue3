@@ -34,8 +34,9 @@ void boat_menu()
 			return;
 		}
 		if (logs>=24) {
-			has_canoe=true;
+			//has_canoe=true;
 			logs-=24;
+			world[map_coords].landing=true;
 			announce("s","You build a canoe");
 		} else
 			announce("s sds","Not enough logs",
