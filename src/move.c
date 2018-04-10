@@ -7,6 +7,10 @@ void kill_entity(entity_t *entity)
 		free(local_area[c].corpse);
 	local_area[c].corpse=entity;
 	local_area[c].e=NULL;
+	if (entity==player) {
+		announce("s","You have died");
+		quit();
+	}
 }
 void entity_collision(entity_t *e1,entity_t *e2)
 {

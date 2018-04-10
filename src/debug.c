@@ -32,9 +32,7 @@ void debug_menu()
 		opt=target_by(player);
 		if (!local_area[opt].e)
 			return;
-		local_area[opt].e->hp=0;
-		local_area[opt].corpse=local_area[opt].e;
-		local_area[opt].e=NULL;
+		kill_entity(local_area[opt].e);
 	}
 	draw_local_area();
 }

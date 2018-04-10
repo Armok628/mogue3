@@ -3,6 +3,7 @@
 #include "area.h"
 #include "entity.h"
 #include "menu.h"
+#include "move.h"
 #include "room.h"
 
 void debug_menu();
