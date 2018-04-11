@@ -30,33 +30,6 @@ int input_offset(char input)
 		return 0;
 	}
 }
-int handle_input(char input)
-{
-	switch (input) {
-	case 'a':
-		action_menu();
-		return 0;
-	case 'R':
-		clear_screen();
-		clear_announcements();
-		draw_local_area();
-		announce_stats(player);
-		return handle_input(fgetc(stdin));
-	case 'D':
-		debug_menu();
-		return 0;
-	case 'm':
-		spell_menu(player);
-		return 0;
-	case '?':
-		target_by(player);
-		return 0;
-	case 'q':
-		quit();
-	default:
-		return input_offset(input);
-	}
-}
 char generate_input()
 {
 	return rand()%10+'0';

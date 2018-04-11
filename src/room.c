@@ -141,7 +141,7 @@ void fix_rooms(tile_t *area)
 }
 int dist_to_room(tile_t *area,int c,char dir)
 {
-	int o=handle_input(dir),d=1;
+	int o=input_offset(dir),d=1;
 	while (legal_move(c,c+o)) {
 		c+=o;
 		char bg=area[c].bg;
@@ -156,7 +156,7 @@ void floor_line(tile_t *area,int c,int l,char dir)
 	if (l<0)
 		return;
 	make_floor(&area[c]);
-	int o=handle_input(dir);
+	int o=input_offset(dir);
 	for (int i=0;i<l;i++)
 		make_floor(&area[c+=o]);
 	make_door(&area[c]);

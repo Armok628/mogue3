@@ -7,3 +7,6 @@ game: game.c src/*
 
 world: worldtest.c src/world.* src/terminal.*
 	$(CC) worldtest.c src/world.c src/terminal.c $(CFLAGS)
+
+key: keytest.c src/terminal.*
+	$(CC) keytest.c src/terminal.c $(CFLAGS)

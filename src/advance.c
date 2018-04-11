@@ -1,31 +1,39 @@
 #include "advance.h"
 static bool map_opened=false;
-void handle_key(entity_t *e,char key)
+void handle_input(entity_t *e,char input)
 {
-	int o=handle_input(key);
+	int o=input_offset(input);
 	if (o) {
 		try_move(e,e->coords,e->coords+o);
 		return;
 	}
-	switch (key) {
-	case 'm':
-		// TODO: Spellcasting
-		break;
-	case 'w':
-		if (local_area[e->coords].bg!='#') {
-			open_map();
-			map_opened=true;
-		} else {
-			announce("s","You must be outside to travel");
-		}
-		break;
+	switch (input) {
+	case '\0': // ^@
+		debug_menu();
+		return;
+	case 'a':
+		action_menu();
+		return;
 	case 'c':
-		o=handle_input(fgetc(stdin));
+		o=input_offset(fgetc(stdin));
 		if (local_area[e->coords+o].bg=='-') {
 			local_area[e->coords+o].fg='+';
 			draw_posl(e->coords+o);
 		}
-		break;
+		return;
+	case 'm': // TODO: Generalize across all entities
+		spell_menu(player);// Temporary
+		return;
+	case 'w':
+		if (local_area[e->coords].bg!='#') {
+			open_map();
+			map_opened=true;
+		} else
+			announce("s","You must be outside to travel");
+		return;
+	case '?':
+		target_by(player);
+		return;
 	case 'q':
 		quit();
 	}
@@ -40,7 +48,7 @@ void take_turn(entity_t *e)
 		announce_stats(player);
 	} else
 		key=generate_input();
-	handle_key(e,key);
+	handle_input(e,key);
 }
 void advance()
 {

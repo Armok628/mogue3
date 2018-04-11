@@ -36,3 +36,10 @@ void set_color(color_t c,color_t bg)
 {
 	printf("\e[%d;%d;%dm",c/100,c%100,bg);
 }
+int cursor_pos(int xf,int yf)
+{
+	int x,y;
+	printf("\e[6n");
+	fscanf(stdin,"\e[%d;%dH",&y,&x);
+	return (x-1)*xf+(y-1)*yf;
+}
