@@ -1,11 +1,11 @@
 #ifndef SPELLS_H
 #define SPELLS_H
 #include <stdlib.h>
-typedef struct entity_s entity_t;
 #include "announce.h"
 #include "entity.h"
 #include "menu.h"
 #include "target.h"
+#include "types.h"
 
 #define SPELL(name) \
 extern spell_t name##_spell; \
@@ -24,13 +24,6 @@ void cname(entity_t *caster) \
 #define ON(t) entity_t *target=t;
 
 #define SPELL_END }
-
-typedef enum {DEFENSE,OFFENSE} spelltype_t;
-typedef struct spell_s {
-	void (*function)(entity_t *);
-	char *name;
-	spelltype_t type;
-} spell_t;
 
 void cast(entity_t *,int);
 void spell_menu(entity_t *);

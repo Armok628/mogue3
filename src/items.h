@@ -1,6 +1,7 @@
 #ifndef ITEMS_H
 #define ITEMS_H
 #include "bool.h"
+#include "types.h"
 
 extern bool has_axe;
 extern int logs;

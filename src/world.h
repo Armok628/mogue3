@@ -6,14 +6,7 @@
 #include "area.h"
 #include "bool.h"
 #include "terminal.h"
-
-typedef struct wtile_s {
-	tile_t *area;
-	int elevation;
-	char symbol;
-	color_t color;
-	bool city,landing;
-} wtile_t;
+#include "types.h"
 
 extern wtile_t *world;
 

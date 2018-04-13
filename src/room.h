@@ -5,8 +5,7 @@
 #include "bool.h"
 #include "input.h"
 #include "move.h"
-
-typedef enum {NORTH,SOUTH,EAST,WEST} dir_t;
+#include "types.h"
 
 void make_room(tile_t *,int,int,int,int,dir_t);
 void random_room(tile_t *);

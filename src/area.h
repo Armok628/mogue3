@@ -1,15 +1,8 @@
 #ifndef AREA_H
 #define AREA_H
-#include "terminal.h"
-typedef struct entity_s entity_t;
 #include "entity.h"
-
-typedef struct tile_s {
-	entity_t *e,*corpse;
-	color_t fg_c,bg_c;
-	char fg,bg;
-} tile_t;
-
+#include "terminal.h"
+#include "types.h"
 #define WIDTH 80
 #define HEIGHT 24
 #define AREA (HEIGHT*WIDTH)
