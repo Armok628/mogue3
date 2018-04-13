@@ -49,11 +49,11 @@ int menu(char **opts,int n_opts)
 		switch (input) {
 		case '2':
 		case 'j':
-			index+=index<n_opts-1;
+			index=index>=n_opts-1?0:index+1;
 			break;
 		case '8':
 		case 'k':
-			index-=index>0;
+			index=index<=0?n_opts-1:index-1;
 			break;
 		case 0:
 		case 'q':
