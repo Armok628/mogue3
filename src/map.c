@@ -29,10 +29,8 @@ void map_move(int pos)
 			announce("s","You embark on your raft");
 		} else if (l1&&(has_canoe||landing)) {
 			announce("s","You embark on your canoe");
-			if (!has_canoe) {
-				has_canoe=true;
-				world[map_coords].landing=false;
-			}
+			has_canoe=true;
+			world[map_coords].landing=false;
 		}
 	}
 	draw_world_posl(map_coords);
