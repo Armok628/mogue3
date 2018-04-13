@@ -23,6 +23,11 @@ etype_t human_etype={ // Temporary
 	.maxstr=15,.minstr=5,
 	.flags=PERSISTS|SOLID,
 	.spellc=1,
+	.loot_table={
+		.items={&sword,&gold},
+		.amounts={1,10},
+		.chances={50,100}
+	},
 	.spells={
 		&heal_self_spell
 	}
@@ -36,6 +41,11 @@ etype_t monster_etype={ // Temporary
 	.maxstr=15,.minstr=5,
 	.flags=SOLID,
 	.spellc=1,
+	.loot_table={
+		.items={&gold},
+		.amounts={25},
+		.chances={50}
+	},
 	.spells={
 		&magic_missile_spell
 	}
@@ -54,7 +64,7 @@ void redraw(entity_t *e)
 }
 entity_t *spawn(etype_t *type)
 {
-	entity_t *e=malloc(sizeof(entity_t));
+	entity_t *e=calloc(1,sizeof(entity_t));
 	e->name=type->name;
 	e->symbol=type->symbol;
 	e->color=type->color;
@@ -65,6 +75,15 @@ entity_t *spawn(etype_t *type)
 	e->flags=type->flags;
 	for (int i=0;i<type->spellc;i++)
 		e->spells[i]=type->spells[i];
+	int n=0;
+	ltab_t *lt=&type->loot_table;
+	for (int i=0;lt->items[i];i++) {
+		int c=rand()%lt->amounts[i];
+		if (!c||lt->chances[i]<(rand()%100))
+			continue;
+		e->inventory[n]=spawn_item(lt->items[i]);
+		e->inventory[n++]->count=c;
+	}
 	e->spellc=type->spellc;
 	e->type=type;
 	return e;

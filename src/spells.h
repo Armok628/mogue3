@@ -11,12 +11,12 @@
 extern spell_t name##_spell; \
 void name(entity_t *caster);
 
-#define SPELL_START(cname,sname,stype) \
+#define SPELL_START(cname,sname,cat) \
 void cname(entity_t *); \
 spell_t cname##_spell={ \
 	.function=&cname, \
 	.name=#sname, \
-	.type=stype \
+	.category=cat \
 }; \
 void cname(entity_t *caster) \
 {
