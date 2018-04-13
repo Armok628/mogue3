@@ -63,11 +63,11 @@ void remove_temps(tile_t *area)
 	for (int i=0;i<AREA;i++) {
 		entity_t *e=area[i].e,*c=area[i].corpse;
 		if (e&&~e->flags&PERSISTS) {
-			free(e);
+			free_entity(e);
 			area[i].e=NULL;
 		}
 		if (c&&~c->flags&PERSISTS) {
-			free(c);
+			free_entity(c);
 			area[i].corpse=NULL;
 		}
 	}
@@ -91,7 +91,7 @@ void open_map()
 		if (input=='w')
 			break;
 		else if (input=='q') {
-			free(player);
+			free_entity(player);
 			quit();
 		}
 		map_move(map_coords+input_offset(input));

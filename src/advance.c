@@ -10,6 +10,11 @@ void handle_input(entity_t *e,char input)
 	switch (input) {
 	case '\0': // ^@
 		debug_menu();
+		//handle_input(player,fgetc(stdin));
+		return;
+	case 'R':
+		draw_local_area();
+		handle_input(player,fgetc(stdin));
 		return;
 	case 'a':
 		action_menu();

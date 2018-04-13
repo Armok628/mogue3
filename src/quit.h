@@ -5,5 +5,6 @@
 #include "entity.h"
 #include "world.h"
 
+void free_entity(entity_t *);
 void quit();
 #endif
