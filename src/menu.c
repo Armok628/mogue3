@@ -58,6 +58,7 @@ int menu_at_pos(char **opts,int n_opts,int off_x,int off_y)
 		case '\n':
 			chosen=true;
 		case 'q':
+		case 27: // '\e'
 			goto MENU_RETURN;
 		}
 	}

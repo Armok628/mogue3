@@ -1,5 +1,5 @@
-#include "src/bool.h"
 #include "src/terminal.h"
+typedef enum {false,true} bool;
 int main(int argc,char **argv)
 {
 	set_canon(false);

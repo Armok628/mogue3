@@ -32,13 +32,8 @@ int select_item(item_t *l[])
 {
 	char *strs[16];
 	int c=0;
-	for (int i=0;i<16;i++) {
-		if (l[i]) {
-			strs[i]=l[i]->type->name;
-			c++;
-		} else
-			break;
-	}
+	for (;l[c];c++)
+		strs[c]=l[c]->type->name;
 	return menu(strs,c);
 }
 void add_item(item_t *p[],item_t *i)
@@ -53,6 +48,8 @@ item_t *remove_item(item_t *p[],int i)
 		return NULL;
 	int c=0;
 	for (;p[c];c++);
+	if (!c)
+		return 0;
 	item_t *item=p[i];
 	p[i]=p[c-1];
 	p[c-1]=NULL;

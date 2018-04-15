@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include "area.h"
-#include "bool.h"
 #include "terminal.h"
 #include "types.h"
 

@@ -1,7 +1,6 @@
 #ifndef ITEMS_H
 #define ITEMS_H
 #include <stdlib.h>
-#include "bool.h"
 #include "menu.h"
 #include "types.h"
 
