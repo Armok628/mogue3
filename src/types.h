@@ -1,10 +1,11 @@
 #ifndef TYPES_H
 #define TYPES_H
-#include "terminal.h"
+#include "terminal.h" // color_t
 
 typedef enum {false,true} bool;
-typedef enum {PERSISTS=1,SOLID=1<<1} eflag_t; // TODO: More properties
-typedef enum {NORTH,SOUTH,EAST,WEST} dir_t;
+typedef enum {PERSISTS=1,SOLID=1<<1} eflag_t; // e(ntity)flag TODO: More properties
+// TODO: Entity effects (burning, regenerating, etc.)
+typedef enum {NORTH,SOUTH,EAST,WEST} dir_t; // dir(ection)
 typedef enum {OFFENSE,DEFENSE,UTILITY} cat_t; // cat(egory)
 
 // Items
@@ -13,7 +14,9 @@ typedef struct itype_s {
 	cat_t category;
 	int effect;
 	int value;
-} itype_t;
+	char symbol;
+	color_t color;
+} itype_t; // i(tem)type
 typedef struct item_s {
 	itype_t *type;
 	int count;
@@ -23,7 +26,7 @@ typedef struct ltab_s {
 	itype_t *items[16];
 	int amounts[16];
 	int chances[16]; // Percentages
-} ltab_t; // Loot table
+} ltab_t; // l(oot)tab(le)
 
 // Entities
 typedef struct spell_s spell_t;
@@ -37,7 +40,7 @@ typedef struct etype_s {
 	int spellc;
 	eflag_t flags;
 	ltab_t loot_table;
-} etype_t;
+} etype_t; // e(ntity)type
 typedef struct entity_s {
 	char *name,symbol;
 	color_t color;
@@ -62,6 +65,7 @@ typedef struct tile_s {
 	entity_t *e,*corpse;
 	color_t fg_c,bg_c;
 	char fg,bg;
+	item_t *pile[16];
 } tile_t;
 typedef struct wtile_s {
 	tile_t *area;
@@ -69,5 +73,5 @@ typedef struct wtile_s {
 	char symbol;
 	color_t color;
 	bool city,landing;
-} wtile_t;
+} wtile_t; // w(orld)tile
 #endif

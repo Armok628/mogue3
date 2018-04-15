@@ -40,6 +40,15 @@ void handle_input(entity_t *e,char input)
 	case '?':
 		target_by(player);
 		return;
+	case 'i':
+		select_item(e->inventory);
+		return;
+	case 'd':
+		drop_menu(e);
+		return;
+	case 'g':
+		grab_menu(e);
+		return;
 	case 'q':
 		quit();
 	}

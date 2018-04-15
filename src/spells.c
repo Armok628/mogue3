@@ -26,6 +26,8 @@ void spell_menu(entity_t *c)
 	for (int i=0;i<c->spellc;i++)
 		strs[i]=c->spells[i]->name;
 	int choice=menu(strs,c->spellc);
+	if (choice<0)
+		return;
 	c->spells[choice]->function(c);
 }
 SPELL_START(heal_self,Heal Self,DEFENSE)

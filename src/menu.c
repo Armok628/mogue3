@@ -18,9 +18,9 @@ static void draw_box(int off_x,int off_y,int width,int height)
 	putc_pos('/',width+1,height+1);
 }
 int menu(char **opts,int n_opts)
-{
-	if (n_opts<2)
-		return 0;
+{ // Sentinel value -1 for no choice
+	if (n_opts<1)
+		return -1;
 	// Get max option length
 	int maxl=0;
 	for (int i=0;i<n_opts;i++) {
@@ -37,8 +37,8 @@ int menu(char **opts,int n_opts)
 	}
 	// Select option
 	int index=0;
-	int chosen=0;
-	while (!chosen) {
+	bool chosen=false;
+	for (;;) {
 		move_cursor(1,1+index);
 		set_color(YELLOW,BG BLUE);
 		fputs(opts[index],stdout);
@@ -50,21 +50,22 @@ int menu(char **opts,int n_opts)
 		case '2':
 		case 'j':
 			index=index>=n_opts-1?0:index+1;
-			break;
+			continue;
 		case '8':
 		case 'k':
 			index=index<=0?n_opts-1:index-1;
-			break;
-		case 0:
-		case 'q':
+			continue;
 		case '\n':
-			chosen++;
+			chosen=true;
+		case 'q':
+			goto MENU_RETURN;
 		}
 	}
-		// Redraw over menu
-		for (int x=0;x<=maxl+1;x++)
-			for (int y=0;y<=n_opts+1;y++)
-				draw_pos(x,y);
-		// Return selected value
-		return index;
+MENU_RETURN:
+	// Redraw over menu
+	for (int x=0;x<=maxl+1;x++)
+		for (int y=0;y<=n_opts+1;y++)
+			draw_pos(x,y);
+	// Return selected value
+	return chosen?index:-1;
 }

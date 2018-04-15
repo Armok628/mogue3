@@ -26,7 +26,7 @@ etype_t human_etype={ // Temporary
 	.loot_table={
 		.items={&sword,&gold},
 		.amounts={1,10},
-		.chances={50,100}
+		.chances={100,100}
 	},
 	.spells={
 		&heal_self_spell
@@ -78,7 +78,7 @@ entity_t *spawn(etype_t *type)
 	int n=0;
 	ltab_t *lt=&type->loot_table;
 	for (int i=0;lt->items[i];i++) {
-		int c=rand()%lt->amounts[i];
+		int c=1+rand()%lt->amounts[i];
 		if (!c||lt->chances[i]<(rand()%100))
 			continue;
 		e->inventory[n]=spawn_item(lt->items[i]);

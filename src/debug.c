@@ -7,7 +7,8 @@ static char *debug_options[]={
 	"Random path",
 	"Give canoe",
 	"Kill entity",
-	"Show inventory"
+	"Show inventory",
+	"Inventory menu"
 };
 static int n_debug_options=sizeof(debug_options)/sizeof(char *);
 void debug_menu()
@@ -49,6 +50,12 @@ void debug_menu()
 		item_t **items=local_area[opt].e->inventory;
 		for (int i=0;items[i];i++)
 			announce("s sds",items[i]->type->name,"(",items[i]->count,")");
+		break;
+	case 8: // Inventory menu
+		opt=target_by(player);
+		if (!local_area[opt].e)
+			return;
+		select_item(local_area[opt].e->inventory);
 		break;
 	}
 	draw_local_area();
