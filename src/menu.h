@@ -6,5 +6,6 @@
 #include "terminal.h"
 #include "area.h"
 
+int menu_at_pos(char **,int,int,int);
 int menu(char **,int);
 #endif

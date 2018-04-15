@@ -3,21 +3,21 @@ static void draw_box(int off_x,int off_y,int width,int height)
 {
 	for (int x=1;x<width+1;x++)
 		for (int y=1;y<height+1;y++)
-			putc_pos(' ',x,y);
+			putc_pos(' ',off_x+x,off_y+y);
 	for (int x=0;x<width+1;x++) {
-		putc_pos('-',x,0);
-		putc_pos('-',x,height+1);
+		putc_pos('-',off_x+x,off_y+0);
+		putc_pos('-',off_x+x,off_y+height+1);
 	}
 	for (int y=0;y<height+1;y++) {
-		putc_pos('|',0,y);
-		putc_pos('|',width+1,y);
+		putc_pos('|',off_x+0,off_y+y);
+		putc_pos('|',off_x+width+1,off_y+y);
 	}
-	putc_pos('/',0,0);
-	putc_pos('\\',width+1,0);
-	putc_pos('\\',0,height+1);
-	putc_pos('/',width+1,height+1);
+	putc_pos('/',off_x+0,off_y+0);
+	putc_pos('\\',off_x+width+1,off_y+0);
+	putc_pos('\\',off_x+0,off_y+height+1);
+	putc_pos('/',off_x+width+1,off_y+height+1);
 }
-int menu(char **opts,int n_opts)
+int menu_at_pos(char **opts,int n_opts,int off_x,int off_y)
 { // Sentinel value -1 for no choice
 	if (n_opts<1)
 		return -1;
@@ -29,21 +29,21 @@ int menu(char **opts,int n_opts)
 	}
 	// Draw box
 	set_color(WHITE,BG BLACK);
-	draw_box(0,0,maxl,n_opts);
+	draw_box(off_x,off_y,maxl,n_opts);
 	// Print options
 	for (int o=0;o<n_opts;o++) {
-		move_cursor(1,1+o);
+		move_cursor(off_x+1,off_y+1+o);
 		fputs(opts[o],stdout);
 	}
 	// Select option
 	int index=0;
 	bool chosen=false;
 	for (;;) {
-		move_cursor(1,1+index);
+		move_cursor(off_x+1,off_y+1+index);
 		set_color(YELLOW,BG BLUE);
 		fputs(opts[index],stdout);
 		char input=fgetc(stdin);
-		move_cursor(1,1+index);
+		move_cursor(off_x+1,off_y+1+index);
 		set_color(WHITE,BG BLACK);
 		fputs(opts[index],stdout);
 		switch (input) {
@@ -65,7 +65,11 @@ MENU_RETURN:
 	// Redraw over menu
 	for (int x=0;x<=maxl+1;x++)
 		for (int y=0;y<=n_opts+1;y++)
-			draw_pos(x,y);
+			draw_pos(off_x+x,off_y+y);
 	// Return selected value
 	return chosen?index:-1;
+}
+int menu(char **opts,int n_opts)
+{
+	return menu_at_pos(opts,n_opts,1,1);
 }
