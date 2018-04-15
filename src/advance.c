@@ -13,6 +13,7 @@ void handle_input(entity_t *e,char input)
 		//handle_input(player,fgetc(stdin));
 		return;
 	case 'R':
+		clear_screen();
 		draw_local_area();
 		handle_input(player,fgetc(stdin));
 		return;
