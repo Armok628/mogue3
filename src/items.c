@@ -77,4 +77,23 @@ void grab_menu(entity_t *e)
 {
 	grab_item(e,select_item(local_area[e->coords].pile));
 }
-// Very incomplete
+void equip(entity_t *e,int i)
+{
+	if (i<0)
+		return;
+	add_item(e->equipped,remove_item(e->inventory,i));
+}
+void equip_menu(entity_t *e)
+{
+	equip(e,select_item(e->inventory));
+}
+void unequip(entity_t *e,int i)
+{
+	if (i<0)
+		return;
+	add_item(e->inventory,remove_item(e->equipped,i));
+}
+void unequip_menu(entity_t *e)
+{
+	unequip(e,select_item(e->equipped));
+}

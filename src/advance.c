@@ -49,6 +49,12 @@ void handle_input(entity_t *e,char input)
 	case 'g':
 		grab_menu(e);
 		return;
+	case 'e':
+		equip_menu(e);
+		return;
+	case 'r':
+		unequip_menu(e);
+		return;
 	case 'q':
 		quit();
 	}

@@ -26,7 +26,7 @@ etype_t human_etype={ // Temporary
 	.loot_table={
 		.items={&sword,&gold},
 		.amounts={1,10},
-		.chances={100,100}
+		.chances={50,100}
 	},
 	.spells={
 		&heal_self_spell

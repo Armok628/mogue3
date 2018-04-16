@@ -12,11 +12,24 @@ void kill_entity(entity_t *entity)
 		quit();
 	}
 }
+int equipped_category(entity_t *e,cat_t c)
+{
+	item_t **eq=e->equipped;
+	int sum;
+	for (int i=0;eq[i];i++)
+		if (eq[i]->type->category==c)
+			sum+=eq[i]->type->effect;
+	return sum;
+}
 void entity_collision(entity_t *e1,entity_t *e2)
 {
 	if (e1==e2)
 		return;
 	int damage=rand()%e1->str;
+	damage+=equipped_category(e1,OFFENSE);
+	damage-=equipped_category(e2,DEFENSE);
+	if (damage<0)
+		damage=0;
 	e2->hp-=damage; // Temporary
 	if (e2->hp<=0)
 		kill_entity(e2);
