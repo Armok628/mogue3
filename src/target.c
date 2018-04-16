@@ -1,4 +1,24 @@
 #include "target.h"
+bool visible(int c1,int c2)
+{
+	float x1=xcmp(c1),x2=xcmp(c2);
+	float y1=ycmp(c1),y2=ycmp(c2);
+	float d_x=x2-x1,d_y=y2-y1;
+	float mag=sqrt(d_x*d_x+d_y*d_y);
+	float dx=d_x/mag,dy=d_y/mag;
+	for (float d=0;d<mag;d+=1) {
+		int x=round(x1+=dx);
+		int y=round(y1+=dy);
+		tile_t *t=&local_area[lin(x,y)];
+		if (x==x2&&y==y2)
+			return true;
+		if (t->fg||t->e)
+			return false;
+		//set_color(WHITE,BG BLACK);
+		//putc_pos('#',x,y);
+	}
+	return true;
+}
 int player_target()
 {
 	int c=player->coords;

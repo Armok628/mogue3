@@ -8,9 +8,16 @@ static char *debug_options[]={
 	"Give canoe",
 	"Kill entity",
 	"Show inventory",
-	"Inventory menu"
+	"Inventory menu",
+	"Check visibility"
 };
 static int n_debug_options=sizeof(debug_options)/sizeof(char *);
+void draw_visible()
+{
+	for (int i=0;i<AREA;i++)
+		if (visible(player->coords,i))
+			draw_posl(i);
+}
 void debug_menu()
 {
 	int opt=menu(debug_options,n_debug_options);
@@ -24,15 +31,19 @@ void debug_menu()
 	case 1: // Make room
 		random_room(local_area);
 		world[map_coords].city=true;
+		draw_local_area();
 		break;
 	case 2: // Fix rooms
 		fix_rooms(local_area);
+		draw_local_area();
 		break;
 	case 3: // Make path
 		make_path(local_area,player->coords);
+		draw_local_area();
 		break;
 	case 4: // Random path
 		random_path(local_area);
+		draw_local_area();
 		break;
 	case 5: // Give canoe
 		has_canoe=true;
@@ -42,6 +53,7 @@ void debug_menu()
 		if (!local_area[opt].e)
 			return;
 		kill_entity(local_area[opt].e);
+		draw_posl(opt);
 		break;
 	case 7: // Show inventory
 		opt=target_by(player);
@@ -57,6 +69,8 @@ void debug_menu()
 			return;
 		select_item(local_area[opt].e->inventory);
 		break;
+	case 9: // Check visibility
+		clear_screen();
+		draw_visible();
 	}
-	draw_local_area();
 }

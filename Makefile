@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS=-g
+CFLAGS=-lm -g
 
 game: game.c src/*
 	ls src/*.h | sed -n 's/.*\.h/#include \"&\"/p' > game.h

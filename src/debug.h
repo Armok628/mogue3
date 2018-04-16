@@ -6,6 +6,7 @@
 #include "menu.h"
 #include "move.h"
 #include "room.h"
+#include "target.h"
 
 void debug_menu();
 #endif
