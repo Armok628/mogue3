@@ -66,6 +66,13 @@ void drop_menu(entity_t *e)
 {
 	drop_item(e,select_item(e->inventory));
 }
+void loot_item(entity_t *e,int i)
+{
+	if (i<0)
+		return;
+	tile_t *t=&local_area[e->coords];
+	add_item(e->inventory,remove_item(t->corpse->inventory,i));
+}
 void grab_item(entity_t *e,int i)
 {
 	if (i<0)
@@ -73,9 +80,24 @@ void grab_item(entity_t *e,int i)
 	tile_t *t=&local_area[e->coords];
 	add_item(e->inventory,remove_item(t->pile,i));
 }
+static char *piles[]={"Corpse","Pile"};
 void grab_menu(entity_t *e)
 {
-	grab_item(e,select_item(local_area[e->coords].pile));
+	tile_t *t=&local_area[e->coords];
+	if (t->pile[0]&&t->corpse) {
+		switch (menu(piles,2)) {
+		case 0: // Corpse
+			loot_item(e,select_item(t->corpse->inventory));
+			return;
+		case 1: // Pile
+			grab_item(e,select_item(t->pile));
+			return;
+		}
+	} else if (t->corpse) {
+		loot_item(e,select_item(t->corpse->inventory));
+	} else if (t->pile[0]) {
+		grab_item(e,select_item(t->pile));
+	}
 }
 void equip(entity_t *e,int i)
 {

@@ -16,6 +16,7 @@ item_t *spawn_item(itype_t *);
 int select_item(item_t *[]);
 void drop_item(entity_t *,int);
 void drop_menu(entity_t *);
+void loot_item(entity_t *,int);
 void grab_item(entity_t *,int);
 void grab_menu(entity_t *);
 void equip(entity_t *,int);
