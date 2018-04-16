@@ -2,7 +2,6 @@
 #define ROOM_H
 #include "announce.h" // Temporary
 #include "area.h"
-#include "bool.h"
 #include "input.h"
 #include "move.h"
 #include "types.h"
