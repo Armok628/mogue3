@@ -9,7 +9,7 @@ typedef struct wtile_s wtile_t;
 char land##_s[nsyms]=symbols; \
 tile_t *land##_gen() \
 { \
-	tile_t *area=malloc(AREA*sizeof(tile_t)); \
+	tile_t *area=calloc(AREA,sizeof(tile_t)); \
 	for (int i=0;i<AREA;i++) { \
 		char symbol=land##_s[rand()%nsyms]; \
 		area[i].fg='\0'; \
