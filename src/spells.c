@@ -21,7 +21,7 @@ void cast(entity_t *c,int n)
 void spell_menu(entity_t *e)
 {
 	char *names[16];
-	int c;
+	int c=0;
 	for (;e->spells[c];c++)
 		names[c]=e->spells[c]->name;
 	int choice=menu(names,c);
