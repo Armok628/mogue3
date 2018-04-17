@@ -28,7 +28,7 @@ void handle_input(entity_t *e,char input)
 		}
 		return;
 	case 'm': // TODO: Generalize across all entities
-		spell_menu(player);// Temporary
+		spell_menu(e);// Temporary
 		return;
 	case 'w':
 		if (local_area[e->coords].bg!='#') {

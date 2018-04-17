@@ -42,3 +42,13 @@ void quit()
 	next_line();
 	exit(0);
 }
+void player_death()
+{
+	while (fgetc(stdin)!='q') {
+		clear_announcements();
+		advance();
+		announce("s","You have died.");
+		announce("s","Press q to quit.");
+	}
+	quit();
+}

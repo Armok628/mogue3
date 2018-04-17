@@ -35,6 +35,7 @@ int player_target()
 		clear_announcements();
 	} while (input!='\n'&&input!='q');
 	clear_announcements();
+	announce_stats(player);
 	return c;
 }
 int target_by(entity_t *caster)

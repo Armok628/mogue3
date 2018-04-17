@@ -18,17 +18,16 @@ void cast(entity_t *c,int n)
 {
 	c->spells[n]->function(c);
 }
-void spell_menu(entity_t *c)
+void spell_menu(entity_t *e)
 {
-	if (!c->spellc)
-		return;
-	char *strs[c->spellc];
-	for (int i=0;i<c->spellc;i++)
-		strs[i]=c->spells[i]->name;
-	int choice=menu(strs,c->spellc);
+	char *names[16];
+	int c;
+	for (;e->spells[c];c++)
+		names[c]=e->spells[c]->name;
+	int choice=menu(names,c);
 	if (choice<0)
 		return;
-	c->spells[choice]->function(c);
+	e->spells[choice]->function(e);
 }
 SPELL_START(heal_self,Heal Self,DEFENSE)
 	ON(caster)

@@ -37,14 +37,13 @@ typedef struct etype_s {
 	int minstr,maxstr;
 	int minwis,maxwis;
 	spell_t *spells[16];
-	int spellc;
 	eflag_t flags;
 	ltab_t loot_table;
 } etype_t; // e(ntity)type
 typedef struct entity_s {
 	char *name,symbol;
 	color_t color;
-	int coords,spellc; // coords can be used by spells
+	int coords; // coords can be used by spells
 	spell_t *spells[16];
 	int hp,maxhp,str,wis;
 	eflag_t flags;

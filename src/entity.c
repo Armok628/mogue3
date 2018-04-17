@@ -7,7 +7,6 @@ etype_t player_etype={
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
 	.flags=PERSISTS|SOLID,
-	.spellc=3,
 	.spells={
 		&heal_self_spell,
 		&magic_missile_spell,
@@ -22,7 +21,6 @@ etype_t human_etype={ // Temporary
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
 	.flags=PERSISTS|SOLID,
-	.spellc=1,
 	.loot_table={
 		.items={&sword,&gold},
 		.amounts={1,10},
@@ -40,7 +38,6 @@ etype_t monster_etype={ // Temporary
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
 	.flags=SOLID,
-	.spellc=1,
 	.loot_table={
 		.items={&gold},
 		.amounts={25},
@@ -73,7 +70,7 @@ entity_t *spawn(etype_t *type)
 	e->str=rand()%(type->maxstr-type->minstr)+type->minstr;
 	e->wis=rand()%(type->maxwis-type->minwis)+type->minwis;
 	e->flags=type->flags;
-	for (int i=0;i<type->spellc;i++)
+	for (int i=0;type->spells[i];i++)
 		e->spells[i]=type->spells[i];
 	int n=0;
 	ltab_t *lt=&type->loot_table;
@@ -84,7 +81,6 @@ entity_t *spawn(etype_t *type)
 		e->inventory[n]=spawn_item(lt->items[i]);
 		e->inventory[n++]->count=c;
 	}
-	e->spellc=type->spellc;
 	e->type=type;
 	return e;
 }
