@@ -8,7 +8,9 @@ void kill_entity(entity_t *entity)
 	local_area[c].corpse=entity;
 	local_area[c].e=NULL;
 	if (entity==player) {
-		announce("s","You have died");
+		announce("s","You have died.");
+		announce("s","Press q to quit.");
+		while (fgetc(stdin)!='q');
 		quit();
 	}
 }
