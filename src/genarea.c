@@ -26,8 +26,7 @@ void place_trees(tile_t *area,int n)
 void place_axe(tile_t *area)
 {
 	int c=inside_coords(area);
-	area[c].fg='P';
-	area[c].fg_c=WHITE;
+	add_item(area[c].pile,spawn_item(&axe));
 }
 AREA_TYPE(sand,"~~~___.,",8,
 	symbol=='.'||symbol==','?BROWN:YELLOW,;)

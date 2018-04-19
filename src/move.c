@@ -8,7 +8,7 @@ void kill_entity(entity_t *entity)
 	local_area[c].corpse=entity;
 	local_area[c].e=NULL;
 	if (entity==player) {
-		draw_posl(player->coords);
+		redraw(player);
 		player_death();
 	}
 }
@@ -42,20 +42,22 @@ void wall_collision(entity_t *e,tile_t *wall)
 		if (wall->fg_c==BROWN)
 			wall->fg='\0'; // Open door
 		return;
+		/*
 	case 'P': // Axe
 		if (e==player)
 			has_axe=true;
 		wall->fg='\0';
 		return;
+		*/
 	case '|': // Tree
 		if (e!=player)
 			break;
-		if (!has_axe)
+		if (!equipped(player,&axe))
 			break;
 		wall->fg='=';
 		if (!(rand()%5)) {
 			announce("s","The axe breaks");
-			has_axe=false;
+			remove_type(player->equipped,&axe);
 		}
 		return;
 	case '=':

@@ -77,8 +77,8 @@ void elevate(int land[WIDTH][HEIGHT],int offset)
 		for (int y=0;y<HEIGHT;y++)
 			land[x][y]+=offset;
 }
-wtile_t *worldgen(int erosion,int offset) // Default should be erosion=3, offset=0
-{
+wtile_t *worldgen(int erosion,int offset)
+{ // Default should be erosion=3, offset=0
 	// Generate height map
 	int elevs[WIDTH][HEIGHT];
 	for (int y=0;y<HEIGHT;y++)

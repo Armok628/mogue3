@@ -29,7 +29,7 @@ void boat_menu()
 					"(",logs,"/8)");
 		return;
 	case 1: // Canoe
-		if (!has_axe) {
+		if (!equipped(player,&axe)) {
 			announce("s","You need an axe");
 			return;
 		}
@@ -70,14 +70,10 @@ void action_menu()
 		announce("s d s","You now have",rocks,"rocks");
 		return;
 	case 3: // Make an axe
-		if (has_axe) {
-			announce("s","You already have one");
-			return;
-		}
 		if (logs>0&&rocks>1) {
 			logs--;
 			rocks-=2;
-			has_axe=true;
+			add_item(player->inventory,spawn_item(&axe));
 			announce("s","You make an axe");
 		} else {
 			announce("s","You don't have the materials");

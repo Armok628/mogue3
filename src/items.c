@@ -20,6 +20,14 @@ itype_t gold={
 	.symbol='$',
 	.color=YELLOW
 };
+itype_t axe={
+	.name="Axe",
+	.category=OFFENSE,
+	.effect=5,
+	.value=50,
+	.symbol='P',
+	.color=LGRAY
+};
 
 item_t *spawn_item(itype_t *type)
 {
@@ -54,6 +62,14 @@ item_t *remove_item(item_t *p[],int i)
 	p[i]=p[c-1];
 	p[c-1]=NULL;
 	return item;
+}
+void remove_type(item_t *p[],itype_t *t)
+{
+	for (int i=0;p[i];i++)
+		if (p[i]->type==t) {
+			free(remove_item(p,i));
+			return;
+		}
 }
 void drop_item(entity_t *e,int i)
 {
@@ -118,4 +134,11 @@ void unequip(entity_t *e,int i)
 void unequip_menu(entity_t *e)
 {
 	unequip(e,select_item(e->equipped));
+}
+bool equipped(entity_t *e,itype_t *t)
+{
+	for (int i=0;e->equipped[i];i++)
+		if (e->equipped[i]->type==t)
+			return true;
+	return false;
 }
