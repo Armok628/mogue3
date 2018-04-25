@@ -4,7 +4,7 @@ void kill_entity(entity_t *entity)
 	int c=entity->coords;
 	entity->hp=0;
 	if (local_area[c].corpse)
-		free_entity(local_area[c].corpse);
+		free(local_area[c].corpse);
 	local_area[c].corpse=entity;
 	local_area[c].e=NULL;
 	if (entity==player) {
@@ -14,11 +14,11 @@ void kill_entity(entity_t *entity)
 }
 int equipped_category(entity_t *e,cat_t c)
 {
-	item_t **eq=e->equipped;
+	islot_t *eq=e->equipped;
 	int sum;
-	for (int i=0;eq[i];i++)
-		if (eq[i]->type->category==c)
-			sum+=eq[i]->type->effect;
+	for (int i=0;eq[i].count;i++)
+		if (eq[i].type->category==c)
+			sum+=eq[i].type->effect;
 	return sum;
 }
 void entity_collision(entity_t *e1,entity_t *e2)

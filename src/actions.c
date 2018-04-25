@@ -73,7 +73,7 @@ void action_menu()
 		if (logs>0&&rocks>1) {
 			logs--;
 			rocks-=2;
-			add_item(player->inventory,spawn_item(&axe));
+			add_item(player->inventory,&axe);
 			announce("s","You make an axe");
 		} else {
 			announce("s","You don't have the materials");

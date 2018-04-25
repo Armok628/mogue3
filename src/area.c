@@ -7,9 +7,9 @@ void draw_tile(tile_t tile)
 		draw_entity(tile.e);
 	else if (tile.corpse)
 		draw_entity(tile.corpse);
-	else if (tile.pile[0]) {
-		set_color(tile.pile[0]->type->color,BG BLACK);
-		putchar(tile.pile[0]->type->symbol);
+	else if (tile.pile[0].count) {
+		set_color(tile.pile[0].type->color,BG BLACK);
+		putchar(tile.pile[0].type->symbol);
 	} else if (tile.fg) {
 		set_color(tile.fg_c,BG BLACK);
 		putchar(tile.fg);

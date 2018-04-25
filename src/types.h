@@ -17,10 +17,10 @@ typedef struct itype_s {
 	char symbol;
 	color_t color;
 } itype_t; // i(tem)type
-typedef struct item_s {
+typedef struct islot_s {
 	itype_t *type;
 	int count;
-} item_t;
+} islot_t; // i(tem)slot
 typedef struct ltab_s {
 	int count;
 	itype_t *items[16];
@@ -48,8 +48,8 @@ typedef struct entity_s {
 	int hp,maxhp,str,wis;
 	eflag_t flags;
 	etype_t *type;
-	item_t *inventory[16];
-	item_t *equipped[5];
+	islot_t inventory[16];
+	islot_t equipped[5];
 } entity_t;
 
 // Spells
@@ -64,7 +64,7 @@ typedef struct tile_s {
 	entity_t *e,*corpse;
 	color_t fg_c,bg_c;
 	char fg,bg;
-	item_t *pile[16];
+	islot_t pile[16];
 } tile_t;
 typedef struct wtile_s {
 	tile_t *area;

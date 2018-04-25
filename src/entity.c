@@ -78,8 +78,8 @@ entity_t *spawn(etype_t *type)
 		int c=1+rand()%lt->amounts[i];
 		if (!c||lt->chances[i]<(rand()%100))
 			continue;
-		e->inventory[n]=spawn_item(lt->items[i]);
-		e->inventory[n++]->count=c;
+		e->inventory[n].type=lt->items[i];
+		e->inventory[n++].count=c;
 	}
 	e->type=type;
 	return e;

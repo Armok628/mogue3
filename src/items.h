@@ -12,11 +12,10 @@ extern itype_t sword;
 extern itype_t gold;
 extern itype_t axe;
 
-item_t *spawn_item(itype_t *);
-int select_item(item_t *[]);
-void add_item(item_t *[],item_t *);
-item_t *remove_item(item_t *[],int);
-void remove_type(item_t *[],itype_t *);
+int select_item(islot_t []);
+void add_item(islot_t [],itype_t *);
+itype_t *remove_item(islot_t [],int);
+void remove_type(islot_t [],itype_t *);
 void drop_item(entity_t *,int);
 void drop_menu(entity_t *);
 void loot_item(entity_t *,int);

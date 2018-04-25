@@ -31,7 +31,9 @@ int player_target()
 			announce_stats(local_area[c].e);
 		input=fgetc(stdin);
 		draw_posl(c);
-		c+=input_offset(input);
+		int d=c+input_offset(input);
+		if (legal_move(c,d))
+			c=d;
 		clear_announcements();
 	} while (input!='\n'&&input!='q');
 	clear_announcements();

@@ -1,23 +1,13 @@
 #include "quit.h"
-void free_entity(entity_t *e)
-{
-	if (!e)
-		return;
-	for (int i=0;e->inventory[i];i++)
-		free(e->inventory[i]);
-	for (int i=0;e->equipped[i];i++)
-		free(e->equipped[i]);
-	free(e);
-}
 void free_area(tile_t *a)
 {
 	for (int i=0;i<AREA;i++) {
-		free_entity(a[i].e);
+		if (a[i].e)
+			free(a[i].e);
 		a[i].e=NULL;
-		free_entity(a[i].corpse);
+		if (a[i].corpse)
+			free(a[i].corpse);
 		a[i].corpse=NULL;
-		for (int j=0;a[i].pile[j];j++)
-			free(a[i].pile[j]);
 	}
 	free(a);
 }

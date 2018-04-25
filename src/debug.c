@@ -59,9 +59,9 @@ void debug_menu()
 		opt=target_by(player);
 		if (!local_area[opt].e)
 			return;
-		item_t **items=local_area[opt].e->inventory;
-		for (int i=0;items[i];i++)
-			announce("s sds",items[i]->type->name,"(",items[i]->count,")");
+		islot_t *items=local_area[opt].e->inventory;
+		for (int i=0;items[i].count;i++)
+			announce("s sds",items[i].type->name,"(",items[i].count,")");
 		break;
 	case 8: // Inventory menu
 		opt=target_by(player);

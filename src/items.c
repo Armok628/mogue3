@@ -29,45 +29,43 @@ itype_t axe={
 	.color=LGRAY
 };
 
-item_t *spawn_item(itype_t *type)
-{
-	item_t *i=malloc(sizeof(item_t));
-	i->type=type;
-	i->count=1;
-	return i;
-}
-int select_item(item_t *l[])
+int select_item(islot_t l[])
 {
 	char *strs[16];
 	int c=0;
-	for (;l[c];c++)
-		strs[c]=l[c]->type->name;
+	for (;l[c].count;c++)
+		strs[c]=l[c].type->name;
 	return menu(strs,c);
 }
-void add_item(item_t *p[],item_t *i)
+void add_item(islot_t p[],itype_t *t)
 {
 	int c=0;
-	for (;p[c];c++);
-	p[c]=i;
+	for (;p[c].count;c++)
+		if (p[c].type==t) {
+			p[c].count++;
+			return;
+		}
+	p[c].type=t;
+	p[c].count=1;
 }
-item_t *remove_item(item_t *p[],int i)
+itype_t *remove_item(islot_t p[],int i)
 {
 	if (i<0)
 		return NULL;
 	int c=0;
-	for (;p[c];c++);
+	for (;p[c].count;c++);
 	if (!c)
 		return 0;
-	item_t *item=p[i];
+	islot_t slot=p[i];
 	p[i]=p[c-1];
-	p[c-1]=NULL;
-	return item;
+	p[c-1].count=0;
+	return slot.type;
 }
-void remove_type(item_t *p[],itype_t *t)
+void remove_type(islot_t p[],itype_t *t)
 {
-	for (int i=0;p[i];i++)
-		if (p[i]->type==t) {
-			free(remove_item(p,i));
+	for (int i=0;p[i].count;i++)
+		if (p[i].type==t) {
+			remove_item(p,i);
 			return;
 		}
 }
@@ -100,7 +98,7 @@ static char *piles[]={"Corpse","Pile"};
 void grab_menu(entity_t *e)
 {
 	tile_t *t=&local_area[e->coords];
-	if (t->pile[0]&&t->corpse) {
+	if (t->pile[0].count&&t->corpse) {
 		switch (menu(piles,2)) {
 		case 0: // Corpse
 			loot_item(e,select_item(t->corpse->inventory));
@@ -111,7 +109,7 @@ void grab_menu(entity_t *e)
 		}
 	} else if (t->corpse) {
 		loot_item(e,select_item(t->corpse->inventory));
-	} else if (t->pile[0]) {
+	} else if (t->pile[0].count) { // anything on ground
 		grab_item(e,select_item(t->pile));
 	}
 }
@@ -137,8 +135,8 @@ void unequip_menu(entity_t *e)
 }
 bool equipped(entity_t *e,itype_t *t)
 {
-	for (int i=0;e->equipped[i];i++)
-		if (e->equipped[i]->type==t)
+	for (int i=0;e->equipped[i].count;i++)
+		if (e->equipped[i].type==t)
 			return true;
 	return false;
 }
