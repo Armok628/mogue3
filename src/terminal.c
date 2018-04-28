@@ -32,6 +32,16 @@ void set_canon(int c)
 		term.c_lflag&=~(ICANON|ECHO);
 	tcsetattr(0,TCSANOW,&term);
 }
+void set_blocking(int b)
+{
+	struct termios term;
+	tcgetattr(0,&term);
+	if (b)
+		term.c_cc[VMIN]=1;
+	else
+		term.c_cc[VMIN]=0;
+	tcsetattr(0,TCSANOW,&term);
+}
 void set_color(color_t c,color_t bg)
 {
 	printf("\e[%d;%d;%dm",c/100,c%100,bg);

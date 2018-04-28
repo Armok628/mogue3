@@ -16,6 +16,7 @@ void clear_screen();
 void clear_line();
 void set_cursor_visible(int);
 void set_canon(int);
+void set_blocking(int);
 void set_color(color_t,color_t);
 int cursor_pos(int,int);
 #endif

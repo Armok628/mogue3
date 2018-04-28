@@ -56,10 +56,13 @@ itype_t *remove_item(islot_t p[],int i)
 	for (;p[c].count;c++);
 	if (!c)
 		return 0;
-	islot_t slot=p[i];
-	p[i]=p[c-1];
-	p[c-1].count=0;
-	return slot.type;
+	itype_t *t=p[i].type;
+	p[i].count--;
+	if (p[i].count==0) {
+		p[i]=p[c-1];
+		p[c-1].count=0;
+	}
+	return t;
 }
 void remove_type(islot_t p[],itype_t *t)
 {
