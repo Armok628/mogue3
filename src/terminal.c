@@ -48,8 +48,13 @@ void set_color(color_t c,color_t bg)
 }
 int get_cursor_pos(int xf,int yf)
 {
+	struct termios term;
+	tcgetattr(0,&term);
+	set_canon(0);
+	set_blocking(1);
 	int x,y;
 	printf("\e[6n");
 	fscanf(stdin,"\e[%d;%dH",&y,&x);
+	tcsetattr(0,TCSANOW,&term);
 	return (x-1)*xf+(y-1)*yf;
 }
