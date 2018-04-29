@@ -31,10 +31,14 @@ itype_t axe={
 
 int select_item(islot_t l[])
 {
+	static char buf[1000];
 	char *strs[16];
-	int c=0;
-	for (;l[c].count;c++)
-		strs[c]=l[c].type->name;
+	int c=0,b=0;
+	for (;l[c].count;c++) {
+		sprintf(buf+b,"%s (%d)",l[c].type->name,l[c].count);
+		strs[c]=buf+b;
+		b+=strlen(buf+b)+1;
+	}
 	return menu(strs,c);
 }
 void add_item(islot_t p[],itype_t *t)
