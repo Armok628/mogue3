@@ -35,6 +35,19 @@ void entity_collision(entity_t *e1,entity_t *e2)
 		kill_entity(e2);
 	announce("e s e s d s",e1,"strikes",e2,"for",damage,"damage");
 }
+void floor_collision(entity_t *e,tile_t *floor)
+{
+	int n;
+	switch (floor->bg) {
+		case '^':
+			n=rand()%5;
+			e->hp-=n;
+			if (e->hp<=0)
+				kill_entity(e);
+			announce("e s d s",e,"stepped on a spike for",n,"damage");
+			break;
+	}
+}
 void wall_collision(entity_t *e,tile_t *wall)
 { // Handles interactions with "walls"
 	switch (wall->fg) {
@@ -99,6 +112,8 @@ void try_move(entity_t *entity,int from,int to)
 	if (dest->e) // Entity
 		entity_collision(entity,dest->e);
 	// Entity may be gone after collision
-	if (!dest->e&&!(dest->fg&&entity->flags&SOLID))
+	if (!dest->e&&!(dest->fg&&entity->flags&SOLID)) {
+		floor_collision(entity,dest);
 		move_entity(entity,from,to);
+	}
 }

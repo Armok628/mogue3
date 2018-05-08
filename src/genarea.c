@@ -28,6 +28,12 @@ void place_axe(tile_t *area)
 	int c=inside_coords(area);
 	add_item(area[c].pile,&axe);
 }
+void place_spike(tile_t *area,color_t color)
+{
+	int c=empty_coords(area);
+	area[c].bg='^';
+	area[c].bg_c=color;
+}
 AREA_TYPE(sand,"~~~___.,",8,
 	symbol=='.'||symbol==','?BROWN:YELLOW,;)
 AREA_TYPE(meadow,",.\'\'\"\"`;;*",10,
@@ -41,11 +47,23 @@ AREA_TYPE(field,",.\'`;",5,
 AREA_TYPE(sparse_grass,",.\'`;_",6,
 		symbol=='_'?BROWN:green(),;)
 AREA_TYPE(rock,".,*`:\"",6,
-		symbol=='"'?green():gray(),;)
+		symbol=='"'?green():gray(),
+		int n=rand()%10;
+		for (int i=0;i<n;i++)
+			place_spike(area,gray());
+)
 AREA_TYPE(snowy_rock,".,*`:",5,
-		rand()%5?gray():WHITE,;)
+		rand()%5?gray():WHITE,
+		int n=rand()%10;
+		for (int i=0;i<n;i++)
+			place_spike(area,rand()%2?DGRAY:WHITE);
+)
 AREA_TYPE(mountain,"-~~~_.",6,
-		symbol=='.'?LGRAY:WHITE,;)
+		symbol=='.'?LGRAY:WHITE,
+		int n=rand()%20;
+		for (int i=0;i<n;i++)
+			place_spike(area,LCYAN);
+)
 AREA_TYPE(forest,",.\'\"`;",6,
 		symbol=='.'||symbol==','?gray():green(),
 	place_trees(area,50+rand()%50); // 50-99 trees
