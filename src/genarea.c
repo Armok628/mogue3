@@ -34,6 +34,17 @@ void place_spike(tile_t *area,color_t color)
 	area[c].bg='^';
 	area[c].bg_c=color;
 }
+void place_boulder(tile_t *area)
+{
+	int c=empty_coords(area);
+	area[c].fg='O';
+	area[c].fg_c=DGRAY;
+}
+void place_boulders(tile_t *area,int n)
+{
+	for (int i=0;i<n;i++)
+		place_boulder(area);
+}
 AREA_TYPE(sand,"~~~___.,",8,
 	symbol=='.'||symbol==','?BROWN:YELLOW,;)
 AREA_TYPE(meadow,",.\'\'\"\"`;;*",10,
@@ -48,18 +59,21 @@ AREA_TYPE(sparse_grass,",.\'`;_",6,
 		symbol=='_'?BROWN:green(),;)
 AREA_TYPE(rock,".,*`:\"",6,
 		symbol=='"'?green():gray(),
+		place_boulders(area,rand()%15);
 		int n=rand()%10;
 		for (int i=0;i<n;i++)
 			place_spike(area,gray());
 )
 AREA_TYPE(snowy_rock,".,*`:",5,
 		rand()%5?gray():WHITE,
+		place_boulders(area,rand()%10);
 		int n=rand()%10;
 		for (int i=0;i<n;i++)
 			place_spike(area,rand()%2?DGRAY:WHITE);
 )
 AREA_TYPE(mountain,"-~~~_.",6,
 		symbol=='.'?LGRAY:WHITE,
+		place_boulders(area,rand()%5);
 		int n=rand()%20;
 		for (int i=0;i<n;i++)
 			place_spike(area,LCYAN);
