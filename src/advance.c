@@ -14,7 +14,9 @@ void handle_input(entity_t *e,char input)
 		return;
 	case 'R':
 		clear_screen();
+		clear_announcements();
 		draw_local_area();
+		announce_stats(player);
 		handle_input(player,fgetc(stdin));
 		return;
 	case 'a':
