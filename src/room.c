@@ -29,9 +29,10 @@ void make_room(tile_t *a,int x,int y,int w,int h,dir_t direction)
 		make_wall(&a[lin(x+i,y+h-1)]);
 	}
 	for (int i=0;i<h;i++) {
-		int l1=lin(x,y+i),l2=lin(x+w-1,y+i);
-		make_wall(&a[l1]);
-		make_wall(&a[l2]);
+		int l=lin(x,y+i);
+		make_wall(&a[l]);
+		l=lin(x+w-1,y+i);
+		make_wall(&a[l]);
 	}
 	switch (direction) {
 	case NORTH:

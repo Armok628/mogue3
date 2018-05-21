@@ -145,3 +145,18 @@ tile_t *generate_area(wtile_t *w)
 	}
 	return area;
 }
+
+void wallify(tile_t *t)
+{
+	t->fg=t->bg;
+	t->fg_c=t->bg_c;
+}
+AREA_TYPE(dungeon," ",1,gray(), // Note: ' ' is not nothing
+	for (int i=0;i<AREA;i++)
+		wallify(&area[i]);
+	for (int i=0;i<AREA/96;i++)
+		random_room(area);
+	fix_rooms(area);
+	for (int i=0;i<AREA/384;i++)
+		random_path(area);
+)

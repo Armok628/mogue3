@@ -13,6 +13,7 @@
 extern int map_coords;
 
 int rand_land_coords();
-void enter_area(int);
+void enter_area(tile_t *);
+void enter_map_cell(int);
 void open_map();
 #endif

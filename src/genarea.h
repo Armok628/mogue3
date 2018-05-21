@@ -24,4 +24,5 @@ tile_t *land##_gen() \
 }
 
 tile_t *generate_area(wtile_t *);
+tile_t *dungeon_gen(); // Made with AREA_TYPE(dungeon,...)
 #endif

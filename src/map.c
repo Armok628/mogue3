@@ -36,20 +36,24 @@ void map_move(int pos)
 	draw_world_posl(map_coords);
 	map_coords=pos;
 }
-void enter_area(int coords)
+void enter_area(tile_t *area)
 {
-	wtile_t *w=&world[coords];
-	if (!w->area)
-		w->area=generate_area(w);
-	local_area=w->area;
-	for (int i=0;i<10;i++) // Spawn monsters
-		spawn_outside(local_area,&monster_etype);
-	map_coords=coords;
-	int lpos=outside_coords(local_area);
+	local_area=area;
+	int lpos=empty_coords(local_area);
 	local_area[lpos].e=player;
 	player->coords=lpos;
 	draw_local_area();
 	announce_stats(player);
+}
+void enter_map_cell(int coords)
+{
+	wtile_t *w=&world[coords];
+	if (!w->area)
+		w->area=generate_area(w);
+	for (int i=0;i<10;i++) // Spawn monsters (temporary?)
+		spawn_outside(w->area,&monster_etype);
+	map_coords=coords;
+	enter_area(w->area);
 }
 int rand_land_coords()
 {
@@ -97,5 +101,5 @@ void open_map()
 		map_move(map_coords+input_offset(input));
 	}
 	clear_announcements();
-	enter_area(map_coords);
+	enter_map_cell(map_coords);
 }

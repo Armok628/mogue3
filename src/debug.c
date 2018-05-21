@@ -9,7 +9,8 @@ static char *debug_options[]={
 	"Kill entity",
 	"Show inventory",
 	"Inventory menu",
-	"Check visibility"
+	"Check visibility",
+	"Enter a dungeon"
 };
 static int n_debug_options=sizeof(debug_options)/sizeof(char *);
 void draw_visible()
@@ -72,5 +73,9 @@ void debug_menu()
 	case 9: // Check visibility
 		clear_screen();
 		draw_visible();
+		break;
+	case 10: // Enter dungeon
+		enter_area(dungeon_gen());
+		break;
 	}
 }
