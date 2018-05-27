@@ -6,11 +6,13 @@ etype_t player_etype={
 	.maxhp=100,.minhp=50,
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
-	.flags=PERSISTS|SOLID,
+	.flags=PERSISTS|SOLID|MOBILE,
 	.spells={
 		&heal_self_spell,
 		&magic_missile_spell,
-		&raise_dead_spell
+		&raise_dead_spell,
+		&freeze_spell,
+		&thaw_spell
 	}
 };
 etype_t human_etype={ // Temporary
@@ -20,7 +22,7 @@ etype_t human_etype={ // Temporary
 	.maxhp=100,.minhp=50,
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
-	.flags=PERSISTS|SOLID,
+	.flags=PERSISTS|SOLID|MOBILE,
 	.loot_table={
 		.items={&sword,&gold},
 		.amounts={1,10},
@@ -37,7 +39,7 @@ etype_t monster_etype={ // Temporary
 	.maxhp=100,.minhp=50,
 	.maxwis=15,.minwis=5,
 	.maxstr=15,.minstr=5,
-	.flags=SOLID,
+	.flags=SOLID|MOBILE,
 	.loot_table={
 		.items={&gold},
 		.amounts={25},

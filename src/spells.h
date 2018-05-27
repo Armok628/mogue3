@@ -30,4 +30,6 @@ void spell_menu(entity_t *);
 SPELL(heal_self);
 SPELL(magic_missile);
 SPELL(raise_dead);
+SPELL(freeze);
+SPELL(thaw);
 #endif

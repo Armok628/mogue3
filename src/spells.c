@@ -64,3 +64,19 @@ SPELL_START(raise_dead,Raise Dead,OFFENSE)
 		target->hp=target->maxhp;
 	redraw(target);
 SPELL_END
+SPELL_START(freeze,Freeze,OFFENSE)
+	ON(local_area[target_by(caster)].e)
+	if (!target)
+		return;
+	target->color=WHITE;
+	target->flags&=~MOBILE;
+	redraw(target);
+SPELL_END
+SPELL_START(thaw,Thaw,DEFENSE)
+	ON(local_area[target_by(caster)].e)
+	if (!target)
+		return;
+	target->color=target->type->color;
+	target->flags|=MOBILE;
+	redraw(target);
+SPELL_END

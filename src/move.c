@@ -101,6 +101,8 @@ bool legal_move(int from,int to)
 void try_move(entity_t *entity,int from,int to)
 {
 	tile_t *dest=&local_area[to];
+	if (~entity->flags&MOBILE)
+		return;
 	if (!legal_move(from,to))
 		return;
 	if (dest->fg&&entity->flags&SOLID) { // Wall and solid entity

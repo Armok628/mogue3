@@ -3,7 +3,7 @@
 #include "terminal.h" // color_t
 
 typedef enum {false,true} bool;
-typedef enum {PERSISTS=1,SOLID=1<<1} eflag_t;// e(ntity)flag
+typedef enum {PERSISTS=1,SOLID=1<<1,MOBILE=1<<2} eflag_t;// e(ntity)flag
 // TODO: Entity effects (burning, regenerating, etc.)
 typedef enum {NORTH,SOUTH,EAST,WEST} dir_t; // dir(ection)
 typedef enum {OFFENSE,DEFENSE,UTILITY} cat_t; // cat(egory)
