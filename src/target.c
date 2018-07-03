@@ -40,9 +40,44 @@ int player_target()
 	announce_stats(player);
 	return c;
 }
-int target_by(entity_t *caster)
+bool friend(entity_t *c1,entity_t *c2)
+{
+	for (int i=0;c1->type->friends[i];i++)
+		if (c1->type->friends[i]==c2->type)
+			return true;
+	return false;
+}
+bool enemy(entity_t *c1,entity_t *c2)
+{
+	for (int i=0;c1->type->enemies[i];i++)
+		if (c1->type->enemies[i]==c2->type)
+			return true;
+	return false;
+}
+entity_t *target_by(entity_t *caster,cat_t c)
 {
 	if (caster==player)
-		return player_target();
-	return rand()%AREA; // Temporary
+		return local_area[player_target()].e;
+	int targets[100],n_targets=0;
+	for (int i=0;i<AREA;i++) {
+		if (!visible(caster->coords,i))
+			continue;
+		entity_t *t=local_area[i].e;
+		if (!t)
+			continue;
+		if (c==OFFENSE?enemy(caster,t):friend(caster,t))
+			targets[n_targets++]=t->coords;
+	}
+	if (!n_targets)
+		return NULL;
+	int t=targets[rand()%n_targets];
+	return local_area[t].e;
+}
+entity_t *target_friend(entity_t *caster)
+{
+	return target_by(caster,DEFENSE);
+}
+entity_t *target_enemy(entity_t *caster)
+{
+	return target_by(caster,OFFENSE);
 }

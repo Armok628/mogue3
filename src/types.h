@@ -37,6 +37,8 @@ typedef struct etype_s {
 	int minstr,maxstr;
 	int minwis,maxwis;
 	spell_t *spells[16];
+	struct etype_s *friends[16];
+	struct etype_s *enemies[16];
 	eflag_t flags;
 	ltab_t loot_table;
 } etype_t; // e(ntity)type

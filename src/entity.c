@@ -30,6 +30,15 @@ etype_t human_etype={ // Temporary
 	},
 	.spells={
 		&heal_self_spell
+	},
+	.friends={
+		&human_etype,
+		&player_etype
+	},
+	.enemies={
+		&human_etype,
+		&player_etype,
+		&monster_etype
 	}
 };
 etype_t monster_etype={ // Temporary
@@ -47,6 +56,13 @@ etype_t monster_etype={ // Temporary
 	},
 	.spells={
 		&magic_missile_spell
+	},
+	.friends={
+		&monster_etype
+	},
+	.enemies={
+		&player_etype,
+		&human_etype
 	}
 };
 entity_t *player;

@@ -24,7 +24,7 @@ void debug_menu()
 	int opt=menu(debug_options,n_debug_options);
 	switch (opt) {
 	case 0: // Swap bodies
-		opt=target_by(player);
+		opt=player_target();
 		if (!local_area[opt].e)
 			return;
 		player=local_area[opt].e;
@@ -50,14 +50,14 @@ void debug_menu()
 		has_canoe=true;
 		break;
 	case 6: // Kill entity
-		opt=target_by(player);
+		opt=player_target();
 		if (!local_area[opt].e)
 			return;
 		kill_entity(local_area[opt].e);
 		draw_posl(opt);
 		break;
 	case 7: // Show inventory
-		opt=target_by(player);
+		opt=player_target();
 		if (!local_area[opt].e)
 			return;
 		islot_t *items=local_area[opt].e->inventory;
@@ -65,7 +65,7 @@ void debug_menu()
 			announce("s sds",items[i].type->name,"(",items[i].count,")");
 		break;
 	case 8: // Inventory menu
-		opt=target_by(player);
+		opt=player_target();
 		if (!local_area[opt].e)
 			return;
 		select_item(local_area[opt].e->inventory);

@@ -29,8 +29,11 @@ void handle_input(entity_t *e,char input)
 			draw_posl(e->coords+o);
 		}
 		return;
-	case 'm': // TODO: Generalize across all entities
-		spell_menu(e);// Temporary
+	case 'm':
+		if (e==player)
+			spell_menu(e);
+		else
+			random_spell(e);
 		return;
 	case 'w':
 		if (local_area[e->coords].bg!='#') {
@@ -40,7 +43,7 @@ void handle_input(entity_t *e,char input)
 			announce("s","You must be outside to travel");
 		return;
 	case '?':
-		target_by(player);
+		player_target();
 		return;
 	case 'i':
 		select_item(e->inventory);

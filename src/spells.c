@@ -29,8 +29,16 @@ void spell_menu(entity_t *e)
 		return;
 	e->spells[choice]->function(e);
 }
+void random_spell(entity_t *e)
+{
+	int n=0;
+	for (;e->spells[n];n++);
+	e->spells[rand()%n]->function(e);
+}
 SPELL_START(heal_self,Heal Self,DEFENSE)
 	ON(caster)
+	if (caster->hp==caster->maxhp)
+		return;
 	int effect=rand()%caster->wis;
 	target->hp+=effect;
 	if (target->hp>target->maxhp)
@@ -38,7 +46,7 @@ SPELL_START(heal_self,Heal Self,DEFENSE)
 	announce("e s d s",caster,"casts Heal Self, gaining",effect,"HP");
 SPELL_END
 SPELL_START(magic_missile,Magic Missile,OFFENSE)
-	ON(local_area[target_by(caster)].e)
+	ON(target_enemy(caster))
 	if (!target)
 		return;
 	int effect=rand()%caster->wis;
@@ -49,7 +57,7 @@ SPELL_START(magic_missile,Magic Missile,OFFENSE)
 	redraw(target);
 SPELL_END
 SPELL_START(raise_dead,Raise Dead,OFFENSE)
-	ON(local_area[target_by(caster)].corpse)
+	ON(target_enemy(caster))
 	if (!target)
 		return;
 	tile_t *t=&local_area[target->coords];
@@ -65,7 +73,7 @@ SPELL_START(raise_dead,Raise Dead,OFFENSE)
 	redraw(target);
 SPELL_END
 SPELL_START(freeze,Freeze,OFFENSE)
-	ON(local_area[target_by(caster)].e)
+	ON(target_enemy(caster))
 	if (!target)
 		return;
 	target->color=WHITE;
@@ -73,7 +81,7 @@ SPELL_START(freeze,Freeze,OFFENSE)
 	redraw(target);
 SPELL_END
 SPELL_START(thaw,Thaw,DEFENSE)
-	ON(local_area[target_by(caster)].e)
+	ON(target_friend(caster))
 	if (!target)
 		return;
 	target->color=target->type->color;

@@ -7,5 +7,7 @@
 #include "types.h"
 
 bool visible(int,int);
-int target_by(entity_t *);
+int player_target();
+entity_t *target_friend(entity_t *);
+entity_t *target_enemy(entity_t *);
 #endif

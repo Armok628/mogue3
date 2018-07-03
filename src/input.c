@@ -32,5 +32,7 @@ int input_offset(char input)
 }
 char generate_input()
 {
-	return rand()%10+'0';
+	static char moves[]="0123456789m";
+	static int n_moves=11;
+	return moves[rand()%n_moves];
 }
