@@ -25,6 +25,8 @@ void entity_collision(entity_t *e1,entity_t *e2)
 {
 	if (e1==e2)
 		return;
+	if (friend(e1,e2)&&!enemy(e1,e2))
+		return;
 	int damage=rand()%e1->str;
 	damage+=equipped_category(e1,OFFENSE);
 	damage-=equipped_category(e2,DEFENSE);

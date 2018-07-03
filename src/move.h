@@ -5,6 +5,7 @@
 #include "entity.h"
 #include "items.h"
 #include "map.h"
+#include "target.h"
 
 void kill_entity(entity_t *);
 bool legal_move(int,int);
