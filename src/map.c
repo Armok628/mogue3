@@ -95,6 +95,7 @@ void open_map()
 			break;
 		else if (input=='q') {
 			free(player); // because not in any area
+			next_line();
 			quit();
 		}
 		map_move(map_coords+input_offset(input));

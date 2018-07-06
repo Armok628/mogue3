@@ -55,13 +55,6 @@ void wall_collision(entity_t *e,tile_t *wall)
 		if (wall->fg_c==BROWN)
 			wall->fg='\0'; // Open door
 		return;
-		/*
-	case 'P': // Axe
-		if (e==player)
-			has_axe=true;
-		wall->fg='\0';
-		return;
-		*/
 	case '|': // Tree
 		if (e!=player)
 			break;
