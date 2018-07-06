@@ -22,7 +22,6 @@ int main(int argc,char **argv)
 	world=worldgen(erosion,offset);
 	player=spawn(&player_etype);
 	enter_map_cell(rand_land_coords());
-	next_line();
 
 	for (;;)
 		advance();

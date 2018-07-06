@@ -53,6 +53,7 @@ void enter_map_cell(int coords)
 		spawn_outside(w->area,&monster_etype);
 	map_coords=coords;
 	enter_area(w->area);
+	next_line();
 }
 int rand_land_coords()
 {
