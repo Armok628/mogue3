@@ -50,10 +50,12 @@ SPELL_START(magic_missile,Magic Missile,OFFENSE)
 	if (!target)
 		return;
 	int effect=rand()%caster->wis;
-	target->hp-=effect;
-	if (target->hp<0)
-		target->hp=0;
 	announce("e s es d s",caster,"casts Magic Missile on",target,", doing",effect,"damage");
+	target->hp-=effect;
+	if (target->hp<=0) {
+		target->hp=0;
+		kill_entity(target);
+	}
 	redraw(target);
 SPELL_END
 SPELL_START(raise_dead,Raise Dead,OFFENSE)

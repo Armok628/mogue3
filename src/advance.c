@@ -69,9 +69,14 @@ void take_turn(entity_t *e)
 	int old_coords=e->coords,new_coords=old_coords;
 	char key;
 	if (e==player) {
+		move_cursor(0,HEIGHT);
+		print_stats(player);
+		next_line();
 		key=fgetc(stdin);
+		if (key=='q')
+			quit();
 		clear_announcements();
-		announce_stats(player);
+		next_line();
 	} else
 		key=generate_input();
 	handle_input(e,key);

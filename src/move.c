@@ -7,10 +7,8 @@ void kill_entity(entity_t *entity)
 		free(local_area[c].corpse);
 	local_area[c].corpse=entity;
 	local_area[c].e=NULL;
-	if (entity==player) {
-		redraw(player);
+	if (entity==player)
 		player_death();
-	}
 }
 int equipped_category(entity_t *e,cat_t c)
 {

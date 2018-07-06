@@ -29,16 +29,17 @@ void quit()
 	set_color(RESET,BG RESET);
 	set_canon(1);
 	set_cursor_visible(1);
-	next_line();
 	exit(0);
 }
 void player_death()
 {
-	while (fgetc(stdin)!='q') {
+	redraw(player);
+	do {
 		clear_announcements();
-		advance();
 		announce("s","You have died.");
 		announce("s","Press q to quit.");
-	}
+		advance();
+	} while (fgetc(stdin)!='q');
+	next_line();
 	quit();
 }

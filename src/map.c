@@ -43,7 +43,6 @@ void enter_area(tile_t *area)
 	local_area[lpos].e=player;
 	player->coords=lpos;
 	draw_local_area();
-	announce_stats(player);
 }
 void enter_map_cell(int coords)
 {
