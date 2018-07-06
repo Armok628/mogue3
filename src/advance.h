@@ -5,6 +5,7 @@
 #include "input.h"
 #include "map.h"
 #include "move.h"
+#include "think.h"
 
 void advance();
 #endif

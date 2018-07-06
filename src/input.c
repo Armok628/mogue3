@@ -30,9 +30,29 @@ int input_offset(char input)
 		return 0;
 	}
 }
+char offset_input(int offset)
+{
+	switch (offset) {
+	case WIDTH-1:
+		return '1';
+	case WIDTH:
+		return '2';
+	case WIDTH+1:
+		return '3';
+	case -1:
+		return '4';
+	case 1:
+		return '6';
+	case -WIDTH-1:
+		return '7';
+	case -WIDTH:
+		return '8';
+	case -WIDTH+1:
+		return '9';
+	}
+	return '5';
+}
 char generate_input()
 {
-	static char moves[]="0123456789m";
-	static int n_moves=11;
-	return moves[rand()%n_moves];
+	return '0'+rand()%10;
 }

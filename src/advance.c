@@ -9,6 +9,7 @@ void handle_input(entity_t *e,char input)
 	}
 	switch (input) {
 	case '\0': // ^@
+		announce("s e","Debug menu invoked by",e);
 		debug_menu();
 		//handle_input(player,fgetc(stdin));
 		return;
@@ -78,7 +79,7 @@ void take_turn(entity_t *e)
 		clear_announcements();
 		next_line();
 	} else
-		key=generate_input();
+		key=think(e);//generate_input();
 	handle_input(e,key);
 }
 void advance()

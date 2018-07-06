@@ -10,7 +10,8 @@ static char *debug_options[]={
 	"Show inventory",
 	"Inventory menu",
 	"Check visibility",
-	"Enter a dungeon"
+	"Enter a dungeon",
+	"Think"
 };
 static int n_debug_options=sizeof(debug_options)/sizeof(char *);
 void draw_visible()
@@ -22,6 +23,7 @@ void draw_visible()
 void debug_menu()
 {
 	int opt=menu(debug_options,n_debug_options);
+	char s[2]=" ";
 	switch (opt) {
 	case 0: // Swap bodies
 		opt=player_target();
@@ -76,6 +78,10 @@ void debug_menu()
 		break;
 	case 10: // Enter dungeon
 		enter_area(dungeon_gen());
+		break;
+	case 11: // Think
+		s[0]=think(player);
+		announce("s s","Think:",s);
 		break;
 	}
 }
