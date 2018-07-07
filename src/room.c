@@ -165,30 +165,24 @@ bool make_path(tile_t *area,int c)
 {
 	if (area[c].bg=='#')
 		return false;
-	announce("s d d","Trying for path at",xcmp(c),ycmp(c));
 	int h=dist_to_room(area,c,'h');
 	int j=dist_to_room(area,c,'j');
 	int k=dist_to_room(area,c,'k');
 	int l=dist_to_room(area,c,'l');
-	announce("d d d d",h,j,k,l);
-	/*
-	if ((h>0)+(j>0)+(k>0)+(l>0)>=2)
+	if ((h>0)+(j>0)+(k>0)+(l>0)<2) {
+		announce("s","Path failed");
 		return false; // Not enough possible directions
+	}
 	announce("s","Making paths");
 	// Make actual paths
-	if ((h>j)+(h>k)+(h>l)>=2)
+	if ((h>=j)+(h>=k)+(h>=l)>=2)
 		floor_line(area,c,h,'h');
-	if ((j>h)+(j>k)+(j>l)>=2)
+	if ((j>=h)+(j>=k)+(j>=l)>=2)
 		floor_line(area,c,j,'j');
-	if ((k>h)+(k>j)+(k>l)>=2)
+	if ((k>=h)+(k>=j)+(k>=l)>=2)
 		floor_line(area,c,k,'k');
-	if ((l>h)+(l>j)+(l>k)>=2)
+	if ((l>=h)+(l>=j)+(l>=k)>=2)
 		floor_line(area,c,l,'l');
-	*/
-	if (h>0) floor_line(area,c,h,'h');
-	if (j>0) floor_line(area,c,j,'j');
-	if (k>0) floor_line(area,c,k,'k');
-	if (l>0) floor_line(area,c,l,'l');
 	return true;
 }
 void random_path(tile_t *area)
