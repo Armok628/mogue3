@@ -82,7 +82,6 @@ AREA_TYPE(forest,",.\'\"`;",6,
 		symbol=='.'||symbol==','?gray():green(),
 	place_trees(area,50+rand()%50); // 50-99 trees
 )
-
 tile_t *generate_area(wtile_t *w)
 {
 	char map_symbol=w->symbol;
@@ -131,21 +130,17 @@ tile_t *generate_area(wtile_t *w)
 		area=NULL;
 		break;
 	}
-	if (w->city) {
+	if (w->town) {
 		int r=10+rand()%20;
 		for (int i=0;i<r;i++)
 			random_room(area);
 		fix_rooms(area);
-		w->symbol='#';
-		w->color=LRED;
-		for (int i=0;i<r;i++)
-			spawn_inside(area,&human_etype);
 		if (rand()%2)
 			place_axe(area);
 	}
+	populate(w,area,true);
 	return area;
 }
-
 void wallify(tile_t *t)
 {
 	t->fg=t->bg;

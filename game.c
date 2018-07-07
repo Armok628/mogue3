@@ -2,7 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "game.h"
+#include "src/area.h"
+#include "src/advance.h"
+#include "src/entity.h"
+#include "src/map.h"
+#include "src/types.h"
+#include "src/terminal.h"
+#include "src/world.h"
 int main(int argc,char **argv)
 {
 	long seed=time(NULL);

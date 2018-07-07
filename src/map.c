@@ -49,8 +49,8 @@ void enter_map_cell(int coords)
 	wtile_t *w=&world[coords];
 	if (!w->area)
 		w->area=generate_area(w);
-	for (int i=0;i<10;i++) // Spawn monsters (temporary?)
-		spawn_outside(w->area,&monster_etype);
+//	for (int i=0;i<10;i++) spawn_outside(w->area,&monster_etype);
+	populate(w,w->area,false);
 	map_coords=coords;
 	enter_area(w->area);
 	next_line();

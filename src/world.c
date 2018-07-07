@@ -102,7 +102,7 @@ wtile_t *worldgen(int erosion,int offset)
 		w[i].symbol=elevation_symbol(e);
 		w[i].color=elevation_color(e);
 		w[i].area=NULL;
-		w[i].city=e>50&&!(rand()%50);
+		w[i].town=e>50&&!(rand()%50);
 		w[i].landing=false;
 	}
 	return w;
@@ -112,7 +112,7 @@ void draw_world_tile(wtile_t *tile)
 	if (tile->landing) {
 		set_color(BROWN,BG BLACK);
 		putchar('>');
-	} else if (tile->city) {
+	} else if (tile->town) {
 		set_color(LRED,BG BLACK);
 		putchar('#');
 	} else {

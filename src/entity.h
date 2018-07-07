@@ -13,7 +13,7 @@ extern entity_t *player;
 void draw_entity(entity_t *);
 void redraw(entity_t *);
 entity_t *spawn(etype_t *);
-entity_t *spawn_randomly(tile_t *area,etype_t *);
-entity_t *spawn_inside(tile_t *area,etype_t *);
-entity_t *spawn_outside(tile_t *area,etype_t *);
+void spawn_randomly(tile_t *area,etype_t *);
+void spawn_inside(tile_t *area,etype_t *);
+void spawn_outside(tile_t *area,etype_t *);
 #endif

@@ -29,7 +29,7 @@ char alt_dir(int pos,char dir)
 			// Look both directions
 			int dest=pos+input_offset(dirs[j]);
 			tile_t *t=&local_area[dest];
-			occupied[j]=t->e||t->fg;
+			occupied[j]=!legal_move(pos,dest)||t->e||t->fg;
 		}
 		if (occupied[0]&&occupied[1]) { // Both blocked
 			// Look further from path

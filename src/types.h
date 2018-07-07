@@ -4,6 +4,14 @@
 
 typedef enum {false,true} bool;
 typedef enum {PERSISTS=1,SOLID=1<<1,MOBILE=1<<2} eflag_t;// e(ntity)flag
+typedef enum {
+	NONE=0,
+	WILDERNESS=1,
+	TOWN=1<<1,
+	DUNGEON=1<<2,
+	INSIDE=1<<3,
+	OUTSIDE=1<<4
+} sflag_t; // s(pawn)flag
 // TODO: Entity effects (burning, regenerating, etc.)
 typedef enum {NORTH,SOUTH,EAST,WEST} dir_t; // dir(ection)
 typedef enum {OFFENSE,DEFENSE,UTILITY} cat_t; // cat(egory)
@@ -43,6 +51,8 @@ typedef struct etype_s {
 	struct etype_s *enemies[16];
 	eflag_t flags;
 	ltab_t loot_table;
+	sflag_t spawn_flags;
+	int min_elev,max_elev;
 } etype_t; // e(ntity)type
 typedef struct entity_s {
 	char *name,symbol;
@@ -75,6 +85,6 @@ typedef struct wtile_s {
 	int elevation;
 	char symbol;
 	color_t color;
-	bool city,landing;
+	bool town,landing;
 } wtile_t; // w(orld)tile
 #endif

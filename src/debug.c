@@ -36,7 +36,7 @@ void debug_menu()
 		break;
 	case 1: // Make room
 		random_room(local_area);
-		world[map_coords].city=true;
+		world[map_coords].town=true;
 		draw_local_area();
 		break;
 	case 2: // Fix rooms

@@ -1,6 +1,7 @@
 #ifndef GENAREA_H
 #define GENAREA_H
 #include "area.h"
+#include "populate.h"
 #include "room.h"
 typedef struct wtile_s wtile_t;
 #include "world.h"

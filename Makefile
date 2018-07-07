@@ -2,11 +2,9 @@ CC=clang
 CFLAGS=-lm -g
 
 game: game.c src/*
-	ls src/*.h | sed 's/.*/#include "&"/p' > game.h
-	$(CC) game.c src/*.c $(CFLAGS); rm game.h
+	perl gen_spawnlist
+	$(CC) game.c src/*.c $(CFLAGS)
+	rm src/creatures.h src/spawnlist.c
 
 world: worldtest.c src/world.* src/terminal.*
 	$(CC) worldtest.c src/world.c src/terminal.c $(CFLAGS)
-
-key: keytest.c src/terminal.*
-	$(CC) keytest.c src/terminal.c $(CFLAGS)
