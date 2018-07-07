@@ -25,7 +25,10 @@ int player_target()
 	char input;
 	clear_announcements();
 	do {
-		set_color(YELLOW,BG BLACK);
+		if (visible(player->coords,c))
+			set_color(YELLOW,BG BLACK);
+		else
+			set_color(LRED,BG BLACK);
 		putc_pos('X',xcmp(c),ycmp(c));
 		if (local_area[c].e)
 			announce_stats(local_area[c].e);
