@@ -157,6 +157,7 @@ AREA_TYPE(dungeon," ",1,gray(), // Note: ' ' is not nothing
 	for (int i=0;i<AREA/96;i++)
 		random_room(area);
 	fix_rooms(area);
+	fix_rooms(area);
 	for (int i=0;i<AREA/384;i++)
 		random_path(area);
 )

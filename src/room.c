@@ -104,6 +104,7 @@ void fix_gap(tile_t *area,int i)
 			vw+=area[c].fg=='%'&&!x&&y;
 			hw+=area[c].fg=='%'&&!y&&x;
 			walls+=area[c].fg=='%';
+			walls+=area[c].fg==' ';
 			floors+=area[c].bg=='#';
 			doors+=area[c].fg=='+';
 		}
@@ -169,11 +170,8 @@ bool make_path(tile_t *area,int c)
 	int j=dist_to_room(area,c,'j');
 	int k=dist_to_room(area,c,'k');
 	int l=dist_to_room(area,c,'l');
-	if ((h>0)+(j>0)+(k>0)+(l>0)<2) {
-		announce("s","Path failed");
+	if ((h>0)+(j>0)+(k>0)+(l>0)<2)
 		return false; // Not enough possible directions
-	}
-	announce("s","Making paths");
 	// Make actual paths
 	if ((h>=j)+(h>=k)+(h>=l)>=2)
 		floor_line(area,c,h,'h');
