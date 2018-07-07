@@ -1,6 +1,5 @@
 #include "area.h"
 tile_t *local_area;
-const char grass[N_GRASS]={',','.','\'','"','`',';'};
 void draw_tile(tile_t tile)
 {
 	if (tile.e)

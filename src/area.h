@@ -8,9 +8,6 @@
 #define AREA (HEIGHT*WIDTH)
 extern tile_t *local_area;
 
-#define N_GRASS 6
-extern const char grass[N_GRASS];
-
 // X and Y components of linear index
 static inline int xcmp(int l)
 {
