@@ -95,7 +95,6 @@ bool wall_needs_cull(tile_t *area,int i)
 }
 void fix_gap(tile_t *area,int i)
 {
-	char sym=area[i].fg;
 	if (area[i].bg!='#')
 		return;
 	int hw=0,vw=0,walls=0,floors=0,doors=0;

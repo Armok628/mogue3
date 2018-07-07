@@ -34,8 +34,10 @@ typedef struct etype_s {
 	char *name,symbol;
 	color_t color;
 	int minhp,maxhp;
-	int minstr,maxstr;
+	int minres,maxres;
+	int minagi,maxagi;
 	int minwis,maxwis;
+	int minstr,maxstr;
 	spell_t *spells[16];
 	struct etype_s *friends[16];
 	struct etype_s *enemies[16];
@@ -47,7 +49,7 @@ typedef struct entity_s {
 	color_t color;
 	int coords; // coords can be used by spells
 	spell_t *spells[16];
-	int hp,maxhp,str,wis;
+	int hp,maxhp,res,agi,wis,str;
 	eflag_t flags;
 	etype_t *type;
 	islot_t inventory[16];

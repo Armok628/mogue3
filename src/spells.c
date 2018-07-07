@@ -17,6 +17,10 @@ void heal_self(entity_t *caster)
 void cast(entity_t *c,int n)
 {
 	c->spells[n]->function(c);
+	if (!(rand()%20)&&c->wis<20) {
+		announce("e s",c,"is now wiser from it");
+		c->wis++;
+	}
 }
 void spell_menu(entity_t *e)
 {
@@ -27,13 +31,15 @@ void spell_menu(entity_t *e)
 	int choice=menu(names,c);
 	if (choice<0)
 		return;
-	e->spells[choice]->function(e);
+	cast(e,choice);
 }
 void random_spell(entity_t *e)
 {
 	int n=0;
 	for (;e->spells[n];n++);
-	e->spells[rand()%n]->function(e);
+	if (!n)
+		return;
+	cast(e,rand()%n);
 }
 SPELL_START(heal_self,Heal Self,DEFENSE)
 	ON(caster)
@@ -58,8 +64,8 @@ SPELL_START(magic_missile,Magic Missile,OFFENSE)
 	}
 	redraw(target);
 SPELL_END
-SPELL_START(raise_dead,Raise Dead,OFFENSE)
-	ON(target_enemy(caster))
+SPELL_START(raise_dead,Raise Dead,DEFENSE)
+	ON(target_corpse(caster))
 	if (!target)
 		return;
 	tile_t *t=&local_area[target->coords];

@@ -10,10 +10,12 @@ void print_stats(entity_t *e)
 	printf("%s ",e->name);
 	draw_entity(e);
 	set_color(RESET,BG RESET);
-	printf(" %s %d%s%d %s %d %s %d",
+	printf(" %s %d%s%d %s %d %s %d %s %d %s %d",
 			"HP:",e->hp,"/",e->maxhp,
-			"STR:",e->str,
-			"WIS:",e->wis);
+			"RES:",e->res,
+			"AGI:",e->agi,
+			"WIS:",e->wis,
+			"STR:",e->str);
 }
 void announce_stats(entity_t *e)
 {

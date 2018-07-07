@@ -9,7 +9,6 @@ void handle_input(entity_t *e,char input)
 	}
 	switch (input) {
 	case '\0': // ^@
-		announce("s e","Debug menu invoked by",e);
 		debug_menu();
 		//handle_input(player,fgetc(stdin));
 		return;
@@ -67,7 +66,6 @@ void handle_input(entity_t *e,char input)
 }
 void take_turn(entity_t *e)
 {
-	int old_coords=e->coords,new_coords=old_coords;
 	char key;
 	if (e==player) {
 		move_cursor(0,HEIGHT);

@@ -1,4 +1,6 @@
 #include "debug.h"
+int alt_dir(int,int);
+
 static char *debug_options[]={
 	"Swap bodies",
 	"Make room",
@@ -11,6 +13,7 @@ static char *debug_options[]={
 	"Inventory menu",
 	"Check visibility",
 	"Enter a dungeon",
+	"Find alternate direction",
 	"Think"
 };
 static int n_debug_options=sizeof(debug_options)/sizeof(char *);
@@ -23,7 +26,7 @@ void draw_visible()
 void debug_menu()
 {
 	int opt=menu(debug_options,n_debug_options);
-	char s[2]=" ";
+	static char s[2]=" ";
 	switch (opt) {
 	case 0: // Swap bodies
 		opt=player_target();
@@ -79,7 +82,13 @@ void debug_menu()
 	case 10: // Enter dungeon
 		enter_area(dungeon_gen());
 		break;
-	case 11: // Think
+	case 11: // Find alternate direction
+		s[0]=fgetc(stdin);
+		announce("s s","Finding alternate direction for",s);
+		s[0]=alt_dir(player->coords,s[0]);
+		announce("s s","Alternate direction:",s);
+		break;
+	case 12: // Think
 		s[0]=think(player);
 		announce("s s","Think:",s);
 		break;

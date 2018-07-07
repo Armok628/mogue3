@@ -12,4 +12,5 @@ bool friend(entity_t *,entity_t *);
 bool enemy(entity_t *,entity_t *);
 entity_t *target_friend(entity_t *);
 entity_t *target_enemy(entity_t *);
+entity_t *target_corpse(entity_t *);
 #endif

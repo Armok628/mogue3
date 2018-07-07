@@ -54,15 +54,21 @@ bool enemy(entity_t *c1,entity_t *c2)
 			return true;
 	return false;
 }
-entity_t *target_by(entity_t *caster,cat_t c)
+entity_t *target_by(entity_t *caster,cat_t c,bool corpse)
 {
-	if (caster==player)
-		return local_area[player_target()].e;
-	int targets[100],n_targets=0;
+	int targets[100],n_targets=0,t;
+	if (caster==player) {
+		t=player_target();
+		goto RETURN_TARGET;
+	}
 	for (int i=0;i<AREA;i++) {
 		if (!visible(caster->coords,i))
 			continue;
-		entity_t *t=local_area[i].e;
+		entity_t *t;
+		if (corpse)
+			t=local_area[i].corpse;
+		else
+			t=local_area[i].e;
 		if (!t)
 			continue;
 		if (c==OFFENSE?enemy(caster,t):friend(caster,t))
@@ -70,14 +76,22 @@ entity_t *target_by(entity_t *caster,cat_t c)
 	}
 	if (!n_targets)
 		return NULL;
-	int t=targets[rand()%n_targets];
-	return local_area[t].e;
+	t=targets[rand()%n_targets];
+RETURN_TARGET:
+	if (corpse)
+		return local_area[t].corpse;
+	else
+		return local_area[t].e;
 }
 entity_t *target_friend(entity_t *caster)
 {
-	return target_by(caster,DEFENSE);
+	return target_by(caster,DEFENSE,false);
 }
 entity_t *target_enemy(entity_t *caster)
 {
-	return target_by(caster,OFFENSE);
+	return target_by(caster,OFFENSE,false);
+}
+entity_t *target_corpse(entity_t *caster)
+{
+	return target_by(caster,DEFENSE,true);
 }

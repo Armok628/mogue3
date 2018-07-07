@@ -13,38 +13,66 @@ void kill_entity(entity_t *entity)
 int equipped_category(entity_t *e,cat_t c)
 {
 	islot_t *eq=e->equipped;
-	int sum;
+	int sum=0;
 	for (int i=0;eq[i].count;i++)
 		if (eq[i].type->category==c)
 			sum+=eq[i].type->effect;
 	return sum;
 }
+int max_damage(entity_t *e1,entity_t *e2)
+{
+	int d=5*e1->str-e2->str/2;
+	d+=equipped_category(e1,OFFENSE);
+	d-=equipped_category(e2,DEFENSE);
+	return d<0?0:d;
+}
+int damage(entity_t *e1,entity_t *e2)
+{
+	if (rand()%20>10+e2->agi-e1->agi)
+		return -1; // Sentinel value: -1 => dodge
+	int m=max_damage(e1,e2);
+	return m?rand()%m:0;
+}
 void entity_collision(entity_t *e1,entity_t *e2)
 {
 	if (e1==e2)
 		return;
-	if (friend(e1,e2)&&!enemy(e1,e2))
+	int d=damage(e1,e2);
+	if (d<0) {
+		announce("e s e s",e1,"tries to strike",e2,"but was dodged");
 		return;
-	int damage=rand()%e1->str;
-	damage+=equipped_category(e1,OFFENSE);
-	damage-=equipped_category(e2,DEFENSE);
-	if (damage<0)
-		damage=0;
-	e2->hp-=damage; // Temporary
-	if (e2->hp<=0)
+	} else if (!d) {
+		announce("e s e s",e1,"tries to strike",e2,"but misses");
+		return;
+	} else {
+		announce("e s e s d s",e1,"strikes",e2,"for",d,"damage");
+	}
+	if (d>e2->hp/5) {
+		printf(" and cripples it");
+		e2->agi-=e2->agi>0;
+	}
+	e2->hp-=d;
+	if (e2->hp<=0) {
+		printf(", killing it!");
 		kill_entity(e2);
-	announce("e s e s d s",e1,"strikes",e2,"for",damage,"damage");
+	}
+	if (!(rand()%5)&&e1->str<20) {
+		announce("e s",e1,"is now stronger from it");
+		e1->str++;
+	}
 }
 void floor_collision(entity_t *e,tile_t *floor)
 {
 	int n;
 	switch (floor->bg) {
 		case '^':
-			n=rand()%5;
+			n=rand()%10;
 			e->hp-=n;
-			if (e->hp<=0)
-				kill_entity(e);
 			announce("e s d s",e,"stepped on a spike for",n,"damage");
+			if (e->hp<=0) {
+				printf(", killing it");
+				kill_entity(e);
+			}
 			break;
 	}
 }
@@ -94,7 +122,12 @@ bool legal_move(int from,int to)
 void try_move(entity_t *entity,int from,int to)
 {
 	tile_t *dest=&local_area[to];
-	if (~entity->flags&MOBILE)
+	if (entity->agi<=0) {
+		// Maybe regain agility if totally crippled
+		entity->agi+=!(rand()%(20-entity->str));
+		return;
+	}
+	if (~entity->flags&MOBILE) // Immobile
 		return;
 	if (!legal_move(from,to))
 		return;
@@ -108,7 +141,11 @@ void try_move(entity_t *entity,int from,int to)
 		entity_collision(entity,dest->e);
 	// Entity may be gone after collision
 	if (!dest->e&&!(dest->fg&&entity->flags&SOLID)) {
-		floor_collision(entity,dest);
 		move_entity(entity,from,to);
+		floor_collision(entity,dest);
+		if (!(rand()%150)&&entity->agi<20) {
+			announce("e s",entity,"is now more agile from moving");
+			entity->agi++;
+		}
 	}
 }
