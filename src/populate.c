@@ -81,7 +81,7 @@ void populate(wtile_t *w,tile_t *area,bool persist)
 	int n_creatures=2*spawnlist_size+rand()%(persist?(AREA/96):(AREA/192));
 	int *pops=rand_fixed_sum(spawnlist_size,n_creatures);
 	for (int i=0;i<spawnlist_size;i++) {
-		if (!persist^!(spawnlist[i]->flags&PERSISTS))
+		if (w&&(!persist^!(spawnlist[i]->flags&PERSISTS)))
 			continue;
 		if (appropriate(w,spawnlist[i])) {
 			//announce("s s","Trying to spawn",spawnlist[i]->name);

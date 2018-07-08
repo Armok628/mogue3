@@ -37,8 +37,7 @@ void player_death()
 	for (;;) {
 		clear_announcements();
 		announce_stats(player);
-		announce("s","You have died.");
-		announce("s","Press q to quit.");
+		announce("s","You are dead.");
 		advance();
 		handle_input(player,fgetc(stdin));
 		if (player->hp>0)

@@ -137,6 +137,9 @@ tile_t *generate_area(wtile_t *w)
 		fix_rooms(area);
 		if (rand()%2)
 			place_axe(area);
+		int c=inside_coords(area);
+		area[c].bg='>';
+		area[c].bg_c=BROWN;
 	}
 	populate(w,area,true);
 	return area;
@@ -151,7 +154,6 @@ AREA_TYPE(dungeon," ",1,gray(), // Note: ' ' is not nothing
 		wallify(&area[i]);
 	for (int i=0;i<AREA/96;i++)
 		random_room(area);
-	fix_rooms(area);
 	fix_rooms(area);
 	for (int i=0;i<AREA/384;i++)
 		random_path(area);

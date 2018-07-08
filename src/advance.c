@@ -2,10 +2,15 @@
 static bool map_opened=false;
 void handle_input(entity_t *e,char input)
 {
+	static tile_t *up=NULL;
+	static int up_c=-1;
 	switch (input) {
 	case '\0': // ^@
 		debug_menu();
 		//handle_input(player,fgetc(stdin));
+		return;
+	case '?':
+		player_target();
 		return;
 	case 'R':
 		clear_screen();
@@ -14,10 +19,9 @@ void handle_input(entity_t *e,char input)
 		announce_stats(player);
 		handle_input(player,fgetc(stdin));
 		return;
-	case '?':
-		player_target();
-		return;
 	case 'q':
+		if (up)
+			free_area(local_area);
 		next_line();
 		quit();
 	}
@@ -29,6 +33,37 @@ void handle_input(entity_t *e,char input)
 		return;
 	}
 	switch (input) {
+	case '<':
+		if (local_area[e->coords].bg=='<') {
+			// Remove player from dungeon and destroy
+			local_area[player->coords].e=NULL;
+			free_area(local_area);
+			// Restore area and location
+			local_area=up;
+			player->coords=up_c;
+			local_area[player->coords].e=player;
+			// Clear area and location
+			up=NULL;
+			up_c=-1;
+			draw_local_area();
+		}
+		return;
+	case '>':
+		if (local_area[e->coords].bg=='>') {
+			// Save old area and player location
+			up=local_area;
+			up_c=player->coords;
+			// Generate dungeon and place player
+			local_area=dungeon_gen();
+			player->coords=empty_coords(local_area);
+			local_area[player->coords].e=player;
+			local_area[player->coords].bg='<';
+			local_area[player->coords].bg_c=BROWN;
+			// Spawn all dungeon-dwellers
+			populate(NULL,local_area,-1);
+			draw_local_area();
+		}
+		return;
 	case 'a':
 		action_menu();
 		return;
@@ -39,11 +74,26 @@ void handle_input(entity_t *e,char input)
 			draw_posl(e->coords+o);
 		}
 		return;
+	case 'd':
+		drop_menu(e);
+		return;
+	case 'e':
+		equip_menu(e);
+		return;
+	case 'g':
+		grab_menu(e);
+		return;
+	case 'i':
+		select_item(e->inventory);
+		return;
 	case 'm':
 		if (e==player&&player->hp>0)
 			spell_menu(e);
 		else
 			random_spell(e);
+		return;
+	case 'r':
+		unequip_menu(e);
 		return;
 	case 'w':
 		if (e!=player||player->hp<=0)
@@ -53,21 +103,6 @@ void handle_input(entity_t *e,char input)
 			map_opened=true;
 		} else
 			announce("s","You must be outside to travel");
-		return;
-	case 'i':
-		select_item(e->inventory);
-		return;
-	case 'd':
-		drop_menu(e);
-		return;
-	case 'g':
-		grab_menu(e);
-		return;
-	case 'e':
-		equip_menu(e);
-		return;
-	case 'r':
-		unequip_menu(e);
 		return;
 	}
 }
@@ -90,17 +125,20 @@ void take_turn(entity_t *e)
 void advance()
 {
 	// Unchanging entity pointer array prevents multiple turns per step
+	tile_t *start_area=local_area;
 	static entity_t *e[AREA];
 	for (int i=0;i<AREA;i++)
 		e[i]=local_area[i].e;
 	for (int i=0;i<AREA;i++) {
 		if (!e[i]||!e[i]->hp)
-			continue; // HP check to avoid post-death turns
+			continue;
 		else
 			take_turn(e[i]);
 		if (map_opened) {
 			map_opened=false;
 			return;
 		}
+		if (local_area!=start_area)
+			return;
 	}
 }
