@@ -62,6 +62,8 @@ entity_t *target_by(entity_t *caster,cat_t c,bool corpse)
 	int targets[100],n_targets=0,t;
 	if (caster==player) {
 		t=player_target();
+		if (!visible(caster->coords,t))
+			return NULL;
 		goto RETURN_TARGET;
 	}
 	for (int i=0;i<AREA;i++) {
