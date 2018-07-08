@@ -2,11 +2,6 @@
 static bool map_opened=false;
 void handle_input(entity_t *e,char input)
 {
-	int o=input_offset(input);
-	if (o) {
-		try_move(e,e->coords,e->coords+o);
-		return;
-	}
 	switch (input) {
 	case '\0': // ^@
 		debug_menu();
@@ -19,6 +14,21 @@ void handle_input(entity_t *e,char input)
 		announce_stats(player);
 		handle_input(player,fgetc(stdin));
 		return;
+	case '?':
+		player_target();
+		return;
+	case 'q':
+		next_line();
+		quit();
+	}
+	if (e->hp<=0)
+		return;
+	int o=input_offset(input);
+	if (o) {
+		try_move(e,e->coords,e->coords+o);
+		return;
+	}
+	switch (input) {
 	case 'a':
 		action_menu();
 		return;
@@ -30,20 +40,19 @@ void handle_input(entity_t *e,char input)
 		}
 		return;
 	case 'm':
-		if (e==player)
+		if (e==player&&player->hp>0)
 			spell_menu(e);
 		else
 			random_spell(e);
 		return;
 	case 'w':
+		if (e!=player||player->hp<=0)
+			return;
 		if (local_area[e->coords].bg!='#') {
 			open_map();
 			map_opened=true;
 		} else
 			announce("s","You must be outside to travel");
-		return;
-	case '?':
-		player_target();
 		return;
 	case 'i':
 		select_item(e->inventory);
@@ -60,8 +69,6 @@ void handle_input(entity_t *e,char input)
 	case 'r':
 		unequip_menu(e);
 		return;
-	case 'q':
-		quit();
 	}
 }
 void take_turn(entity_t *e)

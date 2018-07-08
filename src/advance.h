@@ -7,5 +7,6 @@
 #include "move.h"
 #include "think.h"
 
+void handle_input(entity_t *,char);
 void advance();
 #endif

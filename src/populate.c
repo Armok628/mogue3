@@ -34,9 +34,12 @@ void populate_with(tile_t *area,etype_t *type,int amt)
 	if (amt<0) { // Force inside (as in a dungeon)
 		spawn_fp=spawn_inside;
 		amt=-amt;
-	} else if ((sf&INSIDE)&&(sf&OUTSIDE))
-		spawn_fp=&spawn_randomly;
-	else if (sf&INSIDE)
+	} else if ((sf&INSIDE)&&(sf&OUTSIDE)) {
+		for (int i=0;i<amt/2;i++) {
+			spawn_inside(area,type);
+			spawn_outside(area,type);
+		}
+	} else if (sf&INSIDE)
 		spawn_fp=&spawn_inside;
 	else if (sf&OUTSIDE)
 		spawn_fp=&spawn_outside;
@@ -75,14 +78,14 @@ bool appropriate(wtile_t *tile,etype_t *type)
 }
 void populate(wtile_t *w,tile_t *area,bool persist)
 {
-	int n_creatures=5*spawnlist_size+rand()%(persist?(AREA/96):(AREA/192));
+	int n_creatures=2*spawnlist_size+rand()%(persist?(AREA/96):(AREA/192));
 	int *pops=rand_fixed_sum(spawnlist_size,n_creatures);
 	for (int i=0;i<spawnlist_size;i++) {
 		if (!persist^!(spawnlist[i]->flags&PERSISTS))
 			continue;
 		if (appropriate(w,spawnlist[i])) {
 			//announce("s s","Trying to spawn",spawnlist[i]->name);
-			int n=pops[i]+5;
+			int n=pops[i]+1;
 			if (!w)
 				n=-n;
 			populate_with(area,spawnlist[i],n);

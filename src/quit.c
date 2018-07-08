@@ -34,12 +34,14 @@ void quit()
 void player_death()
 {
 	redraw(player);
-	do {
+	for (;;) {
 		clear_announcements();
+		announce_stats(player);
 		announce("s","You have died.");
 		announce("s","Press q to quit.");
 		advance();
-	} while (fgetc(stdin)!='q');
-	next_line();
-	quit();
+		handle_input(player,fgetc(stdin));
+		if (player->hp>0)
+			return;
+	}
 }

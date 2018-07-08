@@ -74,7 +74,7 @@ entity_t *target_by(entity_t *caster,cat_t c,bool corpse)
 			t=local_area[i].e;
 		if (!t)
 			continue;
-		if (c==OFFENSE?enemy(caster,t):friend(caster,t))
+		if (c==OFFENSE?!friend(caster,t):friend(caster,t))
 			targets[n_targets++]=t->coords;
 	}
 	if (!n_targets)
