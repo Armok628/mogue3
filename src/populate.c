@@ -82,7 +82,10 @@ void populate(wtile_t *w,tile_t *area,bool persist)
 			continue;
 		if (appropriate(w,spawnlist[i])) {
 			//announce("s s","Trying to spawn",spawnlist[i]->name);
-			populate_with(area,spawnlist[i],w?pops[i]+5:-pops[i]-5);
+			int n=pops[i]+5;
+			if (!w)
+				n=-n;
+			populate_with(area,spawnlist[i],n);
 		}
 	}
 	free(pops);
