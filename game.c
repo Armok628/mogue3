@@ -9,9 +9,10 @@
 #include "src/types.h"
 #include "src/terminal.h"
 #include "src/world.h"
+long seed=0;
 int main(int argc,char **argv)
 {
-	long seed=time(NULL);
+	seed=time(NULL);
 	int erosion=3,offset=0;
 	if (argc>1)
 		for (int i=1;i<argc;i++) {
