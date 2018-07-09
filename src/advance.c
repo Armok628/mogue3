@@ -54,6 +54,7 @@ void handle_input(entity_t *e,char input)
 			// Save old area and player location
 			up=local_area;
 			up_c=player->coords;
+			local_area[player->coords].e=NULL; // Remove player
 			// Generate dungeon and place player
 			local_area=dungeon_gen();
 			player->coords=empty_coords(local_area);
