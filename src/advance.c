@@ -32,6 +32,7 @@ void handle_input(entity_t *e,char input)
 		try_move(e,e->coords,e->coords+o);
 		return;
 	}
+	char c;
 	switch (input) {
 	case '<':
 		if (local_area[e->coords].bg=='<') {
@@ -98,7 +99,8 @@ void handle_input(entity_t *e,char input)
 	case 'w':
 		if (e!=player||player->hp<=0)
 			return;
-		if (local_area[e->coords].bg!='#') {
+		c=local_area[e->coords].bg;
+		if (c!='#'&&c!='<'&&c!='>'&&c!='-') {
 			open_map();
 			map_opened=true;
 		} else
