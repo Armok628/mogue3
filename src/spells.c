@@ -73,6 +73,8 @@ SPELL_START(raise_dead,Raise Dead,DEFENSE)
 		return;
 	int effect=rand()%caster->wis;
 	announce("e s es d s",caster,"casts Raise Dead on",target,", giving",effect,"health");
+	if (!effect)
+		return;
 	target->hp+=effect;
 	t->e=target;
 	t->corpse=NULL;

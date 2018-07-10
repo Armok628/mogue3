@@ -28,7 +28,7 @@ int max_damage(entity_t *e1,entity_t *e2)
 }
 int damage(entity_t *e1,entity_t *e2)
 {
-	if (rand()%20>10+e2->agi-e1->agi)
+	if (rand()%40>=20+e1->agi-e2->agi)
 		return -1; // Sentinel value: -1 => dodge
 	int m=max_damage(e1,e2);
 	return m?rand()%m:0;
