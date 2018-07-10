@@ -20,7 +20,7 @@ bool visible(int c1,int c2)
 	return true;
 }
 int player_target()
-{
+{ // Does not enforce fog of war
 	int c=player->coords;
 	char input;
 	clear_announcements();
@@ -58,7 +58,7 @@ bool enemy(entity_t *c1,entity_t *c2)
 	return false;
 }
 entity_t *target_by(entity_t *caster,cat_t c,bool corpse)
-{
+{ // Enforces fog of war
 	int targets[100],n_targets=0,t;
 	if (caster==player) {
 		t=player_target();

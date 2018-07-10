@@ -22,7 +22,8 @@ void draw_visible()
 void debug_menu()
 {
 	int opt=menu(debug_options,n_debug_options);
-	static char s[2]=" ";
+	char s[2]=" ";
+	tile_t *t;
 	switch (opt) {
 	case 0: // Swap bodies
 		opt=player_target();
@@ -55,9 +56,12 @@ void debug_menu()
 		break;
 	case 6: // Resurrect entity
 		opt=player_target();
-		if (!local_area[opt].e)
+		t=&local_area[opt];
+		if (!t->corpse||t->e)
 			return;
-		kill_entity(local_area[opt].e);
+		t->e=t->corpse;
+		t->corpse=NULL;
+		t->e->hp=t->e->maxhp;
 		draw_posl(opt);
 		break;
 	case 7: // Check visibility
