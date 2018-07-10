@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS=-lm -g
+CFLAGS=-lm -g -pedantic
 
 game: game.c src/*
 	perl gen_spawnlist

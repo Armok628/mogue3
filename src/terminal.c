@@ -1,7 +1,7 @@
 #include "terminal.h"
 void move_cursor(int x,int y)
 {
-	printf("\e[%d;%dH",y+1,x+1);
+	printf("\033[%d;%dH",y+1,x+1);
 }
 void putc_pos(char ch,int x,int y)
 {
@@ -11,16 +11,16 @@ void putc_pos(char ch,int x,int y)
 void clear_screen()
 {
 	set_color(RESET,BG RESET);
-	fputs("\e[2J",stdout);
+	fputs("\033[2J",stdout);
 }
 void clear_line()
 {
 	set_color(RESET,BG RESET);
-	fputs("\e[2K",stdout);
+	fputs("\033[2K",stdout);
 }
 void set_cursor_visible(int v)
 {
-	printf("\e[?25%c",v?'h':'l');
+	printf("\033[?25%c",v?'h':'l');
 }
 void set_canon(int c)
 {
@@ -44,7 +44,7 @@ void set_blocking(int b)
 }
 void set_color(color_t c,color_t bg)
 {
-	printf("\e[%d;%d;%dm",c/100,c%100,bg);
+	printf("\033[%d;%d;%dm",c/100,c%100,bg);
 }
 int get_cursor_pos(int xf,int yf)
 {
@@ -53,8 +53,8 @@ int get_cursor_pos(int xf,int yf)
 	set_canon(0);
 	set_blocking(1);
 	int x,y;
-	printf("\e[6n");
-	fscanf(stdin,"\e[%d;%dH",&y,&x);
+	printf("\033[6n");
+	fscanf(stdin,"\033[%d;%dH",&y,&x);
 	tcsetattr(0,TCSANOW,&term);
 	return (x-1)*xf+(y-1)*yf;
 }

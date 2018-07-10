@@ -28,9 +28,9 @@ void cname(entity_t *caster) \
 void cast(entity_t *,int);
 void spell_menu(entity_t *);
 void random_spell(entity_t *);
-SPELL(heal_self);
-SPELL(magic_missile);
-SPELL(raise_dead);
-SPELL(freeze);
-SPELL(thaw);
+SPELL(heal_self)
+SPELL(magic_missile)
+SPELL(raise_dead)
+SPELL(freeze)
+SPELL(thaw)
 #endif

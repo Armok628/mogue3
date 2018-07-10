@@ -11,7 +11,7 @@ print $src
 open(my $et,'<','src/creatures.c');
 for (<$et>) {print $src "extern etype_t $1;\n" if (/^etype_t (\w*)=/)}
 close($et);
-print $src "#endif";
+print $src "#endif\n";
 close($src);
 # Generate spawnlist
 open(my $src,'>','src/spawnlist.c');
@@ -19,5 +19,5 @@ print $src "#include \"spawnlist.h\"\netype_t *spawnlist[]={\n";
 open(my $et,'<','src/creatures.c');
 for (<$et>) {print $src "\t&$1,\n" if (/^etype_t (\w*)=/)}
 close($et);
-print $src "};\nint spawnlist_size=sizeof(spawnlist)/sizeof(etype_t *);";
+print $src "};\nint spawnlist_size=sizeof(spawnlist)/sizeof(etype_t *);\n";
 close($src);
