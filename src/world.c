@@ -4,10 +4,10 @@ int avg_elev(int l[WIDTH][HEIGHT],int x,int y)
 {
 	int sum=0;
 	// Add up orthogonal elevations (including self)
-	for (int xo=-1;xo<=1;xo++)
-		sum+=l[x+xo][y];
-	for (int yo=-1;yo<=1;yo++)
-		sum+=l[x][y+yo];
+	for (int i=-1;i<=1;i++) {
+		sum+=l[x+i][y];
+		sum+=l[x][y+i];
+	}
 	// Add up elevations in 3x3 grid (including self)
 	for (int yo=-1;yo<=1;yo++)
 		for (int xo=-1;xo<=1;xo++)

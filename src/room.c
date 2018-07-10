@@ -164,7 +164,7 @@ void floor_line(tile_t *area,int c,int l,char dir)
 }
 bool make_path(tile_t *area,int c)
 {
-	if (area[c].bg=='#')
+	if (area[c].bg=='#'||area[c].bg=='%')
 		return false;
 	int h=dist_to_room(area,c,'h');
 	int j=dist_to_room(area,c,'j');
