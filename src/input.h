@@ -9,4 +9,6 @@
 int input_offset(char);
 char offset_input(int);
 char generate_input();
+char *string_prompt(char *);
+int int_prompt(char *);
 #endif

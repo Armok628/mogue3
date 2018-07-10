@@ -56,3 +56,25 @@ char generate_input()
 {
 	return '0'+rand()%10;
 }
+char *string_prompt(char *prompt)
+{
+	announce("s ",prompt);
+	set_canon(true);
+	set_cursor_visible(true);
+	char *input=calloc(WIDTH,1);
+	fgets(input,WIDTH,stdin);
+	set_canon(false);
+	set_cursor_visible(false);
+	return input;
+}
+int int_prompt(char *prompt)
+{
+	announce("s ",prompt);
+	set_canon(true);
+	set_cursor_visible(true);
+	char in[12];
+	fgets(in,12,stdin);
+	set_canon(false);
+	set_cursor_visible(false);
+	return atoi(in);
+}

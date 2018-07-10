@@ -1,6 +1,4 @@
 #include "debug.h"
-int alt_dir(int,int);
-
 static char *debug_options[]={
 	"Swap bodies",
 	"Make room",
@@ -10,7 +8,8 @@ static char *debug_options[]={
 	"Kill entity",
 	"Resurrect entity",
 	"Check visibility",
-	"Think"
+	"Think",
+	"Set health",
 };
 static int n_debug_options=sizeof(debug_options)/sizeof(char *);
 void draw_visible()
@@ -71,6 +70,9 @@ void debug_menu()
 	case 8: // Think
 		s[0]=think(player);
 		announce("s s","Think:",s);
+		break;
+	case 9: // Set health
+		player->hp=int_prompt("Set health to:");
 		break;
 	}
 }
