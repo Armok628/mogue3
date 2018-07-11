@@ -5,7 +5,7 @@
 #include "entity.h"
 #include "genarea.h"
 #include "input.h"
-#include "items.h"
+#include "inventory.h"
 #include "populate.h"
 #include "quit.h"
 #include "terminal.h"

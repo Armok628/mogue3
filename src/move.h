@@ -3,7 +3,7 @@
 #include "announce.h"
 #include "area.h"
 #include "entity.h"
-#include "items.h"
+#include "inventory.h"
 #include "map.h"
 #include "target.h"
 

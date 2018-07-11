@@ -1,16 +1,12 @@
-#ifndef ITEMS_H
-#define ITEMS_H
+#ifndef INVENTORY_H
+#define INVENTORY_H
 #include <stdlib.h>
 #include "menu.h"
 #include "types.h"
-
 extern int logs;
 extern int rocks;
 extern bool has_raft;
 extern bool has_canoe;
-extern itype_t sword;
-extern itype_t gold;
-extern itype_t axe;
 
 int select_item(islot_t []);
 void add_item(islot_t [],itype_t *);

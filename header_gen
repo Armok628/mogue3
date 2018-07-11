@@ -1,0 +1,43 @@
+#!/usr/bin/perl
+use strict;
+
+# Generate item header
+open(my $src,'>','src/items.h');
+print $src
+"#ifndef ITEMS_H
+#define ITEMS_H
+#include \"types.h\"\n";
+my @items=('src/items.c',@ARGV);
+for (@items) {
+	open(my $et,'<',$_);
+	for (<$et>) {print $src "extern itype_t $1;\n" if (/^itype_t (\w*)=/)}
+	close($et);
+}
+print $src "#endif\n";
+close($src);
+
+# Generate creature header
+open(my $src,'>','src/creatures.h');
+print $src
+"#ifndef CREATURES_H
+#define CREATURES_H
+#include \"items.h\"
+#include \"spells.h\"
+#include \"types.h\"\n";
+my @creatures=('src/creatures.c',@ARGV);
+for (@creatures) {
+	open(my $et,'<',$_);
+	for (<$et>) {print $src "extern etype_t $1;\n" if (/^etype_t (\w*)=/)}
+	close($et);
+}
+print $src "#endif\n";
+close($src);
+
+# Generate spawnlist
+open(my $src,'>','src/spawnlist.c');
+print $src "#include \"spawnlist.h\"\netype_t *spawnlist[]={\n";
+open(my $et,'<','src/creatures.h');
+for (<$et>) {print $src "\t&$1,\n" if (/^extern etype_t (\w*);/)}
+close($et);
+print $src "};\nint spawnlist_size=sizeof(spawnlist)/sizeof(etype_t *);\n";
+close($src);
