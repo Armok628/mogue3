@@ -22,4 +22,5 @@ void equip_menu(entity_t *);
 void unequip(entity_t *,int);
 void unequip_menu(entity_t *);
 bool equipped(entity_t *,itype_t *);
+void use_menu(entity_t *);
 #endif

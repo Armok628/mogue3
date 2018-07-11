@@ -122,3 +122,12 @@ bool equipped(entity_t *e,itype_t *t)
 			return true;
 	return false;
 }
+void use_menu(entity_t *e)
+{
+	announce("s","Select an item to use");
+	itype_t *selected=e->inventory[select_item(e->inventory)].type;
+	if (!selected->use) {
+		announce("s","There's nothing to do with it");
+	} else
+		selected->use(e);
+}

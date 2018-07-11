@@ -86,7 +86,7 @@ void handle_input(entity_t *e,char input)
 		grab_menu(e);
 		return;
 	case 'i':
-		select_item(e->inventory);
+		use_menu(e);
 		return;
 	case 'm':
 		if (e==player&&player->hp>0)
