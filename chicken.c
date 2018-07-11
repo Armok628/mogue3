@@ -6,10 +6,11 @@ void eat_chicken(entity_t *e)
 	e->hp+=10;
 	if (e->hp>e->maxhp)
 		e->hp=e->maxhp;
+	remove_type(e->inventory,&chicken_meat);
 }
 itype_t chicken_meat={
 	.name="Chicken Meat",
-	.category=DEFENSE,
+	.category=UTILITY,
 	.effect=0,
 	.value=5,
 	.symbol='c',
@@ -19,7 +20,7 @@ itype_t chicken_meat={
 etype_t chicken_etype={
 	.name="Chicken",
 	.symbol='c',
-	.color=YELLOW,
+	.color=BROWN,
 	.maxhp=25,.minhp=10,
 	.maxres=5,.minres=1,
 	.maxagi=15,.minagi=10,

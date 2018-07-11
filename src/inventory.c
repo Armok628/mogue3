@@ -60,6 +60,7 @@ void drop_item(entity_t *e,int i)
 }
 void drop_menu(entity_t *e)
 {
+	announce("s","Select an item to drop");
 	drop_item(e,select_item(e->inventory));
 }
 void loot_item(entity_t *e,int i)
@@ -81,7 +82,10 @@ void grab_menu(entity_t *e)
 {
 	tile_t *t=&local_area[e->coords];
 	if (t->pile[0].count&&t->corpse) {
-		switch (menu(piles,2)) {
+		announce("s","Select pile");
+		int i=menu(piles,2);
+		announce("s","Select item to grab");
+		switch (i) {
 		case 0: // Corpse
 			loot_item(e,select_item(t->corpse->inventory));
 			return;
@@ -89,7 +93,9 @@ void grab_menu(entity_t *e)
 			grab_item(e,select_item(t->pile));
 			return;
 		}
-	} else if (t->corpse) {
+	}
+	announce("s","Select item to grab");
+	if (t->corpse) {
 		loot_item(e,select_item(t->corpse->inventory));
 	} else if (t->pile[0].count) { // anything on ground
 		grab_item(e,select_item(t->pile));
@@ -103,6 +109,7 @@ void equip(entity_t *e,int i)
 }
 void equip_menu(entity_t *e)
 {
+	announce("s","Select an item to equip");
 	equip(e,select_item(e->inventory));
 }
 void unequip(entity_t *e,int i)
@@ -113,6 +120,7 @@ void unequip(entity_t *e,int i)
 }
 void unequip_menu(entity_t *e)
 {
+	announce("s","Select an item to remove");
 	unequip(e,select_item(e->equipped));
 }
 bool equipped(entity_t *e,itype_t *t)
@@ -125,9 +133,12 @@ bool equipped(entity_t *e,itype_t *t)
 void use_menu(entity_t *e)
 {
 	announce("s","Select an item to use");
-	itype_t *selected=e->inventory[select_item(e->inventory)].type;
-	if (!selected->use) {
+	int selection=select_item(e->inventory);
+	if (selection<0)
+		return;
+	itype_t *t=e->inventory[selection].type;
+	if (!t->use)
 		announce("s","There's nothing to do with it");
-	} else
-		selected->use(e);
+	else
+		t->use(e);
 }
