@@ -91,7 +91,7 @@ void wall_collision(entity_t *e,tile_t *wall)
 		wall->fg='=';
 		if (!(rand()%5)) {
 			announce("s","The axe breaks");
-			remove_type(player->equipped,&axe);
+			remove_item(player->equipped,&axe);
 		}
 		return;
 	case '=':

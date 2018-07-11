@@ -10,8 +10,8 @@ extern bool has_canoe;
 
 int select_item(islot_t []);
 void add_item(islot_t [],itype_t *);
-itype_t *remove_item(islot_t [],int);
-void remove_type(islot_t [],itype_t *);
+itype_t *remove_slot(islot_t [],int);
+void remove_item(islot_t [],itype_t *);
 void drop_item(entity_t *,int);
 void drop_menu(entity_t *);
 void loot_item(entity_t *,int);

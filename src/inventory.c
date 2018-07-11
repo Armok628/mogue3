@@ -27,7 +27,7 @@ void add_item(islot_t p[],itype_t *t)
 	p[c].type=t;
 	p[c].count=1;
 }
-itype_t *remove_item(islot_t p[],int i)
+itype_t *remove_slot(islot_t p[],int i)
 {
 	if (i<0)
 		return NULL;
@@ -43,11 +43,11 @@ itype_t *remove_item(islot_t p[],int i)
 	}
 	return t;
 }
-void remove_type(islot_t p[],itype_t *t)
+void remove_item(islot_t p[],itype_t *t)
 {
 	for (int i=0;p[i].count;i++)
 		if (p[i].type==t) {
-			remove_item(p,i);
+			remove_slot(p,i);
 			return;
 		}
 }
@@ -56,7 +56,7 @@ void drop_item(entity_t *e,int i)
 	if (i<0)
 		return;
 	tile_t *t=&local_area[e->coords];
-	add_item(t->pile,remove_item(e->inventory,i));
+	add_item(t->pile,remove_slot(e->inventory,i));
 }
 void drop_menu(entity_t *e)
 {
@@ -68,16 +68,16 @@ void loot_item(entity_t *e,int i)
 	if (i<0)
 		return;
 	tile_t *t=&local_area[e->coords];
-	add_item(e->inventory,remove_item(t->corpse->inventory,i));
+	add_item(e->inventory,remove_slot(t->corpse->inventory,i));
 }
 void grab_item(entity_t *e,int i)
 {
 	if (i<0)
 		return;
 	tile_t *t=&local_area[e->coords];
-	add_item(e->inventory,remove_item(t->pile,i));
+	add_item(e->inventory,remove_slot(t->pile,i));
 }
-static char *piles[]={"Corpse","Pile"};
+static const char *piles[]={"Corpse","Pile"};
 void grab_menu(entity_t *e)
 {
 	tile_t *t=&local_area[e->coords];
@@ -105,7 +105,7 @@ void equip(entity_t *e,int i)
 {
 	if (i<0)
 		return;
-	add_item(e->equipped,remove_item(e->inventory,i));
+	add_item(e->equipped,remove_slot(e->inventory,i));
 }
 void equip_menu(entity_t *e)
 {
@@ -116,7 +116,7 @@ void unequip(entity_t *e,int i)
 {
 	if (i<0)
 		return;
-	add_item(e->inventory,remove_item(e->equipped,i));
+	add_item(e->inventory,remove_slot(e->equipped,i));
 }
 void unequip_menu(entity_t *e)
 {
