@@ -7,7 +7,7 @@ void axe_use(entity_t *e)
 	int t=e->coords+o;
 	if (local_area[t].fg=='|'&&local_area[t].fg_c==BROWN) {
 		local_area[t].fg='\0';
-		add_item(local_area[t].pile,&timber,1);
+		add_item(local_area[t].pile,&lumber,1);
 	}
 	draw_posl(t);
 }
@@ -44,7 +44,7 @@ itype_t raft={
 	.symbol='#',
 	.color=BROWN
 };
-itype_t timber={
+itype_t lumber={
 	.name="Log",
 	.category=UTILITY,
 	.effect=0,

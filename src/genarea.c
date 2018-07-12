@@ -12,7 +12,7 @@ void place_tree(tile_t *area)
 		area[c].fg='|';
 		area[c].fg_c=BROWN;
 	} else {
-		add_item(area[c].pile,&timber,1);
+		add_item(area[c].pile,&lumber,1);
 	}
 	area[c].bg='o';
 	area[c].bg_c=BROWN;

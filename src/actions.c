@@ -20,12 +20,12 @@ void boat_menu()
 	int choice=menu(boats,n_boats);
 	switch (choice) {
 	case 0: // Raft
-		if (remove_item(player->inventory,&timber,8)) {
+		if (remove_item(player->inventory,&lumber,8)) {
 			add_item(player->inventory,&raft,1);
 			announce("s","You build a raft");
 		} else {
-			int c=item_count(player->inventory,&timber);
-			announce("sds","Not enough timbers (",c,"/8)");
+			int c=item_count(player->inventory,&lumber);
+			announce("sds","Not enough lumber (",c,"/8)");
 		}
 		return;
 	case 1: // Canoe
@@ -33,12 +33,12 @@ void boat_menu()
 			announce("s","You must equip an axe");
 			return;
 		}
-		if (remove_item(player->inventory,&timber,24)) {
+		if (remove_item(player->inventory,&lumber,24)) {
 			world[map_coords].landing=true;
 			announce("s","You build a canoe");
 		} else {
-			int c=item_count(player->inventory,&timber);
-			announce("sds","Not enough timbers (",c,"/24)");
+			int c=item_count(player->inventory,&lumber);
+			announce("sds","Not enough lumber (",c,"/24)");
 		}
 		return;
 	}
@@ -46,7 +46,7 @@ void boat_menu()
 void action_menu()
 {
 	tile_t *t;
-	int timbers=0,rocks=0;
+	int logs=0,rocks=0;
 	switch (menu(actions,n_actions)) {
 	case 0: // Do nothing
 		return;
@@ -69,10 +69,10 @@ void action_menu()
 		add_item(player->inventory,&rock,rocks);
 		return;
 	case 3: // Make an axe
-		timbers=item_count(player->inventory,&timber);
+		logs=item_count(player->inventory,&lumber);
 		rocks=item_count(player->inventory,&rock);
-		if (timbers>=1&&rocks>=2) {
-			remove_item(player->inventory,&timber,1);
+		if (logs>=1&&rocks>=2) {
+			remove_item(player->inventory,&lumber,1);
 			remove_item(player->inventory,&rock,2);
 			add_item(player->inventory,&axe,1);
 			announce("s","You make an axe");
