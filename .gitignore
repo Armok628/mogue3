@@ -1,0 +1,3 @@
+src/creatures.h
+src/items.h
+src/spawnlist.c
