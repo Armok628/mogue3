@@ -82,7 +82,7 @@ etype_t toad_etype={
 	.maxagi=20,.minagi=15,
 	.maxwis=2,.minwis=1,
 	.maxstr=5,.minstr=1,
-	.flags=SOLID|MOBILE|PERSISTS,
+	.flags=SOLID|MOBILE,
 	.friends={
 		&toad_etype
 	},
@@ -145,7 +145,7 @@ etype_t dragon_etype={
 		&mage_etype,
 		&monster_etype
 	},
-	.spawn_flags=WILDERNESS|OUTSIDE,
+	.spawn_flags=TOWN|WILDERNESS|OUTSIDE,
 	.min_elev=65,.max_elev=100,
 	.min_sp=0,.max_sp=1
 };

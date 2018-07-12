@@ -55,6 +55,9 @@ void entity_collision(entity_t *e1,entity_t *e2)
 	if (e2->hp<=0) {
 		printf(", killing it!");
 		kill_entity(e2);
+	} else if (e2->hp>e2->maxhp/2&&!(rand()%5)) {
+		announce("e s",e2,"is now tougher from it");
+		e2->maxhp+=1+rand()%10;
 	}
 	if (!(rand()%5)&&e1->str<20) {
 		announce("e s",e1,"is now stronger from it");
