@@ -6,7 +6,7 @@ void eat_chicken(entity_t *e)
 	e->hp+=10;
 	if (e->hp>e->maxhp)
 		e->hp=e->maxhp;
-	remove_item(e->inventory,&chicken_meat);
+	remove_item(e->inventory,&chicken_meat,1);
 }
 itype_t chicken_meat={
 	.name="Chicken Meat",
