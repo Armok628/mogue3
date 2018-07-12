@@ -10,6 +10,7 @@ static char *debug_options[]={
 	"Check visibility",
 	"Think",
 	"Set health",
+	"Teleport",
 };
 static int n_debug_options=sizeof(debug_options)/sizeof(char *);
 void draw_visible()
@@ -75,5 +76,15 @@ void debug_menu()
 	case 9: // Set health
 		player->hp=int_prompt("Set health to:");
 		break;
+	case 10: // Teleport
+		opt=player_target();
+		t=&local_area[opt];
+		local_area[player->coords].e=NULL;
+		draw_posl(player->coords);
+		player->coords=opt;
+		if (t->e)
+			free(t->e);
+		t->e=player;
+		draw_posl(opt);
 	}
 }

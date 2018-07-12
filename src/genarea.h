@@ -17,6 +17,7 @@ tile_t *land##_gen() \
 		area[i].fg_c=BLACK; \
 		area[i].bg=symbol; \
 		area[i].bg_c=colors; \
+		area[i].pile[0].count=0; \
 		area[i].e=NULL; \
 		area[i].corpse=NULL; \
 	} \

@@ -65,7 +65,7 @@ bool wall_needs_cull(tile_t *area,int i)
 	char sym=area[i].fg;
 	if (area[i].fg!='%'&&area[i].fg!='+')
 		return false;
-	int hw=0,vw=0,walls=0,floors=0,doors=0;
+	int hw=0,vw=0,walls=0,floors=0,doors=0,empty_space=0;
 	for (int x=-1;x<=1;x++)
 		for (int y=-1;y<=1;y++) {
 			int c=i+lin(x,y);
@@ -74,9 +74,12 @@ bool wall_needs_cull(tile_t *area,int i)
 			walls+=area[c].fg=='%';
 			floors+=area[c].bg=='#';
 			doors+=area[c].fg=='+';
+			empty_space+=area[c].fg==' ';
 		}
 	// Inside room
 	if (sym=='+') { // Door
+		if (empty_space)
+			return true;
 		if ((hw==2&&!vw)||(!hw&&vw==2))
 			return false;
 		if (hw==1||vw==1)
@@ -97,7 +100,7 @@ void fix_gap(tile_t *area,int i)
 {
 	if (area[i].bg!='#')
 		return;
-	int hw=0,vw=0,walls=0,floors=0,doors=0;
+	int hw=0,vw=0,walls=0,floors=0,doors=0,empty_space=0;
 	for (int x=-1;x<=1;x++)
 		for (int y=-1;y<=1;y++) {
 			int c=i+lin(x,y);
@@ -105,9 +108,12 @@ void fix_gap(tile_t *area,int i)
 			hw+=area[c].fg=='%'&&!y&&x;
 			walls+=area[c].fg=='%';
 			walls+=area[c].fg==' ';
+			empty_space+=area[c].fg==' ';
 			floors+=area[c].bg=='#';
 			doors+=area[c].fg=='+';
 		}
+	if (empty_space)
+		make_wall(&area[i]);
 	if (walls+floors+doors<9) { // Border of room
 		if (!doors)
 			make_door(&area[i]);
