@@ -6,6 +6,8 @@ open(my $src,'>','src/items.h');
 print $src
 "#ifndef ITEMS_H
 #define ITEMS_H
+#include \"area.h\"
+#include \"input.h\"
 #include \"types.h\"\n";
 my @items=('src/items.c',@ARGV);
 for (@items) {

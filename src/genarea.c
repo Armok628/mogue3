@@ -12,8 +12,7 @@ void place_tree(tile_t *area)
 		area[c].fg='|';
 		area[c].fg_c=BROWN;
 	} else {
-		area[c].fg='=';
-		area[c].fg_c=BROWN;
+		add_item(area[c].pile,&timber,1);
 	}
 	area[c].bg='o';
 	area[c].bg_c=BROWN;
@@ -26,7 +25,7 @@ void place_trees(tile_t *area,int n)
 void place_axe(tile_t *area)
 {
 	int c=inside_coords(area);
-	add_item(area[c].pile,&axe);
+	add_item(area[c].pile,&axe,1);
 }
 void place_spike(tile_t *area,color_t color)
 {

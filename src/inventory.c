@@ -1,139 +1,84 @@
 #include "inventory.h"
-bool has_axe=false;
-bool has_raft=false;
-bool has_canoe=false;
-int logs=0;
-int rocks=0;
-int select_item(islot_t l[])
-{
+int item_menu(islot_t l[])
+{ // Returns index of selected item
 	static char buf[1000];
 	char *strs[16];
 	int c=0,b=0;
 	for (;l[c].count;c++) {
-		sprintf(buf+b,"%s (%d)",l[c].type->name,l[c].count);
+		if (l[c].count>1)
+			sprintf(buf+b,"%s (%d)",l[c].type->name,l[c].count);
+		else
+			sprintf(buf+b,"%s",l[c].type->name);
 		strs[c]=buf+b;
 		b+=strlen(buf+b)+1;
 	}
 	return menu(strs,c);
 }
-void add_item(islot_t p[],itype_t *t)
-{
-	int c=0;
-	for (;p[c].count;c++)
-		if (p[c].type==t) {
-			p[c].count++;
-			return;
-		}
-	p[c].type=t;
-	p[c].count=1;
+int find_slot(islot_t inv[],itype_t *t)
+{ // Returns index of sought slot
+	for (int s=0;inv[s].count;s++)
+		if (inv[s].type==t)
+			return s;
+	return -1;
 }
-itype_t *remove_slot(islot_t p[],int i)
-{
-	if (i<0)
-		return NULL;
-	int c=0;
-	for (;p[c].count;c++);
+int add_slot(islot_t inv[],itype_t *t)
+{ // Returns index of added slot
+	int s=0;
+	for (;inv[s].count;s++);
+	if (s==INV_SIZE)
+		return 0;
+	inv[s].type=t;
+	return s;
+}
+int add_item(islot_t inv[],itype_t *t,int c)
+{ // Returns item count added
 	if (!c)
 		return 0;
-	itype_t *t=p[i].type;
-	p[i].count--;
-	if (p[i].count==0) {
-		p[i]=p[c-1];
-		p[c-1].count=0;
+	int s=find_slot(inv,t);
+	if (s>-1) {
+		inv[s].count+=c;
+		return c;
 	}
-	return t;
+	for (s=0;inv[s].count;s++);
+	inv[add_slot(inv,t)].count=c;
+	return c;
 }
-void remove_item(islot_t p[],itype_t *t)
-{
-	for (int i=0;p[i].count;i++)
-		if (p[i].type==t) {
-			remove_slot(p,i);
-			return;
-		}
+int item_count(islot_t inv[],itype_t *t)
+{ // Returns item count found
+	int s=find_slot(inv,t);
+	if (s<0)
+		return 0;
+	return inv[s].count;
 }
-void drop_item(entity_t *e,int i)
+void remove_slot(islot_t p[],int s)
 {
-	if (i<0)
+	if (s<0)
 		return;
-	tile_t *t=&local_area[e->coords];
-	add_item(t->pile,remove_slot(e->inventory,i));
-}
-void drop_menu(entity_t *e)
-{
-	announce("s","Select an item to drop");
-	drop_item(e,select_item(e->inventory));
-}
-void loot_item(entity_t *e,int i)
-{
-	if (i<0)
+	int c=0;
+	for (;p[c].count;c++);
+	if (c<=s)
 		return;
-	tile_t *t=&local_area[e->coords];
-	add_item(e->inventory,remove_slot(t->corpse->inventory,i));
+	p[s]=p[c-1];
+	p[c-1].type=NULL;
+	p[c-1].count=0;
 }
-void grab_item(entity_t *e,int i)
-{
-	if (i<0)
-		return;
-	tile_t *t=&local_area[e->coords];
-	add_item(e->inventory,remove_slot(t->pile,i));
-}
-static const char *piles[]={"Corpse","Pile"};
-void grab_menu(entity_t *e)
-{
-	tile_t *t=&local_area[e->coords];
-	if (t->pile[0].count&&t->corpse) {
-		announce("s","Select pile");
-		int i=menu(piles,2);
-		announce("s","Select item to grab");
-		switch (i) {
-		case 0: // Corpse
-			loot_item(e,select_item(t->corpse->inventory));
-			return;
-		case 1: // Pile
-			grab_item(e,select_item(t->pile));
-			return;
-		}
-	}
-	announce("s","Select item to grab");
-	if (t->corpse) {
-		loot_item(e,select_item(t->corpse->inventory));
-	} else if (t->pile[0].count) { // anything on ground
-		grab_item(e,select_item(t->pile));
-	}
-}
-void equip(entity_t *e,int i)
-{
-	if (i<0)
-		return;
-	add_item(e->equipped,remove_slot(e->inventory,i));
-}
-void equip_menu(entity_t *e)
-{
-	announce("s","Select an item to equip");
-	equip(e,select_item(e->inventory));
-}
-void unequip(entity_t *e,int i)
-{
-	if (i<0)
-		return;
-	add_item(e->inventory,remove_slot(e->equipped,i));
-}
-void unequip_menu(entity_t *e)
-{
-	announce("s","Select an item to remove");
-	unequip(e,select_item(e->equipped));
-}
-bool equipped(entity_t *e,itype_t *t)
-{
-	for (int i=0;e->equipped[i].count;i++)
-		if (e->equipped[i].type==t)
-			return true;
-	return false;
+int remove_item(islot_t inv[],itype_t *t,int c)
+{ // Returns true for success and the opposite
+	int s=find_slot(inv,t);
+	if (s<0)
+		return 0;
+	else if (c>inv[s].count) {
+		return 0;
+	} else if (c==inv[s].count) {
+		remove_slot(inv,s);
+	} else
+		inv[s].count-=c;
+	return c;
 }
 void use_menu(entity_t *e)
 {
 	announce("s","Select an item to use");
-	int selection=select_item(e->inventory);
+	int selection=item_menu(e->inventory);
 	if (selection<0)
 		return;
 	itype_t *t=e->inventory[selection].type;
@@ -141,4 +86,38 @@ void use_menu(entity_t *e)
 		announce("s","There's nothing to do with it");
 	else
 		t->use(e);
+}
+bool equipped(entity_t *e,itype_t *t)
+{
+	return item_count(e->equipped,t)>0;
+}
+void drop_menu(entity_t *e)
+	ITEM_MOVE_MENU(e->inventory,local_area[e->coords].pile)
+void equip_menu(entity_t *e)
+	ITEM_MOVE_MENU(e->inventory,e->equipped)
+void unequip_menu(entity_t *e)
+	ITEM_MOVE_MENU(e->equipped,e->inventory)
+void grab_menu(entity_t *e)
+{
+	static char *piles[]={"Corpse","Pile"};
+	tile_t *t=&local_area[e->coords];
+	if (t->corpse&&t->pile[0].count)
+		switch (menu(piles,2)) {
+		case 0:
+			goto GRAB_FROM_CORPSE;
+		case 1:
+			goto GRAB_FROM_PILE;
+		case 2:
+			return;
+		}
+	if (t->corpse)
+		goto GRAB_FROM_CORPSE;
+	else if (t->pile[0].count)
+		goto GRAB_FROM_PILE;
+	else
+		return;
+GRAB_FROM_CORPSE:
+	ITEM_MOVE_MENU(local_area[e->coords].corpse->inventory,e->inventory);
+GRAB_FROM_PILE:
+	ITEM_MOVE_MENU(local_area[e->coords].pile,e->inventory);
 }

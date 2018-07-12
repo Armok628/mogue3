@@ -18,6 +18,7 @@ void draw_visible()
 		if (visible(player->coords,i))
 			draw_posl(i);
 }
+extern bool on_canoe;
 void debug_menu()
 {
 	int opt=menu(debug_options,n_debug_options);
@@ -44,7 +45,7 @@ void debug_menu()
 		draw_local_area();
 		break;
 	case 4: // Give canoe
-		has_canoe=true;
+		on_canoe=true;
 		break;
 	case 5: // Kill entity
 		opt=player_target();

@@ -1,4 +1,5 @@
 #include "map.h"
+bool on_canoe=false;
 int map_coords;
 void draw_star(int pos)
 {
@@ -11,25 +12,25 @@ void map_move(int pos)
 	if (elevation<25) // World border
 		return;
 	bool landing=world[map_coords].landing;
-	if (!(landing||has_canoe)&&elevation<45) // Deep sea
+	if (!(landing||on_canoe)&&elevation<45) // Deep sea
 		return;
-	if (!(has_raft||has_canoe||landing)&&elevation<49) // Shallow water
+	if (!(equipped(player,&raft)||on_canoe||landing)&&elevation<49) // Shallow water
 		return;
 	int l1=world[map_coords].elevation>48;
 	int l2=elevation>48;
 	if (l1^l2) { // Land <=> Sea
-		if (l2&&has_raft) {
+		if (l2&&equipped(player,&raft)) {
 			announce("s","The raft breaks in the landing");
-			has_raft=false;
+			remove_item(player->equipped,&raft,1);
 		} else if (l2) {
 			announce("s","You land your canoe");
 			world[pos].landing=true;
-			has_canoe=false;
-		} else if (l1&&has_raft) {
+			on_canoe=false;
+		} else if (l1&&equipped(player,&raft)) {
 			announce("s","You embark on your raft");
-		} else if (l1&&(has_canoe||landing)) {
+		} else if (l1&&(on_canoe||landing)) {
 			announce("s","You embark on your canoe");
-			has_canoe=true;
+			on_canoe=true;
 			world[map_coords].landing=false;
 		}
 	}

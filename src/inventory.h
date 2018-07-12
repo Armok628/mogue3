@@ -3,24 +3,31 @@
 #include <stdlib.h>
 #include "menu.h"
 #include "types.h"
-extern int logs;
-extern int rocks;
-extern bool has_raft;
-extern bool has_canoe;
+#define ITEM_MOVE_MENU(inv,pile) { \
+	int s=item_menu(inv); \
+	itype_t *t=inv[s].type; \
+	if (s<0) \
+		return;\
+	int c=inv[s].count;\
+	if (c>1)\
+		c=int_prompt("How many?");\
+	if (!c)\
+		return;\
+	add_item(pile,t,remove_item(inv,t,c));\
+	return; \
+}
 
-int select_item(islot_t []);
-void add_item(islot_t [],itype_t *);
-itype_t *remove_slot(islot_t [],int);
-void remove_item(islot_t [],itype_t *);
-void drop_item(entity_t *,int);
-void drop_menu(entity_t *);
-void loot_item(entity_t *,int);
-void grab_item(entity_t *,int);
-void grab_menu(entity_t *);
-void equip(entity_t *,int);
-void equip_menu(entity_t *);
-void unequip(entity_t *,int);
-void unequip_menu(entity_t *);
-bool equipped(entity_t *,itype_t *);
+int item_menu(islot_t []);
+int find_slot(islot_t [],itype_t *);
+int add_slot(islot_t [],itype_t *);
+int add_item(islot_t [],itype_t *,int);
+int item_count(islot_t [],itype_t *);
+void remove_slot(islot_t [],int);
+int remove_item(islot_t [],itype_t *,int);
 void use_menu(entity_t *);
+bool equipped(entity_t *,itype_t *);
+void drop_menu(entity_t *);
+void equip_menu(entity_t *);
+void unequip_menu(entity_t *);
+void grab_menu(entity_t *);
 #endif

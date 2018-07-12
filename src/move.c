@@ -83,23 +83,6 @@ void wall_collision(entity_t *e,tile_t *wall)
 		if (wall->fg_c==BROWN)
 			wall->fg='\0'; // Open door
 		return;
-	case '|': // Tree
-		if (e!=player)
-			break;
-		if (!equipped(player,&axe))
-			break;
-		wall->fg='=';
-		if (!(rand()%5)) {
-			announce("s","The axe breaks");
-			remove_item(player->equipped,&axe);
-		}
-		return;
-	case '=':
-		if (e==player) {
-			logs++;
-			wall->fg='\0';
-		}
-		return;
 	}
 }
 void move_entity(entity_t *entity,int from,int to)

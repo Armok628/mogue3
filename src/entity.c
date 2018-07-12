@@ -34,10 +34,9 @@ entity_t *spawn(etype_t *type)
 	ltab_t *lt=&type->loot_table;
 	for (int i=0;lt->items[i];i++) {
 		int c=1+rand()%lt->amounts[i];
-		if (!c||lt->chances[i]<(rand()%100))
+		if (lt->chances[i]<(rand()%100))
 			continue;
-		e->inventory[n].type=lt->items[i];
-		e->inventory[n++].count=c;
+		add_item(e->inventory,lt->items[i],c);
 	}
 	e->type=type;
 	return e;

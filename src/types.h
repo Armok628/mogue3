@@ -1,6 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 #include "terminal.h" // color_t
+#define INV_SIZE 16  // TODO: Define quantities in better terms; add range checking
 
 // TODO: Split back into respective files or find compromise
 
@@ -20,7 +21,7 @@ typedef enum {OFFENSE,DEFENSE,UTILITY} cat_t; // cat(egory)
 typedef struct entity_s entity_t;
 
 // Items
-typedef struct itype_s {
+typedef struct itype_s { // TODO: Maximum stack size
 	char *name;
 	cat_t category;
 	int effect;
@@ -35,9 +36,9 @@ typedef struct islot_s {
 } islot_t; // i(tem)slot
 typedef struct ltab_s {
 	int count;
-	itype_t *items[16];
-	int amounts[16];
-	int chances[16]; // Percentages
+	itype_t *items[INV_SIZE];
+	int amounts[INV_SIZE];
+	int chances[INV_SIZE]; // Percentages
 } ltab_t; // l(oot)tab(le)
 
 // Entities
@@ -50,9 +51,9 @@ typedef struct etype_s {
 	int minagi,maxagi;
 	int minwis,maxwis;
 	int minstr,maxstr;
-	spell_t *spells[16];
-	struct etype_s *friends[16];
-	struct etype_s *enemies[16];
+	spell_t *spells[INV_SIZE];
+	struct etype_s *friends[INV_SIZE];
+	struct etype_s *enemies[INV_SIZE];
 	eflag_t flags;
 	ltab_t loot_table;
 	sflag_t spawn_flags;
@@ -62,12 +63,12 @@ struct entity_s {
 	char *name,symbol;
 	color_t color;
 	int coords; // coords can be used by spells
-	spell_t *spells[16];
+	spell_t *spells[INV_SIZE];
 	int hp,maxhp,res,agi,wis,str;
 	eflag_t flags;
 	etype_t *type;
-	islot_t inventory[16];
-	islot_t equipped[5];
+	islot_t inventory[INV_SIZE];
+	islot_t equipped[INV_SIZE];
 };
 
 // Spells
@@ -82,7 +83,7 @@ typedef struct tile_s {
 	entity_t *e,*corpse;
 	color_t fg_c,bg_c;
 	char fg,bg;
-	islot_t pile[16];
+	islot_t pile[INV_SIZE];
 } tile_t;
 typedef struct wtile_s {
 	tile_t *area;
