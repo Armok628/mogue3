@@ -29,6 +29,10 @@ int *rand_fixed_sum(int n,int max)
 }
 void populate_with(tile_t *area,etype_t *type,int amt)
 {
+	int min=type->min_sp,max=type->max_sp;
+	amt=max>amt?min>amt?min:amt:max;
+	if (!amt)
+		return;
 	sflag_t sf=type->spawn_flags;
 	void (*spawn_fp)(tile_t *,etype_t *)=&spawn_randomly;
 	if (amt<0) { // Force inside (as in a dungeon)

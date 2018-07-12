@@ -58,6 +58,7 @@ typedef struct etype_s {
 	ltab_t loot_table;
 	sflag_t spawn_flags;
 	int min_elev,max_elev;
+	int min_sp,max_sp;
 } etype_t; // e(ntity)type
 struct entity_s {
 	char *name,symbol;

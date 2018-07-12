@@ -40,7 +40,8 @@ etype_t human_etype={
 		&monster_etype
 	},
 	.spawn_flags=TOWN|INSIDE|OUTSIDE,
-	.min_elev=1,.max_elev=100
+	.min_elev=1,.max_elev=100,
+	.min_sp=AREA/384,.max_sp=AREA/128
 };
 etype_t monster_etype={
 	.name="Monster",
@@ -69,7 +70,8 @@ etype_t monster_etype={
 		&mage_etype
 	},
 	.spawn_flags=TOWN|WILDERNESS|DUNGEON|OUTSIDE,
-	.min_elev=1,.max_elev=100
+	.min_elev=1,.max_elev=100,
+	.min_sp=AREA/384,.max_sp=AREA/128
 };
 etype_t toad_etype={
 	.name="Toad",
@@ -85,7 +87,8 @@ etype_t toad_etype={
 		&toad_etype
 	},
 	.spawn_flags=WILDERNESS|OUTSIDE,
-	.min_elev=51,.max_elev=60
+	.min_elev=51,.max_elev=60,
+	.min_sp=AREA/384,.max_sp=AREA/128
 };
 etype_t mage_etype={
 	.name="Mage",
@@ -115,5 +118,35 @@ etype_t mage_etype={
 		&monster_etype
 	},
 	.spawn_flags=TOWN|INSIDE,
-	.min_elev=1,.max_elev=100
+	.min_elev=1,.max_elev=100,
+	.min_sp=AREA/384,.max_sp=AREA/128
+};
+etype_t dragon_etype={
+	.name="Dragon",
+	.symbol='D',
+	.color=GREEN,
+	.maxhp=200,.minhp=150,
+	.maxres=20,.minres=15,
+	.maxagi=20,.minagi=15,
+	.maxwis=20,.minwis=15,
+	.maxstr=20,.minstr=15,
+	.flags=PERSISTS|SOLID|MOBILE,
+	.loot_table={
+		.items={&gold},
+		.amounts={1000},
+		.chances={100}
+	},
+	.spells={
+		&heal_self_spell,
+		&magic_missile_spell,
+	},
+	.enemies={
+		&player_etype,
+		&human_etype,
+		&mage_etype,
+		&monster_etype
+	},
+	.spawn_flags=WILDERNESS|OUTSIDE,
+	.min_elev=65,.max_elev=100,
+	.min_sp=1,.max_sp=1
 };
