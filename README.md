@@ -3,11 +3,12 @@ The second rewrite of an old game of mine, adding various new features
 
 Ideas:
 
-* More creatures and items
-* Player building (but for what purpose?)
+* Loot tables for areas
+* Add-on enabled spells
+* Creature AI for picking up and using items
+* Effects system for entities (e.g. poison) and tiles (e.g. fire)
 * Better question-mark key functionality (tile descriptions?)
+* Randomized items and creatures
+* More creatures and items
 * Biomes by temperature (longitude and altitude)
-* Easier creature definitions
-* More randomized items and creatures
-* Effects system (poison, etc.)
-* Environmental effects (fire, etc.)
+* Player building (but for what purpose?)
