@@ -12,7 +12,6 @@ etype_t player_etype={
 	.spells={
 		&heal_self_spell,
 		&magic_missile_spell,
-		&raise_dead_spell,
 		&freeze_spell,
 		&thaw_spell
 	},

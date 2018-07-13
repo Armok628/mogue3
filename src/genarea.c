@@ -156,4 +156,5 @@ AREA_TYPE(dungeon," ",1,gray(), // Note: ' ' is not nothing
 	fix_rooms(area);
 	for (int i=0;i<AREA/384;i++)
 		random_path(area);
+	add_item(area[empty_coords(area)].pile,&scepter,rand()%2);
 )

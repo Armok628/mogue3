@@ -60,3 +60,12 @@ itype_t rock={
 	.symbol='*',
 	.color=DGRAY
 };
+itype_t scepter={
+	.name="Scepter",
+	.category=UTILITY,
+	.effect=0,
+	.value=1000,
+	.symbol='I',
+	.color=PURPLE,
+	.use=&raise_dead
+};
