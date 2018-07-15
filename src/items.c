@@ -17,7 +17,8 @@ itype_t sword={
 	.effect=10,
 	.value=100,
 	.symbol='/',
-	.color=DGRAY
+	.color=DGRAY,
+	.spawn_flags=NONE,
 };
 itype_t gold={
 	.name="Gold",
@@ -25,7 +26,8 @@ itype_t gold={
 	.effect=0,
 	.value=1,
 	.symbol='$',
-	.color=YELLOW
+	.color=YELLOW,
+	.spawn_flags=DUNGEON,
 };
 itype_t axe={
 	.name="Axe",
@@ -34,7 +36,8 @@ itype_t axe={
 	.value=50,
 	.symbol='P',
 	.color=WHITE,
-	.use=&axe_use
+	.use=&axe_use,
+	.spawn_flags=TOWN|INSIDE,
 };
 itype_t raft={
 	.name="Raft",
@@ -42,7 +45,8 @@ itype_t raft={
 	.effect=0,
 	.value=20,
 	.symbol='#',
-	.color=BROWN
+	.color=BROWN,
+	.spawn_flags=NONE,
 };
 itype_t lumber={
 	.name="Log",
@@ -50,7 +54,8 @@ itype_t lumber={
 	.effect=0,
 	.value=5,
 	.symbol='=',
-	.color=BROWN
+	.color=BROWN,
+	.spawn_flags=WILDERNESS|TOWN|OUTSIDE,
 };
 itype_t rock={
 	.name="Rock",
@@ -58,7 +63,8 @@ itype_t rock={
 	.effect=0,
 	.value=0,
 	.symbol='*',
-	.color=DGRAY
+	.color=DGRAY,
+	.spawn_flags=WILDERNESS|TOWN|OUTSIDE,
 };
 itype_t scepter={
 	.name="Scepter",
@@ -67,5 +73,6 @@ itype_t scepter={
 	.value=1000,
 	.symbol='I',
 	.color=PURPLE,
-	.use=&raise_dead
+	.use=&raise_dead,
+	.spawn_flags=DUNGEON,
 };

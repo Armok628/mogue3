@@ -13,9 +13,9 @@ etype_t player_etype={
 		&heal_self_spell,
 		&magic_missile_spell,
 		&freeze_spell,
-		&thaw_spell
+		&thaw_spell,
 	},
-	.spawn_flags=NONE
+	.spawn_flags=NONE,
 };
 etype_t human_etype={
 	.name="Human",
@@ -30,17 +30,17 @@ etype_t human_etype={
 	.loot_table={
 		.items={&sword,&gold},
 		.amounts={1,10},
-		.chances={50,100}
+		.chances={50,100},
 	},
 	.spells={
-		&heal_self_spell
+		&heal_self_spell,
 	},
 	.enemies={
-		&monster_etype
+		&monster_etype,
 	},
 	.spawn_flags=TOWN|INSIDE|OUTSIDE,
 	.min_elev=1,.max_elev=100,
-	.min_sp=5,.max_sp=AREA/128
+	.min_sp=5,.max_sp=AREA/128,
 };
 etype_t monster_etype={
 	.name="Monster",
@@ -55,22 +55,22 @@ etype_t monster_etype={
 	.loot_table={
 		.items={&gold},
 		.amounts={25},
-		.chances={50}
+		.chances={50},
 	},
 	.spells={
-		&magic_missile_spell
+		&magic_missile_spell,
 	},
 	.friends={
-		&monster_etype
+		&monster_etype,
 	},
 	.enemies={
 		&player_etype,
 		&human_etype,
-		&mage_etype
+		&mage_etype,
 	},
 	.spawn_flags=TOWN|WILDERNESS|DUNGEON|OUTSIDE,
 	.min_elev=1,.max_elev=100,
-	.min_sp=8,.max_sp=AREA/128
+	.min_sp=8,.max_sp=AREA/128,
 };
 etype_t toad_etype={
 	.name="Toad",
@@ -83,11 +83,11 @@ etype_t toad_etype={
 	.maxstr=5,.minstr=1,
 	.flags=SOLID|MOBILE,
 	.friends={
-		&toad_etype
+		&toad_etype,
 	},
 	.spawn_flags=WILDERNESS|OUTSIDE,
 	.min_elev=51,.max_elev=60,
-	.min_sp=8,.max_sp=AREA/128
+	.min_sp=8,.max_sp=AREA/128,
 };
 etype_t mage_etype={
 	.name="Mage",
@@ -102,23 +102,23 @@ etype_t mage_etype={
 	.loot_table={
 		.items={&gold},
 		.amounts={20},
-		.chances={100}
+		.chances={100},
 	},
 	.spells={
 		&heal_self_spell,
 		&magic_missile_spell,
-		&raise_dead_spell
+		&raise_dead_spell,
 	},
 	.friends={
 		&mage_etype,
-		&player_etype
+		&player_etype,
 	},
 	.enemies={
-		&monster_etype
+		&monster_etype,
 	},
 	.spawn_flags=TOWN|INSIDE,
 	.min_elev=1,.max_elev=100,
-	.min_sp=2,.max_sp=AREA/128
+	.min_sp=2,.max_sp=AREA/128,
 };
 etype_t dragon_etype={
 	.name="Dragon",
@@ -133,18 +133,18 @@ etype_t dragon_etype={
 	.loot_table={
 		.items={&gold},
 		.amounts={200},
-		.chances={100}
+		.chances={100},
 	},
 	.spells={
-		&dragonfire_spell
+		&dragonfire_spell,
 	},
 	.enemies={
 		&player_etype,
 		&human_etype,
 		&mage_etype,
-		&monster_etype
+		&monster_etype,
 	},
 	.spawn_flags=TOWN|WILDERNESS|OUTSIDE,
 	.min_elev=65,.max_elev=100,
-	.min_sp=0,.max_sp=1
+	.min_sp=0,.max_sp=1,
 };

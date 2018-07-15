@@ -6,4 +6,5 @@
 #include "spawnlist.h"
 
 void populate(wtile_t *,tile_t *,bool);
+void spawn_loot(wtile_t *,tile_t *,ltab_t *);
 #endif

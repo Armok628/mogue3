@@ -81,3 +81,28 @@ void populate(wtile_t *w,tile_t *area,bool persist)
 	}
 	free(pops);
 }
+void spawn_items(wtile_t *w,tile_t *area,itype_t *type,int count)
+{
+	if (!count)
+		return;
+	int (*get_coord)(tile_t *)=&empty_coords;
+	sflag_t sf=type->spawn_flags;
+	if (!w&&sf&DUNGEON)
+		get_coord=&inside_coords;
+	else if ((sf&INSIDE)&&(sf&OUTSIDE))
+		get_coord=&empty_coords;
+	else if (sf&INSIDE)
+		get_coord=&empty_coords;
+	else if (sf&OUTSIDE)
+		get_coord=&outside_coords;
+	add_item(area[get_coord(area)].pile,type,count);
+}
+void spawn_loot(wtile_t *w,tile_t *area,ltab_t *table)
+{
+	for (int i=0;table->items[i];i++) {
+		if (rand()%100>table->chances[i])
+			continue;
+		int c=1+rand()%table->amounts[i];
+		spawn_items(w,area,table->items[i],c);
+	}
+}

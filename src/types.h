@@ -29,6 +29,7 @@ typedef struct itype_s { // TODO: Maximum stack size
 	char symbol;
 	color_t color;
 	void (*use)(entity_t *);
+	sflag_t spawn_flags;
 } itype_t; // i(tem)type
 typedef struct islot_s {
 	itype_t *type;
@@ -39,6 +40,7 @@ typedef struct ltab_s {
 	itype_t *items[INV_SIZE];
 	int amounts[INV_SIZE];
 	int chances[INV_SIZE]; // Percentages
+	int occurrances[INV_SIZE]; // Number of "piles"
 } ltab_t; // l(oot)tab(le)
 
 // Entities

@@ -48,12 +48,18 @@ bool friend(entity_t *c1,entity_t *c2)
 	for (int i=0;c1->type->friends[i];i++)
 		if (c1->type->friends[i]==c2->type)
 			return true;
+	for (int i=0;c2->type->friends[i];i++)
+		if (c2->type->friends[i]==c1->type)
+			return true;
 	return false;
 }
 bool enemy(entity_t *c1,entity_t *c2)
 {
 	for (int i=0;c1->type->enemies[i];i++)
 		if (c1->type->enemies[i]==c2->type)
+			return true;
+	for (int i=0;c2->type->enemies[i];i++)
+		if (c2->type->enemies[i]==c1->type)
 			return true;
 	return false;
 }
