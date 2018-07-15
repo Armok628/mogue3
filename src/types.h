@@ -40,7 +40,6 @@ typedef struct ltab_s {
 	itype_t *items[INV_SIZE];
 	int amounts[INV_SIZE];
 	int chances[INV_SIZE]; // Percentages
-	int occurrances[INV_SIZE]; // Number of "piles"
 } ltab_t; // l(oot)tab(le)
 
 // Entities
