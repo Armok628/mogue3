@@ -29,8 +29,8 @@ etype_t human_etype={
 	.flags=PERSISTS|SOLID|MOBILE,
 	.loot_table={
 		.items={&sword,&gold},
-		.amounts={1,10},
 		.chances={50,100},
+		.amounts={{1,1},{2,10}},
 	},
 	.spells={
 		&heal_self_spell,
@@ -54,8 +54,8 @@ etype_t monster_etype={
 	.flags=SOLID|MOBILE,
 	.loot_table={
 		.items={&gold},
-		.amounts={25},
 		.chances={50},
+		.amounts={{5,25}},
 	},
 	.spells={
 		&magic_missile_spell,
@@ -101,8 +101,8 @@ etype_t mage_etype={
 	.flags=PERSISTS|SOLID|MOBILE,
 	.loot_table={
 		.items={&gold},
-		.amounts={20},
 		.chances={100},
+		.amounts={{10,20}},
 	},
 	.spells={
 		&heal_self_spell,
@@ -132,8 +132,8 @@ etype_t dragon_etype={
 	.flags=PERSISTS|SOLID|MOBILE,
 	.loot_table={
 		.items={&gold},
-		.amounts={200},
 		.chances={100},
+		.amounts={{100,200}},
 	},
 	.spells={
 		&dragonfire_spell,

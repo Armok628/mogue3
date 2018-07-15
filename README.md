@@ -3,6 +3,7 @@ The second rewrite of an old game of mine, adding various new features
 
 Ideas:
 
+* Event functions (upon moving, dying, etc.)
 * Loot tables for areas
 * Add-on enabled spells
 * Creature AI for picking up and using items

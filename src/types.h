@@ -53,8 +53,9 @@ typedef struct islot_s {
 typedef struct ltab_s {
 	int count;
 	itype_t *items[INV_SIZE];
-	int amounts[INV_SIZE];
+	range_t amounts[INV_SIZE];
 	int chances[INV_SIZE]; // Percentages
+	range_t occurrences[INV_SIZE];
 } ltab_t; // l(oot)tab(le)
 
 // Entities

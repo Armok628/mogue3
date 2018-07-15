@@ -100,7 +100,9 @@ void spawn_loot(wtile_t *w,tile_t *area,ltab_t *table)
 	for (int i=0;table->items[i];i++) {
 		if (rand()%100>table->chances[i])
 			continue;
-		int c=1+rand()%table->amounts[i];
-		spawn_items(w,area,table->items[i],c);
+		int c=ranged_rand(table->amounts[i]);
+		int o=ranged_rand(table->occurrences[i]);
+		for (int j=0;j<o;j++)
+			spawn_items(w,area,table->items[i],c);
 	}
 }
