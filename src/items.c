@@ -17,7 +17,7 @@ itype_t sword={
 	.effect=10,
 	.value=100,
 	.symbol='/',
-	.color=DGRAY,
+	.color=WHITE,
 	.spawn_flags=NONE,
 };
 itype_t gold={

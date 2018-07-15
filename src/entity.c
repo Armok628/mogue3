@@ -21,12 +21,12 @@ entity_t *spawn(etype_t *type)
 	e->name=type->name;
 	e->symbol=type->symbol;
 	e->color=type->color;
-	e->maxhp=rand_in_range(type->minhp,type->maxhp);
+	e->maxhp=ranged_rand(type->hp);
 	e->hp=e->maxhp;
-	e->res=rand_in_range(type->minres,type->maxres);
-	e->agi=rand_in_range(type->minagi,type->maxagi);
-	e->wis=rand_in_range(type->minwis,type->maxwis);
-	e->str=rand_in_range(type->minstr,type->maxstr);
+	e->res=ranged_rand(type->res);
+	e->agi=ranged_rand(type->agi);
+	e->wis=ranged_rand(type->wis);
+	e->str=ranged_rand(type->str);
 	e->flags=type->flags;
 	for (int i=0;type->spells[i];i++)
 		e->spells[i]=type->spells[i];

@@ -29,9 +29,8 @@ int *rand_fixed_sum(int n,int max)
 }
 void populate_with(tile_t *area,etype_t *type,int amt,bool dungeon)
 {
-	int min=type->min_sp,max=type->max_sp;
-	amt=max>amt?min>amt?min:amt:max;
-	if (!amt)
+	amt=enforce_range(amt,type->quota);
+	if (amt<1)
 		return;
 	sflag_t sf=type->spawn_flags;
 	void (*spawn_fp)(tile_t *,etype_t *)=&spawn_randomly;
@@ -49,7 +48,6 @@ void populate_with(tile_t *area,etype_t *type,int amt,bool dungeon)
 	for (int i=0;i<amt;i++)
 		spawn_fp(area,type);
 }
-#define IN_RANGE(min,val,max) (min<=val&&val<=max)
 bool appropriate(wtile_t *tile,etype_t *type)
 { // Returns true if type should spawn in tile's area
 	if (type->spawn_flags==NONE)
@@ -62,7 +60,7 @@ bool appropriate(wtile_t *tile,etype_t *type)
 	if (!tile->town&&!(type->spawn_flags&WILDERNESS)) {
 		return false;
 	}
-	if (!IN_RANGE(type->min_elev,tile->elevation,type->max_elev)) {
+	if (!in_range(tile->elevation,type->elev)) {
 		return false;
 	}
 	return true;

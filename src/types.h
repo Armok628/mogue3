@@ -1,5 +1,6 @@
 #ifndef TYPES_H
 #define TYPES_H
+#include <stdlib.h>
 #include "terminal.h" // color_t
 #define INV_SIZE 16  // TODO: Define quantities in better terms; add range checking
 
@@ -19,6 +20,20 @@ typedef enum {NORTH,SOUTH,EAST,WEST} dir_t; // dir(ection)
 typedef enum {OFFENSE,DEFENSE,UTILITY} cat_t; // cat(egory)
 
 typedef struct entity_s entity_t;
+
+typedef int range_t[2];
+static inline int ranged_rand(range_t r)
+{
+	return r[0]+rand()%(1+r[1]-r[0]);
+}
+static inline int enforce_range(int i,range_t r)
+{
+	return r[1]>i?r[0]>i?r[0]:i:r[1];
+}
+static inline bool in_range(int i,range_t r)
+{
+	return r[0]<=i&&i<=r[1];
+}
 
 // Items
 typedef struct itype_s { // TODO: Maximum stack size
@@ -47,19 +62,19 @@ typedef struct spell_s spell_t;
 typedef struct etype_s {
 	char *name,symbol;
 	color_t color;
-	int minhp,maxhp;
-	int minres,maxres;
-	int minagi,maxagi;
-	int minwis,maxwis;
-	int minstr,maxstr;
+	range_t hp;
+	range_t res;
+	range_t agi;
+	range_t wis;
+	range_t str;
 	spell_t *spells[INV_SIZE];
 	struct etype_s *friends[INV_SIZE];
 	struct etype_s *enemies[INV_SIZE];
 	eflag_t flags;
 	ltab_t loot_table;
 	sflag_t spawn_flags;
-	int min_elev,max_elev;
-	int min_sp,max_sp;
+	range_t elev;
+	range_t quota;
 } etype_t; // e(ntity)type
 struct entity_s {
 	char *name,symbol;
