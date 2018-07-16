@@ -8,5 +8,5 @@
 #include "room.h"
 #include "target.h"
 
-void debug_menu();
+void debug_command();
 #endif

@@ -110,8 +110,13 @@ void try_move(entity_t *entity,int from,int to)
 {
 	tile_t *dest=&local_area[to];
 	if (entity->agi<=0) {
+		announce("e s",entity,"is fully crippled ");
 		// Maybe regain agility if totally crippled
-		entity->agi+=!(rand()%(20-entity->str));
+		if (!(rand()%(20-entity->str))) {
+			printf("but manages to stand back up");
+			entity->agi++;
+		} else
+			printf("and fails to move");
 		return;
 	}
 	if (~entity->flags&MOBILE) // Immobile

@@ -7,14 +7,20 @@
 // TODO: Split back into respective files or find compromise
 
 typedef enum {false,true} bool;
-typedef enum {PERSISTS=1,SOLID=1<<1,MOBILE=1<<2,USES_ITEMS=1<<3} eflag_t;// e(ntity)flag
+typedef enum {
+	PERSISTS=1,
+	SOLID=1<<1,
+	MOBILE=1<<2,
+	USES_ITEMS=1<<3,
+	CASTS_SPELLS=1<<4,
+} eflag_t;// e(ntity)flag
 typedef enum {
 	NONE=0,
 	WILDERNESS=1,
 	TOWN=1<<1,
 	DUNGEON=1<<2,
 	INSIDE=1<<3,
-	OUTSIDE=1<<4
+	OUTSIDE=1<<4,
 } sflag_t; // s(pawn)flag
 typedef enum {NORTH,SOUTH,EAST,WEST} dir_t; // dir(ection)
 typedef enum {OFFENSE,DEFENSE,UTILITY} cat_t; // cat(egory)

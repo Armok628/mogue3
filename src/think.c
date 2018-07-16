@@ -48,7 +48,7 @@ char think(entity_t *e)
 {
 	if (!(rand()%10))
 		return '5'; // Wait
-	if ((rand()%100)<e->wis)
+	if (e->flags&CASTS_SPELLS&&(rand()%100)<e->wis)
 		return 'm'; // Cast spell
 	if (e->flags&USES_ITEMS) {
 		if (e->inventory[0].count&&!(rand()%5))

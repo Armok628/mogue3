@@ -6,8 +6,7 @@ void handle_input(entity_t *e,char input)
 	static int up_c=-1;
 	switch (input) {
 	case '\0': // ^@
-		debug_menu();
-		//handle_input(player,fgetc(stdin));
+		debug_command();
 		return;
 	case '?':
 		player_target();

@@ -1,18 +1,4 @@
 #include "debug.h"
-static char *debug_options[]={
-	"Swap bodies",
-	"Make room",
-	"Fix rooms",
-	"Random path",
-	"Give canoe",
-	"Kill entity",
-	"Resurrect entity",
-	"Check visibility",
-	"Think",
-	"Set health",
-	"Teleport",
-};
-static int n_debug_options=sizeof(debug_options)/sizeof(char *);
 void draw_visible()
 {
 	for (int i=0;i<AREA;i++)
@@ -20,71 +6,59 @@ void draw_visible()
 			draw_posl(i);
 }
 extern bool on_canoe;
-void debug_menu()
+void debug_command()
 {
-	int opt=menu(debug_options,n_debug_options);
-	char s[2]=" ";
-	tile_t *t;
-	switch (opt) {
-	case 0: // Swap bodies
-		opt=player_target();
-		if (!local_area[opt].e)
-			return;
-		player=local_area[opt].e;
-		break;
-	case 1: // Make room
-		random_room(local_area);
-		world[map_coords].town=true;
-		draw_local_area();
-		break;
-	case 2: // Fix rooms
-		fix_rooms(local_area);
-		draw_local_area();
-		break;
-	case 3: // Random path
-		random_path(local_area);
-		draw_local_area();
-		break;
-	case 4: // Give canoe
+	char *input=string_prompt("Command: ");
+	char stat[4];
+	int num;
+	if (!strcmp(input,"swap")) {
+		entity_t *t=local_area[player_target()].e;
+		if (!t)
+			announce("s","No target");
+		else
+			player=t;
+	} else if (!strcmp(input,"kill")) {
+		entity_t *t=local_area[player_target()].e;
+		if (!t)
+			announce("s","No target");
+		else {
+			announce("e s",t,"mysteriously dies");
+			kill_entity(t);
+			draw_posl(t->coords);
+		}
+	} else if (!strcmp(input,"resurrect")) {
+		int c=player_target();
+		tile_t *t=&local_area[c];
+		if (!t||!t->corpse||t->e) {
+			announce("s","No target");
+		} else {
+			t->e=t->corpse;
+			t->corpse=NULL;
+			t->e->hp=t->e->maxhp;
+			announce("e s",t->e,"mysteriously comes back to life");
+			draw_posl(c);
+		}
+	} else if (!strcmp(input,"canoe")) {
 		on_canoe=true;
-		break;
-	case 5: // Kill entity
-		opt=player_target();
-		if (!local_area[opt].e)
-			return;
-		kill_entity(local_area[opt].e);
-		draw_posl(opt);
-		break;
-	case 6: // Resurrect entity
-		opt=player_target();
-		t=&local_area[opt];
-		if (!t->corpse||t->e)
-			return;
-		t->e=t->corpse;
-		t->corpse=NULL;
-		t->e->hp=t->e->maxhp;
-		draw_posl(opt);
-		break;
-	case 7: // Check visibility
-		clear_screen();
-		draw_visible();
-		break;
-	case 8: // Think
-		s[0]=think(player);
-		announce("s s","Think:",s);
-		break;
-	case 9: // Set health
-		player->hp=int_prompt("Set health to:");
-		break;
-	case 10: // Teleport
-		opt=player_target();
-		t=&local_area[opt];
-		local_area[player->coords].e=NULL;
-		draw_posl(player->coords);
-		player->coords=opt;
-		if (t->e)
-			free(t->e);
-		t->e=player;
-		draw_posl(opt);
-	}
+	} else if (sscanf(input,"set %3[^=]=%d",stat,&num)==2) {
+		entity_t *t=local_area[player_target()].e;
+		if (!t)
+			announce("s","No target");
+		else if (!strcmp(stat,"res"))
+			t->res=num;
+		else if (!strcmp(stat,"agi"))
+			t->agi=num;
+		else if (!strcmp(stat,"wis"))
+			t->wis=num;
+		else if (!strcmp(stat,"str"))
+			t->str=num;
+		else if (!strcmp(stat,"hp")) {
+			t->hp=num;
+			if (t->hp>t->maxhp)
+				t->maxhp=t->hp;
+		} else
+			announce("s","Invalid stat");
+	} else
+		announce("s","Unrecognized command");
+	free(input);
 }
