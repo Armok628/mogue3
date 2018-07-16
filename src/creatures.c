@@ -1,4 +1,5 @@
 #include "creatures.h"
+spell_t breathe_fire_spell;
 etype_t player_etype={
 	.name="Player",
 	.symbol='@',
@@ -8,12 +9,13 @@ etype_t player_etype={
 	.agi={5,15},
 	.wis={5,15},
 	.str={5,15},
-	.flags=PERSISTS|SOLID|MOBILE|USES_ITEMS,
+	.flags=PERSISTS|SOLID|MOBILE|USES_ITEMS|CASTS_SPELLS,
 	.spells={
 		&heal_self_spell,
 		&magic_missile_spell,
 		&freeze_spell,
 		&thaw_spell,
+		&breathe_fire_spell,
 	},
 	.spawn_flags=NONE,
 };
@@ -26,7 +28,7 @@ etype_t human_etype={
 	.agi={5,15},
 	.wis={5,15},
 	.str={5,15},
-	.flags=PERSISTS|SOLID|MOBILE|USES_ITEMS,
+	.flags=PERSISTS|SOLID|MOBILE|USES_ITEMS|CASTS_SPELLS,
 	.loot_table={
 		.items={&sword,&gold},
 		.chances={50,100},
@@ -51,7 +53,7 @@ etype_t monster_etype={
 	.agi={5,15},
 	.wis={5,10},
 	.str={10,15},
-	.flags=SOLID|MOBILE|USES_ITEMS,
+	.flags=SOLID|MOBILE|USES_ITEMS|CASTS_SPELLS,
 	.loot_table={
 		.items={&gold},
 		.chances={50},
@@ -98,7 +100,7 @@ etype_t mage_etype={
 	.agi={5,15},
 	.wis={15,20},
 	.str={5,10},
-	.flags=PERSISTS|SOLID|MOBILE|USES_ITEMS,
+	.flags=PERSISTS|SOLID|MOBILE|USES_ITEMS|CASTS_SPELLS,
 	.loot_table={
 		.items={&gold},
 		.chances={100},
@@ -121,14 +123,22 @@ etype_t mage_etype={
 	.quota={2,AREA/128},
 };
 // Dragons and firebreathing
-void burn_start(entity_t *e)
+// Entity effect: Burning
+void burn_start(int c)
 {
+	entity_t *e=local_area[c].e;
+	announce("e s",e,"bursts into flames!");
 	e->color=LRED;
 	draw_posl(e->coords);
 }
-void burn_turn(entity_t *e)
+void burn_turn(int c)
 {
+	entity_t *e=local_area[c].e;
 	int d=1+rand()%5;
+	if (e->color==LRED)
+		e->color=YELLOW;
+	else
+		e->color=LRED;
 	announce("e s d s",e,"burns for",d,"damage");
 	e->hp-=d;
 	if (e->hp<0) {
@@ -137,18 +147,51 @@ void burn_turn(entity_t *e)
 		draw_posl(e->coords);
 	}
 }
-void burn_end(entity_t *e)
+void burn_end(int c)
 {
+	entity_t *e=local_area[c].e;
 	announce("e s",e,"stops burning");
 	e->color=e->type->color;
 	draw_posl(e->coords);
 }
 effect_t burning={
-	.type=ENTITY,
 	.start=&burn_start,
 	.turn=&burn_turn,
 	.end=&burn_end,
 };
+// Tile effect: Burning
+void tile_burning_start(int c)
+{
+	local_area[c].bg_c=rand()%2?LRED:YELLOW;
+}
+void tile_burning_turn(int c)
+{
+	tile_t *t=&local_area[c];
+	if (t->e&&t->e->type!=&dragon_etype)
+		add_effect(t->e->effects,&burning,5+rand()%5,c);
+	if (t->bg_c==LRED)
+		t->bg_c=YELLOW;
+	else
+		t->bg_c=LRED;
+	draw_posl(c);
+}
+void tile_burning_end(int c)
+{
+	local_area[c].bg_c=LGRAY;
+	draw_posl(c);
+}
+effect_t tile_burning={
+	.start=tile_burning_start,
+	.turn=tile_burning_turn,
+	.end=tile_burning_end,
+};
+// Spell: Breathe fire
+bool set_fire(int c)
+{
+	add_effect(local_area[c].effects,&tile_burning,5+rand()%5,c);
+	draw_posl(c);
+	return true;
+}
 SPELL_START(breathe_fire,Breathe Fire,OFFENSE)
 	ON(target_enemy(caster))
 	if (!target)
@@ -156,7 +199,8 @@ SPELL_START(breathe_fire,Breathe Fire,OFFENSE)
 	int effect=10+rand()%caster->wis;
 	announce("e s es d s",caster,"breathes fire at",target,", doing",effect,"damage");
 	target->hp-=effect;
-	add_entity_effect(target,&burning,5+rand()%5);
+	in_line(caster->coords,target->coords,&set_fire);
+	add_effect(target->effects,&burning,5+rand()%5,target->coords);
 	if (target->hp<=0) {
 		target->hp=0;
 		kill_entity(target);
@@ -172,7 +216,7 @@ etype_t dragon_etype={
 	.agi={15,20},
 	.wis={15,20},
 	.str={15,20},
-	.flags=PERSISTS|SOLID|MOBILE,
+	.flags=PERSISTS|SOLID|MOBILE|CASTS_SPELLS,
 	.loot_table={
 		.items={&gold},
 		.chances={100},
@@ -188,6 +232,6 @@ etype_t dragon_etype={
 		&monster_etype,
 	},
 	.spawn_flags=TOWN|WILDERNESS|OUTSIDE,
-	.elev={65,100},
+	.elev={66,100},
 	.quota={0,1},
 };

@@ -1,5 +1,5 @@
 #include "target.h"
-bool visible(int c1,int c2)
+bool in_line(int c1,int c2,bool (*f)(int))
 {
 	float x1=xcmp(c1),x2=xcmp(c2);
 	float y1=ycmp(c1),y2=ycmp(c2);
@@ -9,15 +9,23 @@ bool visible(int c1,int c2)
 	for (float d=0;d<mag;d+=1) {
 		int x=round(x1+=dx);
 		int y=round(y1+=dy);
-		tile_t *t=&local_area[lin(x,y)];
+		int l=lin(x,y);
+		tile_t *t=&local_area[l];
 		if (x==x2&&y==y2)
 			return true;
-		if (t->fg||t->e)
+		if (!f(l))
 			return false;
-		//set_color(WHITE,BG BLACK);
-		//putc_pos('#',x,y);
 	}
 	return true;
+}
+bool translucent(int c)
+{
+	tile_t *t=&local_area[c];
+	return !(t->fg||t->e);
+}
+bool visible(int c1,int c2)
+{
+	return in_line(c1,c2,&translucent);
 }
 int player_target()
 { // Does not enforce fog of war

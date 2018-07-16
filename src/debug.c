@@ -1,8 +1,9 @@
 #include "debug.h"
-void draw_visible()
+void draw_visible(int c)
 {
+	clear_screen();
 	for (int i=0;i<AREA;i++)
-		if (visible(player->coords,i))
+		if (visible(c,i))
 			draw_posl(i);
 }
 extern bool on_canoe;
@@ -40,6 +41,13 @@ void debug_command()
 		}
 	} else if (!strcmp(input,"canoe")) {
 		on_canoe=true;
+	} else if (!strcmp(input,"teleport")) {
+		int c=player_target();
+		if (local_area[c].e)
+			free(local_area[c].e);
+		move_entity(player,player->coords,player_target());
+	} else if (!strcmp(input,"visibility")) {
+		draw_visible(player->coords);
 	} else if (sscanf(input,"set %3[^=]=%d",stat,&num)==2) {
 		entity_t *t=local_area[player_target()].e;
 		if (!t)

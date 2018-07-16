@@ -26,6 +26,7 @@ typedef enum {NORTH,SOUTH,EAST,WEST} dir_t; // dir(ection)
 typedef enum {OFFENSE,DEFENSE,UTILITY} cat_t; // cat(egory)
 
 typedef struct entity_s entity_t;
+typedef struct tile_s tile_t;
 
 typedef int range_t[2];
 static inline int ranged_rand(range_t r)
@@ -43,10 +44,9 @@ static inline bool in_range(int i,range_t r)
 
 // Effects
 typedef struct effect_s {
-	enum {TILE,ENTITY} type;
-	void (*start)(entity_t *);
-	void (*turn)(entity_t *);
-	void (*end)(entity_t *);
+	void (*start)(int);
+	void (*turn)(int);
+	void (*end)(int);
 } effect_t;
 typedef struct eslot_s {
 	int dur;
@@ -116,13 +116,13 @@ typedef struct spell_s {
 } spell_t;
 
 // Tiles
-typedef struct tile_s {
+struct tile_s {
 	entity_t *e,*corpse;
 	color_t fg_c,bg_c;
 	char fg,bg;
 	islot_t pile[INV_SIZE];
 	eslot_t effects[INV_SIZE];
-} tile_t;
+};
 typedef struct wtile_s {
 	tile_t *area;
 	int elevation;

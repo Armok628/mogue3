@@ -1,5 +1,5 @@
 #include "items.h"
-int chop_target(int coords)
+int target_chop(int coords)
 {
 	int targets[9],count;
 	for (int dx=-1;dx<=1;dx++)
@@ -8,7 +8,7 @@ int chop_target(int coords)
 			if (local_area[i].fg=='|')
 				targets[count++]=i;
 		}
-	return count?targets[rand()%count]:0;
+	return count?targets[rand()%count]-coords:0;
 }
 void axe_use(entity_t *e)
 {
@@ -16,7 +16,7 @@ void axe_use(entity_t *e)
 	if (e==player)
 		o=input_offset(fgetc(stdin));
 	else
-		o=chop_target(e->coords);
+		o=target_chop(e->coords);
 	if (!o)
 		return;
 	int t=e->coords+o;

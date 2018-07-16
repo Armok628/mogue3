@@ -1,5 +1,4 @@
 #include "advance.h"
-static bool map_opened=false;
 void handle_input(entity_t *e,char input)
 {
 	static tile_t *up=NULL;
@@ -108,7 +107,6 @@ void handle_input(entity_t *e,char input)
 		c=local_area[e->coords].bg;
 		if (c!='#'&&c!='<'&&c!='>'&&c!='-') {
 			open_map();
-			map_opened=true;
 		} else
 			announce("s","You must be outside to travel");
 		return;
@@ -117,6 +115,9 @@ void handle_input(entity_t *e,char input)
 void take_turn(entity_t *e)
 {
 	char key;
+	handle_entity_effects(e);
+	if (!e->hp)
+		return;
 	if (e==player) {
 		move_cursor(0,HEIGHT);
 		print_stats(player);
@@ -134,18 +135,15 @@ void advance()
 { // Non-player creatures take their turns
 	tile_t *start_area=local_area;
 	static entity_t *e[AREA];
-	for (int i=0;i<AREA;i++)
-		e[i]=local_area[i].e;
 	for (int i=0;i<AREA;i++) {
-		handle_entity_effects(e[i]);
+		handle_tile_effects(i);
+		e[i]=local_area[i].e;
+	}
+	for (int i=0;i<AREA;i++) {
 		if (e[i]==player||!e[i]||!e[i]->hp)
 			continue;
 		else
 			take_turn(e[i]);
-		if (map_opened) {
-			map_opened=false;
-			return;
-		}
 		if (local_area!=start_area)
 			return;
 	}

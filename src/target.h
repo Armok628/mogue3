@@ -6,6 +6,8 @@
 #include "terminal.h"
 #include "types.h"
 
+bool in_line(int,int,bool (*)(int));
+bool translucent(int);
 bool visible(int,int);
 int player_target();
 bool friend(entity_t *,entity_t *);
