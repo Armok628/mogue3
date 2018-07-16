@@ -29,6 +29,8 @@ int main(int argc,char **argv)
 	player=spawn(&player_etype);
 	enter_map_cell(rand_land_coords());
 
-	for (;;)
+	for (;;) {
+		take_turn(player);
 		advance();
+	}
 }
