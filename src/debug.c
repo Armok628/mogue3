@@ -48,6 +48,10 @@ void debug_command()
 		move_entity(player,player->coords,player_target());
 	} else if (!strcmp(input,"visibility")) {
 		draw_visible(player->coords);
+	} else if (!strcmp(input,"dragon")) {
+		int c=player_target();
+		local_area[c].e=spawn(&dragon_etype);
+		local_area[c].e->coords=c;
 	} else if (sscanf(input,"set %3[^=]=%d",stat,&num)==2) {
 		entity_t *t=local_area[player_target()].e;
 		if (!t)

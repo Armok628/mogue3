@@ -10,7 +10,6 @@ bool in_line(int c1,int c2,bool (*f)(int))
 		int x=round(x1+=dx);
 		int y=round(y1+=dy);
 		int l=lin(x,y);
-		tile_t *t=&local_area[l];
 		if (x==x2&&y==y2)
 			return true;
 		if (!f(l))

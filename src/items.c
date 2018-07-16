@@ -1,7 +1,7 @@
 #include "items.h"
 int target_chop(int coords)
 {
-	int targets[9],count;
+	int targets[9],count=0;
 	for (int dx=-1;dx<=1;dx++)
 		for (int dy=-1;dy<=1;dy++) {
 			int i=coords+lin(dx,dy);
