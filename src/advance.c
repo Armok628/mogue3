@@ -93,6 +93,8 @@ void handle_input(entity_t *e,char input)
 			use_rand(e);
 		return;
 	case 'm':
+		if (!(e&CASTS_SPELLS))
+			return;
 		if (e==player&&player->hp>0)
 			spell_menu(e);
 		else
