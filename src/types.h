@@ -35,6 +35,18 @@ static inline bool in_range(int i,range_t r)
 	return r[0]<=i&&i<=r[1];
 }
 
+// Effects
+typedef struct effect_s {
+	enum {TILE,ENTITY} type;
+	void (*start)(entity_t *);
+	void (*turn)(entity_t *);
+	void (*end)(entity_t *);
+} effect_t;
+typedef struct eslot_s {
+	int dur;
+	effect_t *effect;
+} eslot_t; // e(ffect)slot
+
 // Items
 typedef struct itype_s { // TODO: Maximum stack size
 	char *name;
@@ -87,6 +99,7 @@ struct entity_s {
 	etype_t *type;
 	islot_t inventory[INV_SIZE];
 	islot_t equipped[INV_SIZE];
+	eslot_t effects[INV_SIZE];
 };
 
 // Spells
@@ -102,6 +115,7 @@ typedef struct tile_s {
 	color_t fg_c,bg_c;
 	char fg,bg;
 	islot_t pile[INV_SIZE];
+	eslot_t effects[INV_SIZE];
 } tile_t;
 typedef struct wtile_s {
 	tile_t *area;
@@ -110,4 +124,5 @@ typedef struct wtile_s {
 	color_t color;
 	bool town,landing;
 } wtile_t; // w(orld)tile
+
 #endif

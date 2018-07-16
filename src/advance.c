@@ -132,13 +132,13 @@ void take_turn(entity_t *e)
 	handle_input(e,key);
 }
 void advance()
-{
-	// Unchanging entity pointer array prevents multiple turns per step
+{ // Non-player creatures take their turns
 	tile_t *start_area=local_area;
 	static entity_t *e[AREA];
 	for (int i=0;i<AREA;i++)
 		e[i]=local_area[i].e;
 	for (int i=0;i<AREA;i++) {
+		handle_entity_effects(e[i]);
 		if (e[i]==player||!e[i]||!e[i]->hp)
 			continue;
 		else

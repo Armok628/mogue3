@@ -98,16 +98,3 @@ SPELL_START(thaw,Thaw,DEFENSE)
 	target->flags|=MOBILE;
 	draw_posl(target->coords);
 SPELL_END
-SPELL_START(dragonfire,Dragonfire,OFFENSE)
-	ON(target_enemy(caster))
-	if (!target)
-		return;
-	int effect=10+rand()%caster->wis;
-	announce("e s es d s",caster,"breathes fire at",target,", doing",effect,"damage");
-	target->hp-=effect;
-	if (target->hp<=0) {
-		target->hp=0;
-		kill_entity(target);
-	}
-	draw_posl(target->coords);
-SPELL_END

@@ -120,6 +120,49 @@ etype_t mage_etype={
 	.elev={1,100},
 	.quota={2,AREA/128},
 };
+// Dragons and firebreathing
+void burn_start(entity_t *e)
+{
+	e->color=LRED;
+	draw_posl(e->coords);
+}
+void burn_turn(entity_t *e)
+{
+	int d=1+rand()%5;
+	announce("e s d s",e,"burns for",d,"damage");
+	e->hp-=d;
+	if (e->hp<0) {
+		printf(", killing it!");
+		kill_entity(e);
+		draw_posl(e->coords);
+	}
+}
+void burn_end(entity_t *e)
+{
+	announce("e s",e,"stops burning");
+	e->color=e->type->color;
+	draw_posl(e->coords);
+}
+effect_t burning={
+	.type=ENTITY,
+	.start=&burn_start,
+	.turn=&burn_turn,
+	.end=&burn_end,
+};
+SPELL_START(breathe_fire,Breathe Fire,OFFENSE)
+	ON(target_enemy(caster))
+	if (!target)
+		return;
+	int effect=10+rand()%caster->wis;
+	announce("e s es d s",caster,"breathes fire at",target,", doing",effect,"damage");
+	target->hp-=effect;
+	add_entity_effect(target,&burning,5+rand()%5);
+	if (target->hp<=0) {
+		target->hp=0;
+		kill_entity(target);
+	}
+	draw_posl(target->coords);
+SPELL_END
 etype_t dragon_etype={
 	.name="Dragon",
 	.symbol='D',
@@ -136,7 +179,7 @@ etype_t dragon_etype={
 		.amounts={{100,200}},
 	},
 	.spells={
-		&dragonfire_spell,
+		&breathe_fire_spell,
 	},
 	.enemies={
 		&player_etype,

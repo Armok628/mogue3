@@ -33,5 +33,4 @@ SPELL(magic_missile)
 SPELL(raise_dead)
 SPELL(freeze)
 SPELL(thaw)
-SPELL(dragonfire)
 #endif
