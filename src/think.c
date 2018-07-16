@@ -51,10 +51,11 @@ char think(entity_t *e)
 	if ((rand()%100)<e->wis)
 		return 'm'; // Cast spell
 	if (e->flags&USES_ITEMS) {
-		if (local_area[e->coords].pile[0].count)
-			return 'g'; // Grab item
 		if (e->inventory[0].count&&!(rand()%5))
 			return 'i'; // Use item
+		tile_t *t=&local_area[e->coords];
+		if (t->pile[0].count||(t->corpse&&t->corpse->inventory[0].count))
+			return 'g'; // Grab item
 	}
 	int mov_opts[9],atk_opts[9],flee_opts[9];
 	int n_atk=0,n_mov=0,n_flee=0;

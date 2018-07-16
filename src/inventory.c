@@ -135,10 +135,19 @@ void grab_rand(entity_t *e)
 {
 	int c=0;
 	tile_t *t=&local_area[e->coords];
-	for (;t->pile[c].count;c++);
+	islot_t *p;
+	if (t->pile[0].count&&t->corpse&&t->corpse->inventory[0].count)
+		p=rand()%2?t->pile:t->corpse->inventory;
+	else if (t->corpse&&t->corpse->inventory[0].count)
+		p=t->corpse->inventory;
+	else if (t->pile[0].count)
+		p=t->pile;
+	else
+		return;
+	for (;p[c].count;c++);
 	if (!c)
 		return;
 	c=rand()%c;
-	add_item(e->inventory,t->pile[c].type,t->pile[c].count);
-	remove_slot(t->pile,c);
+	add_item(e->inventory,p[c].type,p[c].count);
+	remove_slot(p,c);
 }

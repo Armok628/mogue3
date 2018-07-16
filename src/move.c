@@ -75,6 +75,7 @@ void floor_collision(entity_t *e,tile_t *floor)
 			if (e->hp<=0) {
 				printf(", killing it");
 				kill_entity(e);
+				draw_posl(e->coords);
 			}
 			break;
 	}
