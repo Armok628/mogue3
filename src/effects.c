@@ -45,3 +45,12 @@ void handle_tile_effects(int c)
 	for (int i=0;s[i].effect;i++)
 		handle_effect_slot(c,s,i);
 }
+void end_effect(eslot_t s[],effect_t *e,int c)
+{
+	for (int i=0;s[i].effect;i++)
+		if (s[i].effect==e) {
+			remove_effect_slot(s,i);
+			e->end(c);
+			return;
+		}
+}

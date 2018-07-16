@@ -124,6 +124,7 @@ etype_t mage_etype={
 };
 // Dragons and firebreathing
 // Entity effect: Burning
+effect_t burning;
 void burn_start(int c)
 {
 	entity_t *e=local_area[c].e;
@@ -143,6 +144,7 @@ void burn_turn(int c)
 	e->hp-=d;
 	if (e->hp<0) {
 		printf(", killing it!");
+		end_effect(e->effects,&burning,c);
 		kill_entity(e);
 		draw_posl(e->coords);
 	}
@@ -200,11 +202,12 @@ SPELL_START(breathe_fire,Breathe Fire,OFFENSE)
 	announce("e s es d s",caster,"breathes fire at",target,", doing",effect,"damage");
 	target->hp-=effect;
 	in_line(caster->coords,target->coords,&set_fire);
-	add_effect(target->effects,&burning,5+rand()%5,target->coords);
+	end_effect(target->effects,&burning,target->coords);
 	if (target->hp<=0) {
 		target->hp=0;
 		kill_entity(target);
 	}
+	add_effect(target->effects,&burning,5+rand()%5,target->coords);
 	draw_posl(target->coords);
 SPELL_END
 etype_t dragon_etype={
