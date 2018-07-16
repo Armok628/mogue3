@@ -206,6 +206,7 @@ SPELL_START(breathe_fire,Breathe Fire,OFFENSE)
 	if (target->hp<=0) {
 		target->hp=0;
 		kill_entity(target);
+		return;
 	}
 	add_effect(target->effects,&burning,5+rand()%5,target->coords);
 	draw_posl(target->coords);
