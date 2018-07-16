@@ -7,7 +7,7 @@
 // TODO: Split back into respective files or find compromise
 
 typedef enum {false,true} bool;
-typedef enum {PERSISTS=1,SOLID=1<<1,MOBILE=1<<2} eflag_t;// e(ntity)flag
+typedef enum {PERSISTS=1,SOLID=1<<1,MOBILE=1<<2,USES_ITEMS=1<<3} eflag_t;// e(ntity)flag
 typedef enum {
 	NONE=0,
 	WILDERNESS=1,

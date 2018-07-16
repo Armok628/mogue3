@@ -18,8 +18,6 @@
 }
 
 int item_menu(islot_t []);
-int find_slot(islot_t [],itype_t *);
-int add_slot(islot_t [],itype_t *);
 int add_item(islot_t [],itype_t *,int);
 int item_count(islot_t [],itype_t *);
 void remove_slot(islot_t [],int);
@@ -30,4 +28,6 @@ void drop_menu(entity_t *);
 void equip_menu(entity_t *);
 void unequip_menu(entity_t *);
 void grab_menu(entity_t *);
+void use_rand(entity_t *);
+void grab_rand(entity_t *);
 #endif

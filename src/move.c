@@ -83,7 +83,7 @@ void wall_collision(entity_t *e,tile_t *wall)
 { // Handles interactions with "walls"
 	switch (wall->fg) {
 	case '+': // Door
-		if (wall->fg_c==BROWN)
+		if (e->flags&USES_ITEMS&&wall->fg_c==BROWN)
 			wall->fg='\0'; // Open door
 		return;
 	}

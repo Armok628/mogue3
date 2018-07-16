@@ -83,10 +83,16 @@ void handle_input(entity_t *e,char input)
 		equip_menu(e);
 		return;
 	case 'g':
-		grab_menu(e);
+		if (e==player)
+			grab_menu(e);
+		else
+			grab_rand(e);
 		return;
 	case 'i':
-		use_menu(e);
+		if (e==player)
+			use_menu(e);
+		else
+			use_rand(e);
 		return;
 	case 'm':
 		if (e==player&&player->hp>0)

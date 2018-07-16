@@ -121,3 +121,24 @@ GRAB_FROM_CORPSE:
 GRAB_FROM_PILE:
 	ITEM_MOVE_MENU(local_area[e->coords].pile,e->inventory);
 }
+void use_rand(entity_t *e)
+{
+	int opts[INV_SIZE],c=0;
+	for (int i=0;e->inventory[i].count;i++)
+		if (e->inventory[i].type->use)
+			opts[c++]=i;
+	if (!c)
+		return;
+	e->inventory[opts[rand()%c]].type->use(e);
+}
+void grab_rand(entity_t *e)
+{
+	int c=0;
+	tile_t *t=&local_area[e->coords];
+	for (;t->pile[c].count;c++);
+	if (!c)
+		return;
+	c=rand()%c;
+	add_item(e->inventory,t->pile[c].type,t->pile[c].count);
+	remove_slot(t->pile,c);
+}

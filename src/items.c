@@ -1,7 +1,22 @@
 #include "items.h"
+int chop_target(int coords)
+{
+	int targets[9],count;
+	for (int dx=-1;dx<=1;dx++)
+		for (int dy=-1;dy<=1;dy++) {
+			int i=coords+lin(dx,dy);
+			if (local_area[i].fg=='|')
+				targets[count++]=i;
+		}
+	return count?targets[rand()%count]:0;
+}
 void axe_use(entity_t *e)
-{ // One can assume only the player can use this for now
-	int o=input_offset(fgetc(stdin));
+{
+	int o;
+	if (e==player)
+		o=input_offset(fgetc(stdin));
+	else
+		o=chop_target(e->coords);
 	if (!o)
 		return;
 	int t=e->coords+o;
