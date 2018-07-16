@@ -139,7 +139,7 @@ void advance()
 	for (int i=0;i<AREA;i++)
 		e[i]=local_area[i].e;
 	for (int i=0;i<AREA;i++) {
-		if (!e[i]||!e[i]->hp)
+		if (e[i]==player||!e[i]||!e[i]->hp)
 			continue;
 		else
 			take_turn(e[i]);

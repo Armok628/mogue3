@@ -9,5 +9,6 @@
 #include "think.h"
 
 void handle_input(entity_t *,char);
+void take_turn(entity_t *e);
 void advance();
 #endif
