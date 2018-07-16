@@ -45,7 +45,7 @@ void debug_command()
 		int c=player_target();
 		if (local_area[c].e)
 			free(local_area[c].e);
-		move_entity(player,player->coords,player_target());
+		move_entity(player,player->coords,c);
 	} else if (!strcmp(input,"visibility")) {
 		draw_visible(player->coords);
 	} else if (!strcmp(input,"dragon")) {
