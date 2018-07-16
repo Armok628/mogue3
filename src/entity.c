@@ -5,12 +5,6 @@ void draw_entity(entity_t *e)
 	set_color(e->color,e->hp?BG BLACK:BG RED);
 	putchar(e->symbol);
 }
-void redraw(entity_t *e)
-{
-	int c=e->coords;
-	move_cursor(xcmp(c),ycmp(c));
-	draw_entity(e);
-}
 static inline int rand_in_range(int min,int max)
 {
 	return min+rand()%(max-min);

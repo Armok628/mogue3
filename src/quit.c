@@ -33,7 +33,7 @@ void quit()
 }
 void player_death()
 {
-	redraw(player);
+	draw_posl(player->coords);
 	for (;;) {
 		clear_announcements();
 		announce_stats(player);

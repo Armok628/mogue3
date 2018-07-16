@@ -91,3 +91,20 @@ itype_t scepter={
 	.use=&raise_dead,
 	.spawn_flags=DUNGEON,
 };
+void eat_poison_apple(entity_t *e)
+{
+	announce("e s",e,"eats a poison apple");
+	remove_item(e->inventory,&poison_apple,1);
+	kill_entity(e);
+	draw_posl(e->coords);
+}
+itype_t poison_apple={
+	.name="Poison Apple",
+	.category=UTILITY,
+	.effect=0,
+	.value=0,
+	.symbol='o',
+	.color=RED,
+	.use=&eat_poison_apple,
+	.spawn_flags=DUNGEON,
+};

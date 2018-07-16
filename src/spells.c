@@ -62,7 +62,7 @@ SPELL_START(magic_missile,Magic Missile,OFFENSE)
 		target->hp=0;
 		kill_entity(target);
 	}
-	redraw(target);
+	draw_posl(target->coords);
 SPELL_END
 SPELL_START(raise_dead,Raise Dead,DEFENSE)
 	ON(target_corpse(caster))
@@ -80,7 +80,7 @@ SPELL_START(raise_dead,Raise Dead,DEFENSE)
 	t->corpse=NULL;
 	if (target->hp>target->maxhp)
 		target->hp=target->maxhp;
-	redraw(target);
+	draw_posl(target->coords);
 SPELL_END
 SPELL_START(freeze,Freeze,OFFENSE)
 	ON(target_enemy(caster))
@@ -88,7 +88,7 @@ SPELL_START(freeze,Freeze,OFFENSE)
 		return;
 	target->color=WHITE;
 	target->flags&=~MOBILE;
-	redraw(target);
+	draw_posl(target->coords);
 SPELL_END
 SPELL_START(thaw,Thaw,DEFENSE)
 	ON(target_friend(caster))
@@ -96,7 +96,7 @@ SPELL_START(thaw,Thaw,DEFENSE)
 		return;
 	target->color=target->type->color;
 	target->flags|=MOBILE;
-	redraw(target);
+	draw_posl(target->coords);
 SPELL_END
 SPELL_START(dragonfire,Dragonfire,OFFENSE)
 	ON(target_enemy(caster))
@@ -109,5 +109,5 @@ SPELL_START(dragonfire,Dragonfire,OFFENSE)
 		target->hp=0;
 		kill_entity(target);
 	}
-	redraw(target);
+	draw_posl(target->coords);
 SPELL_END
