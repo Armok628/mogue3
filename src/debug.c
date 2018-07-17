@@ -46,8 +46,8 @@ void debug_command()
 		if (local_area[c].e)
 			free(local_area[c].e);
 		move_entity(player,player->coords,c);
-	} else if (!strcmp(input,"visibility")) {
-		draw_visible(player->coords);
+	} else if (!strcmp(input,"fog_of_war")) {
+		fog_of_war=!fog_of_war;
 	} else if (!strcmp(input,"dragon")) {
 		int c=player_target();
 		local_area[c].e=spawn(&dragon_etype);

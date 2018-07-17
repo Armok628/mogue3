@@ -7,6 +7,7 @@
 #define HEIGHT 24
 #define AREA (HEIGHT*WIDTH)
 extern tile_t *local_area;
+extern bool fog_of_war;
 
 // X and Y components of linear index
 static inline int xcmp(int l)

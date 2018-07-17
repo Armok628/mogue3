@@ -135,6 +135,8 @@ void take_turn(entity_t *e)
 }
 void advance()
 { // Non-player creatures take their turns
+	if (fog_of_war)
+		draw_local_area();
 	tile_t *start_area=local_area;
 	static entity_t *e[AREA];
 	for (int i=0;i<AREA;i++) {

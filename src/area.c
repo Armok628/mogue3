@@ -1,5 +1,6 @@
 #include "area.h"
 tile_t *local_area;
+bool fog_of_war=false;
 void draw_tile(tile_t tile)
 {
 	if (tile.e)
@@ -22,14 +23,22 @@ void draw_pos(int x,int y)
 	if (x<0||x>=WIDTH||y<0||y>=HEIGHT)
 		return;
 	move_cursor(x,y);
-	draw_tile(local_area[lin(x,y)]);
+	if (fog_of_war&&!visible(player->coords,lin(x,y))) {
+		set_color(BLACK,BG BLACK);
+		putchar(' ');
+	} else
+		draw_tile(local_area[lin(x,y)]);
 }
 void draw_posl(int c)
 {
 	if (c<0||c>=AREA)
 		return;
 	move_cursor(xcmp(c),ycmp(c));
-	draw_tile(local_area[c]);
+	if (fog_of_war&&!visible(player->coords,c)) {
+		set_color(BLACK,BG BLACK);
+		putchar(' ');
+	} else
+		draw_tile(local_area[c]);
 }
 void draw_local_area()
 {
