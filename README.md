@@ -3,8 +3,6 @@ The second rewrite of an old game of mine, adding various new features
 
 Ideas:
 
-* Effects system for entities (e.g. poison) and tiles (e.g. fire)
-	* Event functions (upon moving, dying, etc.)
 * Loot tables for areas
 * Add-on enabled spells
 * Better question-mark key functionality (tile descriptions?)
