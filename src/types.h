@@ -94,6 +94,7 @@ typedef struct etype_s {
 	sflag_t spawn_flags;
 	range_t elev;
 	range_t quota;
+	effect_t *perm_effects[INV_SIZE];
 } etype_t; // e(ntity)type
 struct entity_s {
 	char *name,symbol;

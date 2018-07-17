@@ -20,6 +20,10 @@ char ccw(char dir)
 }
 char alt_dir(int pos,char dir)
 { // Return alternate direction if path is blocked
+	int dest=pos+input_offset(dir);
+	tile_t *t=&local_area[dest];
+	if (legal_move(pos,dest)&&!t->e&&!t->fg)
+		return dir;
 	bool occupied[2]={false,false};
 	char dirs[2];
 	dirs[0]=cw(dir);
@@ -27,8 +31,8 @@ char alt_dir(int pos,char dir)
 	for (int i=0;i<4;i++) { // 4 rotations -> opposite direction
 		for (int j=0;j<2;j++) {
 			// Look both directions
-			int dest=pos+input_offset(dirs[j]);
-			tile_t *t=&local_area[dest];
+			dest=pos+input_offset(dirs[j]);
+			t=&local_area[dest];
 			occupied[j]=!legal_move(pos,dest)||t->e||t->fg;
 		}
 		if (occupied[0]&&occupied[1]) { // Both blocked
@@ -89,8 +93,7 @@ char think(entity_t *e)
 		announce("e s e",e,"flees from",local_area[dest].e);
 		dest=coords-(dest-coords); // Reverse offset to dest -> reverse direction
 		tile_t *t=&local_area[dest];
-		if (!legal_move(coords,dest)||t->e||t->fg) // Occupied
-			return alt_dir(coords,offset_input(dest-coords));
+		return alt_dir(coords,offset_input(dest-coords));
 	} else if (n_atk)
 		dest=atk_opts[rand()%n_atk];
 	else if (n_mov)

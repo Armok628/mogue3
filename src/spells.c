@@ -82,19 +82,3 @@ SPELL_START(raise_dead,Raise Dead,DEFENSE)
 		target->hp=target->maxhp;
 	draw_posl(target->coords);
 SPELL_END
-SPELL_START(freeze,Freeze,OFFENSE)
-	ON(target_enemy(caster))
-	if (!target)
-		return;
-	target->color=WHITE;
-	target->flags&=~MOBILE;
-	draw_posl(target->coords);
-SPELL_END
-SPELL_START(thaw,Thaw,DEFENSE)
-	ON(target_friend(caster))
-	if (!target)
-		return;
-	target->color=target->type->color;
-	target->flags|=MOBILE;
-	draw_posl(target->coords);
-SPELL_END

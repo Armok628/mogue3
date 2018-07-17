@@ -1,5 +1,4 @@
 #include "creatures.h"
-spell_t breathe_fire_spell;
 etype_t player_etype={
 	.name="Player",
 	.symbol='@',
@@ -13,9 +12,6 @@ etype_t player_etype={
 	.spells={
 		&heal_self_spell,
 		&magic_missile_spell,
-		&freeze_spell,
-		&thaw_spell,
-		&breathe_fire_spell,
 	},
 	.spawn_flags=NONE,
 };
