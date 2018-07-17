@@ -10,7 +10,7 @@
 		return;\
 	int c=inv[s].count;\
 	if (c>1)\
-		c=int_prompt("How many?");\
+		c=int_prompt("How many? ");\
 	if (!c)\
 		return;\
 	add_item(pile,t,remove_item(inv,t,c));\
