@@ -34,6 +34,7 @@ void handle_input(entity_t *e,char input)
 	switch (input) {
 	case '<':
 		if (up&&local_area[e->coords].bg=='<') {
+			fog_of_war=false;
 			// Remove player from dungeon and destroy
 			local_area[player->coords].e=NULL;
 			free_area(local_area);
@@ -49,6 +50,7 @@ void handle_input(entity_t *e,char input)
 		return;
 	case '>':
 		if (local_area[e->coords].bg=='>') {
+			fog_of_war=true;
 			// Save old area and player location
 			up=local_area;
 			up_c=player->coords;
