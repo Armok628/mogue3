@@ -1,31 +1,26 @@
 #include "populate.h"
-int *rand_fixed_sum(int n,int max)
-{ // Copied from mogue2
-	int *arr=malloc(sizeof(int)*(n+1));
+void rand_fixed_sum(int n,int max,int ret[])
+{ // Fills ret as an array of n random elements whose sum is max
+	int arr[n+1];
 	for (int i=0;i<n-1;i++)
 		arr[i]=rand()%max;
 	arr[n-1]=0;
 	arr[n]=max;
 	// Bubblesort
-	int sorted=0;
+	bool sorted=false;
 	do {
-		sorted=1;
+		sorted=true;
 		for (int i=1;i<n+1;i++)
 			if (arr[i]<arr[i-1]) {
-				sorted=0;
+				sorted=false;
 				int tmp=arr[i];
 				arr[i]=arr[i-1];
 				arr[i-1]=tmp;
 			}
 	} while (!sorted);
 	// Difference transform
-	int *tmp=arr;
-	int *new_arr=malloc(sizeof(int)*n);
 	for (int i=0;i<n;i++)
-		new_arr[i]=arr[i+1]-arr[i];
-	arr=new_arr;
-	free(tmp);
-	return arr; // Returns array of n random elements whose sum is max
+		ret[i]=arr[i+1]-arr[i];
 }
 void populate_with(tile_t *area,etype_t *type,int amt,bool dungeon)
 {
@@ -68,16 +63,14 @@ bool appropriate(wtile_t *tile,etype_t *type)
 void populate(wtile_t *w,tile_t *area,bool persist)
 {
 	int n_creatures=2*spawnlist_size+rand()%(persist?(AREA/96):(AREA/192));
-	int *pops=rand_fixed_sum(spawnlist_size,n_creatures);
+	int pops[spawnlist_size];
+	rand_fixed_sum(spawnlist_size,n_creatures,pops);
 	for (int i=0;i<spawnlist_size;i++) {
 		if (w&&(!persist^!(spawnlist[i]->flags&PERSISTS)))
 			continue;
-		if (appropriate(w,spawnlist[i])) {
-			int n=pops[i]+1;
-			populate_with(area,spawnlist[i],n,!w);
-		}
+		if (appropriate(w,spawnlist[i]))
+			populate_with(area,spawnlist[i],pops[i]+1,!w);
 	}
-	free(pops);
 }
 void spawn_items(wtile_t *w,tile_t *area,itype_t *type,int count)
 {

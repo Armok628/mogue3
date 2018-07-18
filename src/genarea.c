@@ -127,8 +127,9 @@ tile_t *generate_area(wtile_t *w)
 		break;
 	default:
 		area=NULL;
-		break;
 	}
+	if (!area)
+		return NULL;
 	if (w->town) {
 		int r=10+rand()%20;
 		for (int i=0;i<r;i++)

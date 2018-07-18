@@ -33,7 +33,7 @@ void handle_input(entity_t *e,char input)
 	char c;
 	switch (input) {
 	case '<':
-		if (local_area[e->coords].bg=='<') {
+		if (up&&local_area[e->coords].bg=='<') {
 			// Remove player from dungeon and destroy
 			local_area[player->coords].e=NULL;
 			free_area(local_area);

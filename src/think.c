@@ -92,7 +92,6 @@ char think(entity_t *e)
 		dest=flee_opts[rand()%n_flee];
 		announce("e s e",e,"flees from",local_area[dest].e);
 		dest=coords-(dest-coords); // Reverse offset to dest -> reverse direction
-		tile_t *t=&local_area[dest];
 		return alt_dir(coords,offset_input(dest-coords));
 	} else if (n_atk)
 		dest=atk_opts[rand()%n_atk];
