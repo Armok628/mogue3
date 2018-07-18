@@ -179,9 +179,9 @@ void tile_burning_end(int c)
 	draw_posl(c);
 }
 effect_t tile_burning={
-	.start=tile_burning_start,
-	.turn=tile_burning_turn,
-	.end=tile_burning_end,
+	.start=&tile_burning_start,
+	.turn=&tile_burning_turn,
+	.end=&tile_burning_end,
 };
 // Spell: Breathe fire
 bool set_fire(int c)
