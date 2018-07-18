@@ -36,10 +36,7 @@ void set_blocking(int b)
 {
 	struct termios term;
 	tcgetattr(0,&term);
-	if (b)
-		term.c_cc[VMIN]=1;
-	else
-		term.c_cc[VMIN]=0;
+	term.c_cc[VMIN]=!!b;
 	tcsetattr(0,TCSANOW,&term);
 }
 void set_color(color_t c,color_t bg)
