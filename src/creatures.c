@@ -138,7 +138,7 @@ void burn_turn(int c)
 		e->color=LRED;
 	announce("e s d s",e,"burns for",d,"damage");
 	e->hp-=d;
-	if (e->hp<0) {
+	if (e->hp<=0) {
 		printf(", killing it!");
 		end_effect(e->effects,&burning,c);
 		kill_entity(e);
