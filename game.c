@@ -13,13 +13,21 @@ int main(int argc,char **argv)
 {
 	long seed=time(NULL);
 	int erosion=3,offset=0;
+	char filename[50];
 	if (argc>1)
 		for (int i=1;i<argc;i++) {
 			sscanf(argv[i],"seed=%ld",&seed);
 			sscanf(argv[i],"offset=%d",&offset);
 			sscanf(argv[i],"erosion=%d",&erosion);
+			if (sscanf(argv[i],"record=%50s",filename))
+				record=fopen(filename,"w");
+			if (sscanf(argv[i],"replay=%50s",filename))
+				replay=fopen(filename,"r");
+
 		}
-	fprintf(stderr,"%ld",seed);
+	if (replay)
+		fscanf(replay,"seed=%ld\n",&seed);
+	fprintf(record?record:stderr,"seed=%ld\n",seed);
 	srand(seed);
 	set_cursor_visible(0);
 	set_canon(0);
