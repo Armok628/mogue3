@@ -65,11 +65,9 @@ void remove_slot(islot_t p[],int s)
 int remove_item(islot_t inv[],itype_t *t,int c)
 { // Returns true for success and the opposite
 	int s=find_slot(inv,t);
-	if (s<0)
+	if (c>inv[s].count||s<0||c<0)
 		return 0;
-	else if (c>inv[s].count) {
-		return 0;
-	} else if (c==inv[s].count) {
+	else if (c==inv[s].count) {
 		remove_slot(inv,s);
 	} else
 		inv[s].count-=c;

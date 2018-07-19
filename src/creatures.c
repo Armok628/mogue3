@@ -157,6 +157,37 @@ effect_t burning={
 	.turn=&burn_turn,
 	.end=&burn_end,
 };
+// Tile effect: Growing grass
+bool has_grass(tile_t *t)
+{
+	return t->bg_c==GREEN||t->bg_c==LGREEN;
+}
+bool grass_adjacent(int c)
+{
+	for (int dx=-1;dx<=1;dx++)
+		for (int dy=-1;dy<=1;dy++) {
+			int t=c+lin(dx,dy);
+			if (!legal_move(c,t))
+				continue;
+			if (has_grass(&local_area[t]))
+				return true;
+		}
+	return false;
+}
+void try_grow(int);
+effect_t growing_grass={
+	.start=NULL,
+	.turn=&try_grow,
+	.end=NULL,
+};
+void try_grow(int c)
+{
+	if (grass_adjacent(c)&&!(rand()%50)) {
+		local_area[c].bg_c=rand()%2?GREEN:LGREEN;
+		end_effect(local_area[c].effects,&growing_grass,c);
+		draw_posl(c);
+	}
+}
 // Tile effect: Burning
 void tile_burning_start(int c)
 {
@@ -177,6 +208,7 @@ void tile_burning_end(int c)
 {
 	local_area[c].bg_c=LGRAY;
 	draw_posl(c);
+	//add_effect(local_area[c].effects,&growing_grass,1000,c);
 }
 effect_t tile_burning={
 	.start=&tile_burning_start,

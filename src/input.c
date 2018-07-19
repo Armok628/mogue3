@@ -6,10 +6,8 @@ char get_input()
 	if (!replay)
 		replay=stdin;
 	char c=fgetc(replay);
-	if (feof(replay)) {
-		replay=stdin;
-		return get_input();
-	}
+	if (feof(replay))
+		c=fgetc(replay=stdin);
 	if (record&&c!='q')
 		fputc(c,record);
 	return c;

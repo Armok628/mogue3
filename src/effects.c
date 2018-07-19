@@ -50,7 +50,8 @@ void end_effect(eslot_t s[],effect_t *e,int c)
 	for (int i=0;s[i].effect;i++)
 		if (s[i].effect==e) {
 			remove_effect_slot(s,i);
-			e->end(c);
+			if (e->end)
+				e->end(c);
 			return;
 		}
 }
