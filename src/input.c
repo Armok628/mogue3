@@ -3,9 +3,13 @@ FILE *replay=NULL;
 FILE *record=NULL;
 char get_input()
 {
-	if (!replay||feof(replay))
+	if (!replay)
 		replay=stdin;
 	char c=fgetc(replay);
+	if (feof(replay)) {
+		replay=stdin;
+		return get_input();
+	}
 	if (record&&c!='q')
 		fputc(c,record);
 	return c;
