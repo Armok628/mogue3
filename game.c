@@ -25,7 +25,7 @@ int main(int argc,char **argv)
 	signal(SIGSEGV,&flush_exit);
 	long seed=time(NULL);
 	int erosion=3,offset=0;
-	char filename[50]="/tmp/mogue3replay";
+	char filename[50];
 	if (argc>1)
 		for (int i=1;i<argc;i++) {
 			sscanf(argv[i],"seed=%ld",&seed);
