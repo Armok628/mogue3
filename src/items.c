@@ -14,7 +14,7 @@ void axe_use(entity_t *e)
 {
 	int o;
 	if (e==player)
-		o=input_offset(fgetc(stdin));
+		o=input_offset(get_input());
 	else
 		o=target_chop(e->coords);
 	if (!o)

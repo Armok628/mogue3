@@ -39,7 +39,7 @@ void player_death()
 		announce_stats(player);
 		announce("s","You are dead.");
 		advance();
-		handle_input(player,fgetc(stdin));
+		handle_input(player,get_input());
 		if (player->hp>0)
 			return;
 	}

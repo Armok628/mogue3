@@ -15,7 +15,7 @@ void handle_input(entity_t *e,char input)
 		clear_announcements();
 		draw_local_area();
 		announce_stats(player);
-		handle_input(player,fgetc(stdin));
+		handle_input(player,get_input());
 		return;
 	case 'q':
 		if (up)
@@ -70,7 +70,7 @@ void handle_input(entity_t *e,char input)
 		action_menu();
 		return;
 	case 'c':
-		o=input_offset(fgetc(stdin));
+		o=input_offset(get_input());
 		if (local_area[e->coords+o].bg=='-') {
 			local_area[e->coords+o].fg='+';
 			draw_posl(e->coords+o);
@@ -126,7 +126,7 @@ void take_turn(entity_t *e)
 		move_cursor(0,HEIGHT);
 		print_stats(player);
 		next_line();
-		key=fgetc(stdin);
+		key=get_input();
 		if (key=='q')
 			quit();
 		clear_announcements();

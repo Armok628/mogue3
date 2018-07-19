@@ -1,4 +1,15 @@
 #include "input.h"
+FILE *replay=NULL;
+FILE *record=NULL;
+char get_input()
+{
+	if (!replay||feof(replay))
+		replay=stdin;
+	char c=fgetc(replay);
+	if (record&&c!='q')
+		fputc(c,record);
+	return c;
+}
 int input_offset(char input)
 {
 	switch (input) {
@@ -67,9 +78,11 @@ char *string_prompt(char *prompt)
 	set_canon(true);
 	set_cursor_visible(true);
 	char *input=calloc(WIDTH,1);
-	fgets(input,WIDTH,stdin);
+	fgets(input,WIDTH,replay?replay:stdin);
 	set_canon(false);
 	set_cursor_visible(false);
+	if (record)
+		fputs(input,record);
 	chomp(input);
 	return input;
 }
@@ -79,8 +92,10 @@ int int_prompt(char *prompt)
 	set_canon(true);
 	set_cursor_visible(true);
 	char in[12];
-	fgets(in,12,stdin);
+	fgets(in,12,replay?replay:stdin);
 	set_canon(false);
 	set_cursor_visible(false);
+	if (record)
+		fputs(in,record);
 	return atoi(in);
 }

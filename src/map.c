@@ -91,7 +91,7 @@ void open_map()
 	draw_world();
 	for (;;) {
 		draw_star(map_coords);
-		char input=fgetc(stdin);
+		char input=get_input();
 		clear_announcements();
 		if (input=='w')
 			break;

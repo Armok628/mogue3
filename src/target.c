@@ -39,7 +39,7 @@ int player_target()
 		putc_pos('X',xcmp(c),ycmp(c));
 		if (local_area[c].e)
 			announce_stats(local_area[c].e);
-		input=fgetc(stdin);
+		input=get_input();
 		draw_posl(c);
 		int d=c+input_offset(input);
 		if (legal_move(c,d))

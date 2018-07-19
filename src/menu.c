@@ -42,7 +42,7 @@ int menu_at_pos(char **opts,int n_opts,int off_x,int off_y)
 		move_cursor(off_x+1,off_y+1+index);
 		set_color(YELLOW,BG BLUE);
 		fputs(opts[index],stdout);
-		char input=fgetc(stdin);
+		char input=get_input();
 		move_cursor(off_x+1,off_y+1+index);
 		set_color(WHITE,BG BLACK);
 		fputs(opts[index],stdout);

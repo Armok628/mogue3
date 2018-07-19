@@ -5,7 +5,10 @@
 #include "debug.h"
 #include "quit.h"
 #include "target.h"
+extern FILE *replay;
+extern FILE *record;
 
+char get_input();
 int input_offset(char);
 char offset_input(int);
 char generate_input();
