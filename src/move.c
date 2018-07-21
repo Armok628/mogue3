@@ -10,20 +10,20 @@ void kill_entity(entity_t *entity)
 	if (entity==player)
 		player_death();
 }
-int equipped_category(entity_t *e,cat_t c)
+int category_effect(entity_t *e,cat_t c)
 {
-	islot_t *eq=e->equipped;
+	islot_t *inv=e->inventory;
 	int sum=0;
-	for (int i=0;eq[i].count;i++)
-		if (eq[i].type->category==c)
-			sum+=eq[i].type->effect;
+	for (int i=0;inv[i].count;i++)
+		if (inv[i].type->category==c)
+			sum+=inv[i].type->effect*inv[i].count;
 	return sum;
 }
 int max_damage(entity_t *e1,entity_t *e2)
 {
 	int d=5*e1->str-e2->str/2;
-	d+=equipped_category(e1,OFFENSE);
-	d-=equipped_category(e2,DEFENSE);
+	d+=category_effect(e1,OFFENSE);
+	d-=category_effect(e2,DEFENSE);
 	return d<0?0:d;
 }
 int damage(entity_t *e1,entity_t *e2)

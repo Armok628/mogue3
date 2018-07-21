@@ -14,19 +14,19 @@ void map_move(int pos)
 	bool landing=world[map_coords].landing;
 	if (!(landing||on_canoe)&&elevation<45) // Deep sea
 		return;
-	if (!(equipped(player,&raft)||on_canoe||landing)&&elevation<49) // Shallow water
+	if (!(item_count(player->inventory,&raft)||on_canoe||landing)&&elevation<49) // Shallow water
 		return;
 	int l1=world[map_coords].elevation>48;
 	int l2=elevation>48;
 	if (l1^l2) { // Land <=> Sea
-		if (l2&&equipped(player,&raft)) {
+		if (l2&&item_count(player->inventory,&raft)) {
 			announce("s","The raft breaks in the landing");
-			remove_item(player->equipped,&raft,1);
+			remove_item(player->inventory,&raft,1);
 		} else if (l2) {
 			announce("s","You land your canoe");
 			world[pos].landing=true;
 			on_canoe=false;
-		} else if (l1&&equipped(player,&raft)) {
+		} else if (l1&&item_count(player->inventory,&raft)) {
 			announce("s","You embark on your raft");
 		} else if (l1&&(on_canoe||landing)) {
 			announce("s","You embark on your canoe");

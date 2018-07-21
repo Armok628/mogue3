@@ -79,9 +79,6 @@ void handle_input(entity_t *e,char input)
 	case 'd':
 		drop_menu(e);
 		return;
-	case 'e':
-		equip_menu(e);
-		return;
 	case 'g':
 		if (e==player)
 			grab_menu(e);
@@ -101,9 +98,6 @@ void handle_input(entity_t *e,char input)
 			spell_menu(e);
 		else
 			random_spell(e);
-		return;
-	case 'r':
-		unequip_menu(e);
 		return;
 	case 'w':
 		if (e!=player||player->hp<=0)

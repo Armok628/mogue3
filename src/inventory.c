@@ -85,16 +85,8 @@ void use_menu(entity_t *e)
 	else
 		t->use(e);
 }
-bool equipped(entity_t *e,itype_t *t)
-{
-	return item_count(e->equipped,t)>0;
-}
 void drop_menu(entity_t *e)
 	ITEM_MOVE_MENU(e->inventory,local_area[e->coords].pile)
-void equip_menu(entity_t *e)
-	ITEM_MOVE_MENU(e->inventory,e->equipped)
-void unequip_menu(entity_t *e)
-	ITEM_MOVE_MENU(e->equipped,e->inventory)
 void grab_menu(entity_t *e)
 {
 	static char *piles[]={"Corpse","Pile"};

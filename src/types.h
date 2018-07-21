@@ -105,7 +105,6 @@ struct entity_s {
 	eflag_t flags;
 	etype_t *type;
 	islot_t inventory[INV_SIZE];
-	islot_t equipped[INV_SIZE];
 	eslot_t effects[INV_SIZE];
 };
 

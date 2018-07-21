@@ -13,7 +13,7 @@ static char *boats[]={
 static int n_boats=sizeof(boats)/sizeof(char *);
 void boat_menu()
 {
-	if (equipped(player,&raft)||world[map_coords].landing) {
+	if (item_count(player->inventory,&raft)||world[map_coords].landing) {
 		announce("s","You already have a boat here");
 		return;
 	}
@@ -29,8 +29,8 @@ void boat_menu()
 		}
 		return;
 	case 1: // Canoe
-		if (!equipped(player,&axe)) {
-			announce("s","You must equip an axe");
+		if (!item_count(player->inventory,&axe)) {
+			announce("s","You must have an axe");
 			return;
 		}
 		if (remove_item(player->inventory,&lumber,24)) {
@@ -56,17 +56,19 @@ void action_menu()
 	case 2: // Search for a rock
 		t=&local_area[player->coords];
 		if (t->bg!='.'&&t->bg!=',')
-			announce("s","You are not near any rocks");
+			announce("s","You are not on any rocks");
 		else if (t->bg_c!=DGRAY&&t->bg_c!=LGRAY) {
-			announce("s","You have trouble finding one here");
+			announce("s","You have trouble finding rocks here");
 			rocks=!(rand()%10);
 		} else
-			rocks=!(rand()%3);
-		if (rocks)
-			announce("s","You pick up a good-sized rock");
+			rocks=rand()%4;
+		if (rocks>1)
+			announce("s","You find some suitable rocks on the ground");
+		else if (rocks)
+			announce("s","You find a good-sized rock on the ground");
 		else
-			announce("s","You fail to find a useful rock");
-		add_item(player->inventory,&rock,rocks);
+			announce("s","You fail to find any useful rocks");
+		add_item(t->pile,&rock,rocks);
 		return;
 	case 3: // Make an axe
 		logs=item_count(player->inventory,&lumber);
