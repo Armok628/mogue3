@@ -7,8 +7,11 @@ char get_input()
 		replay=stdin;
 	char c=fgetc(replay);
 	if (feof(replay)) {
+		fclose(replay);
 		replay=stdin;
 		draw_local_area();
+		clear_announcements();
+		announce_stats(player);
 		c=fgetc(replay);
 	}
 	if (record&&c!='q')

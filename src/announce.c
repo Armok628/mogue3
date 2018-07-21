@@ -6,6 +6,8 @@ void next_line()
 }
 void print_stats(entity_t *e)
 {
+	if (replay!=stdin)
+		return;
 	set_color(RESET,BG RESET);
 	printf("%s ",e->name);
 	draw_entity(e);
@@ -24,6 +26,8 @@ void announce_stats(entity_t *e)
 }
 void announce(char *fmt, ...)
 {
+	if (replay!=stdin)
+		return;
 	va_list ap;
 	int d;
 	entity_t *e;

@@ -60,11 +60,9 @@ int main(int argc,char **argv)
 	set_cursor_visible(false);
 	set_canon(false);
 	clear_screen();
-
 	world=worldgen(erosion,offset);
 	player=spawn(&player_etype);
 	enter_map_cell(rand_land_coords());
-
 	for (;;) {
 		take_turn(player);
 		advance();
