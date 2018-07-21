@@ -1,4 +1,22 @@
 #include "items.h"
+itype_t sword={
+	.name="Sword",
+	.category=OFFENSE,
+	.effect=10,
+	.value=100,
+	.symbol='/',
+	.color=WHITE,
+	.spawn_flags=NONE,
+};
+itype_t gold={
+	.name="Gold",
+	.category=UTILITY,
+	.effect=0,
+	.value=1,
+	.symbol='$',
+	.color=YELLOW,
+	.spawn_flags=DUNGEON,
+};
 int target_chop(int coords)
 {
 	int targets[9],count=0;
@@ -20,30 +38,17 @@ void axe_use(entity_t *e)
 	if (!o)
 		return;
 	int t=e->coords+o;
-	if (local_area[t].fg=='|'&&local_area[t].fg_c==BROWN) {
-		local_area[t].fg='\0';
-		add_item(local_area[t].pile,&lumber,1);
+	if (local_area[t].fg!='|'||local_area[t].fg_c!=BROWN)
+		return;
+	local_area[t].fg='\0';
+	add_item(local_area[t].pile,&lumber,1);
+	announce("e s",e,"chops down a tree");
+	if (!(rand()%10)) {
+		printf(", breaking the axe");
+		remove_item(e->inventory,&axe,1);
 	}
 	draw_posl(t);
 }
-itype_t sword={
-	.name="Sword",
-	.category=OFFENSE,
-	.effect=10,
-	.value=100,
-	.symbol='/',
-	.color=WHITE,
-	.spawn_flags=NONE,
-};
-itype_t gold={
-	.name="Gold",
-	.category=UTILITY,
-	.effect=0,
-	.value=1,
-	.symbol='$',
-	.color=YELLOW,
-	.spawn_flags=DUNGEON,
-};
 itype_t axe={
 	.name="Axe",
 	.category=OFFENSE,
@@ -63,6 +68,38 @@ itype_t raft={
 	.color=BROWN,
 	.spawn_flags=NONE,
 };
+void lumber_use(entity_t *e)
+{
+	if (e!=player)
+		return;
+	if (!item_count(e->inventory,&axe)) {
+		announce("s","You need an axe to build");
+		return;
+	}
+	static char *opts[]={"Floor","Wall"};
+	int c=menu(opts,2);
+	int t=e->coords+input_offset(get_input());
+	if (t==e->coords)
+		return;
+	switch (c) {
+	case 0: // Floor
+		local_area[t].bg='#';
+		local_area[t].bg_c=BROWN;
+		break;
+	case 1: // Wall
+		if (local_area[t].bg!='#') {
+			announce("s","There must be a floor first");
+			return;
+		}
+		local_area[t].fg='%';
+		local_area[t].fg_c=BROWN;
+		break;
+	default:
+		return;
+	}
+	draw_posl(t);
+	remove_item(e->inventory,&lumber,1);
+}
 itype_t lumber={
 	.name="Log",
 	.category=UTILITY,
@@ -71,6 +108,7 @@ itype_t lumber={
 	.symbol='=',
 	.color=BROWN,
 	.spawn_flags=WILDERNESS|TOWN|OUTSIDE,
+	.use=&lumber_use,
 };
 itype_t rock={
 	.name="Rock",

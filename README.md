@@ -10,4 +10,3 @@ Ideas:
 * Randomized items and creatures
 * More creatures and items
 * Biomes by temperature (longitude and altitude)
-* Player building (but for what purpose?)

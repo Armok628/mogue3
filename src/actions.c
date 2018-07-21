@@ -8,7 +8,7 @@ static char *actions[]={
 static int n_actions=sizeof(actions)/sizeof(char *);
 static char *boats[]={
 	"Build a raft",
-	"Build a canoe"
+	"Build a canoe",
 };
 static int n_boats=sizeof(boats)/sizeof(char *);
 void boat_menu()

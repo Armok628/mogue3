@@ -48,6 +48,7 @@ void debug_command()
 		move_entity(player,player->coords,c);
 	} else if (!strcmp(input,"fog_of_war")) {
 		fog_of_war=!fog_of_war;
+		draw_local_area();
 	} else if (!strcmp(input,"dragon")) {
 		int c=player_target();
 		local_area[c].e=spawn(&dragon_etype);
