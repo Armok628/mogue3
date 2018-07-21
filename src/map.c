@@ -3,8 +3,10 @@ bool on_canoe=false;
 int map_coords;
 void draw_star(int pos)
 {
-	set_color(player_etype.color,BG BLACK);
-	putc_pos('*',xcmp(pos),ycmp(pos));
+	if (replay==stdin) {
+		set_color(player_etype.color,BG BLACK);
+		putc_pos('*',xcmp(pos),ycmp(pos));
+	}
 }
 void map_move(int pos)
 {

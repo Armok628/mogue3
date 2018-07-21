@@ -17,10 +17,14 @@ static void draw_box(int off_x,int off_y,int width,int height)
 	putc_pos('\\',off_x+0,off_y+height+1);
 	putc_pos('/',off_x+width+1,off_y+height+1);
 }
-int menu_at_pos(char **opts,int n_opts,int off_x,int off_y)
+int menu_at_pos(char **opts,int n_opts,int off_x,int off_y) // TODO: Fix ugly goto structure. Refactor
 { // Sentinel value -1 for no choice
 	if (n_opts<1)
 		return -1;
+	int index=0;
+	bool chosen=false;
+	if (replay!=stdin)
+		goto MENU_CONTROL_LOOP;
 	// Get max option length
 	int maxl=0;
 	for (int i=0;i<n_opts;i++) {
@@ -36,16 +40,21 @@ int menu_at_pos(char **opts,int n_opts,int off_x,int off_y)
 		fputs(opts[o],stdout);
 	}
 	// Select option
-	int index=0;
-	bool chosen=false;
+MENU_CONTROL_LOOP:
 	for (;;) {
+		char input;
+		if (replay!=stdin) {
+			input=get_input();
+			goto MENU_KEY_CASE;
+		}
 		move_cursor(off_x+1,off_y+1+index);
 		set_color(YELLOW,BG BLUE);
 		fputs(opts[index],stdout);
-		char input=get_input();
+		input=get_input();
 		move_cursor(off_x+1,off_y+1+index);
 		set_color(WHITE,BG BLACK);
 		fputs(opts[index],stdout);
+MENU_KEY_CASE:
 		switch (input) {
 		case '2':
 		case 'j':
@@ -59,15 +68,18 @@ int menu_at_pos(char **opts,int n_opts,int off_x,int off_y)
 			chosen=true;
 		case 'q':
 		case 27: // '\e'
-			goto MENU_RETURN;
+			goto MENU_REDRAW;
 		}
 	}
-MENU_RETURN:
+MENU_REDRAW:
+	if (replay!=stdin)
+		goto MENU_RETURN;
 	// Redraw over menu
 	for (int x=0;x<=maxl+1;x++)
 		for (int y=0;y<=n_opts+1;y++)
 			draw_pos(off_x+x,off_y+y);
 	// Return selected value
+MENU_RETURN:
 	return chosen?index:-1;
 }
 int menu(char **opts,int n_opts)

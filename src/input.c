@@ -6,8 +6,11 @@ char get_input()
 	if (!replay)
 		replay=stdin;
 	char c=fgetc(replay);
-	if (feof(replay))
-		c=fgetc(replay=stdin);
+	if (feof(replay)) {
+		replay=stdin;
+		draw_local_area();
+		c=fgetc(replay);
+	}
 	if (record&&c!='q')
 		fputc(c,record);
 	return c;

@@ -39,6 +39,7 @@ void quit()
 	set_color(RESET,BG RESET);
 	set_canon(1);
 	set_cursor_visible(1);
+	next_line();
 	exit(0);
 }
 void player_death()

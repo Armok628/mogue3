@@ -32,6 +32,14 @@ int player_target()
 	char input;
 	clear_announcements();
 	do {
+		int d;
+		if (replay!=stdin) {
+			input=get_input();
+			d=c+input_offset(input);
+			if (legal_move(c,d))
+				c=d;
+			continue;
+		}
 		if (visible(player->coords,c))
 			set_color(YELLOW,BG BLACK);
 		else
@@ -41,7 +49,7 @@ int player_target()
 			announce_stats(local_area[c].e);
 		input=get_input();
 		draw_posl(c);
-		int d=c+input_offset(input);
+		d=c+input_offset(input);
 		if (legal_move(c,d))
 			c=d;
 		clear_announcements();

@@ -12,7 +12,12 @@
 #include "src/world.h"
 void flush_exit(int sig)
 {
-	announce("s","Segmentation fault.");
+	if (sig==SIGINT) {
+		announce("s","Keyboard interrupt.\n");
+		quit();
+	}
+	if (sig==SIGSEGV)
+		announce("s","Segmentation fault.");
 	fflush(record);
 	announce("s","Recording flushed.");
 	set_canon(true);
@@ -23,6 +28,7 @@ void flush_exit(int sig)
 int main(int argc,char **argv)
 {
 	signal(SIGSEGV,&flush_exit);
+	signal(SIGINT,&flush_exit);
 	long seed=time(NULL);
 	int erosion=3,offset=0;
 	char filename[50];
@@ -47,6 +53,8 @@ int main(int argc,char **argv)
 		record=fopen("/tmp/mogue3replay","w");
 	if (replay)
 		fscanf(replay,"seed=%ld;offset=%d;erosion=%d\n",&seed,&offset,&erosion);
+	else
+		replay=stdin;
 	fprintf(record?record:stderr,"seed=%ld;offset=%d;erosion=%d\n",seed,offset,erosion);
 	srand(seed);
 	set_cursor_visible(false);

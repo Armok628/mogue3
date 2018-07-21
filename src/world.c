@@ -122,11 +122,15 @@ void draw_world_tile(wtile_t *tile)
 }
 void draw_world_pos(int x,int y)
 {
+	if (replay!=stdin)
+		return;
 	move_cursor(x,y);
 	draw_world_tile(&world[lin(x,y)]);
 }
 void draw_world_posl(int l)
 {
+	if (replay!=stdin)
+		return;
 	move_cursor(xcmp(l),ycmp(l));
 	draw_world_tile(&world[l]);
 }

@@ -1,6 +1,7 @@
 #ifndef AREA_H
 #define AREA_H
 #include "entity.h"
+#include "input.h"
 #include "terminal.h"
 #include "types.h"
 #define WIDTH 80

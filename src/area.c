@@ -20,6 +20,8 @@ void draw_tile(tile_t tile)
 }
 void draw_pos(int x,int y)
 {
+	if (replay!=stdin)
+		return;
 	if (x<0||x>=WIDTH||y<0||y>=HEIGHT)
 		return;
 	move_cursor(x,y);
@@ -31,6 +33,8 @@ void draw_pos(int x,int y)
 }
 void draw_posl(int c)
 {
+	if (replay!=stdin)
+		return;
 	if (c<0||c>=AREA)
 		return;
 	move_cursor(xcmp(c),ycmp(c));
