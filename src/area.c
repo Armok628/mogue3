@@ -46,6 +46,8 @@ void draw_posl(int c)
 }
 void draw_local_area()
 {
+	if (replay!=stdin)
+		return;
 	for (int i=0;i<AREA;i++)
 		draw_posl(i);
 }
