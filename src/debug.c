@@ -44,7 +44,7 @@ void debug_command()
 	} else if (!strcmp(input,"teleport")) {
 		int c=player_target();
 		if (local_area[c].e)
-			free(local_area[c].e);
+			free_entity(local_area[c].e);
 		move_entity(player,player->coords,c);
 	} else if (!strcmp(input,"fog_of_war")) {
 		fog_of_war=!fog_of_war;

@@ -4,7 +4,7 @@ void kill_entity(entity_t *entity)
 	int c=entity->coords;
 	entity->hp=0;
 	if (local_area[c].corpse)
-		free(local_area[c].corpse);
+		free_entity(local_area[c].corpse);
 	local_area[c].corpse=entity;
 	local_area[c].e=NULL;
 	if (entity==player)

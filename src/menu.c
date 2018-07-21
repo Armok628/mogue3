@@ -23,10 +23,10 @@ int menu_at_pos(char **opts,int n_opts,int off_x,int off_y) // TODO: Fix ugly go
 		return -1;
 	int index=0;
 	bool chosen=false;
+	int maxl=0;
 	if (replay!=stdin)
 		goto MENU_CONTROL_LOOP;
 	// Get max option length
-	int maxl=0;
 	for (int i=0;i<n_opts;i++) {
 		int len=strlen(opts[i]);
 		maxl=maxl>len?maxl:len;
