@@ -11,7 +11,14 @@ static inline int rand_in_range(int min,int max)
 }
 void transform(entity_t *e,etype_t *type)
 {
-	e->name=type->name;
+	e->flags=type->flags;
+	if (e->flags&PERSISTS) {
+		if (e->name)
+			free(e->name);
+		e->name=random_word(4+rand()%4);
+		e->name[0]+='A'-'a';
+	} else
+		e->name=type->name;
 	e->symbol=type->symbol;
 	e->color=type->color;
 	e->maxhp=ranged_rand(type->hp);
@@ -20,7 +27,6 @@ void transform(entity_t *e,etype_t *type)
 	e->agi=ranged_rand(type->agi);
 	e->wis=ranged_rand(type->wis);
 	e->str=ranged_rand(type->str);
-	e->flags=type->flags;
 	for (int i=0;type->spells[i];i++)
 		e->spells[i]=type->spells[i];
 	int n=0;

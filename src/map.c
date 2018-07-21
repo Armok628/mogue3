@@ -68,11 +68,11 @@ void remove_temps(tile_t *area)
 	for (int i=0;i<AREA;i++) {
 		entity_t *e=area[i].e,*c=area[i].corpse;
 		if (e&&~e->flags&PERSISTS) {
-			free(e);
+			free_entity(e);
 			area[i].e=NULL;
 		}
 		if (c&&~c->flags&PERSISTS) {
-			free(c);
+			free_entity(c);
 			area[i].corpse=NULL;
 		}
 	}
@@ -96,7 +96,7 @@ void open_map()
 		if (input=='w')
 			break;
 		else if (input=='q') {
-			free(player); // because not in any area
+			free_entity(player); // because not in any area
 			next_line();
 			quit();
 		}

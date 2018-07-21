@@ -2,6 +2,7 @@
 #define ENTITY_H
 #include <stdlib.h>
 #include "area.h"
+#include "randword.h"
 #include "spells.h"
 #include "terminal.h"
 #include "types.h"

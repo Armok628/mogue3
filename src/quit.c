@@ -1,12 +1,18 @@
 #include "quit.h"
+void free_entity(entity_t *e)
+{
+	if (e->flags&PERSISTS)
+		free(e->name);
+	free(e);
+}
 void free_area(tile_t *a)
 {
 	for (int i=0;i<AREA;i++) {
 		if (a[i].e)
-			free(a[i].e);
+			free_entity(a[i].e);
 		a[i].e=NULL;
 		if (a[i].corpse)
-			free(a[i].corpse);
+			free_entity(a[i].corpse);
 		a[i].corpse=NULL;
 	}
 	free(a);
@@ -22,6 +28,10 @@ void free_world(wtile_t *w)
 }
 void quit()
 {
+	if (record)
+		fclose(record);
+	if (replay!=stdin)
+		fclose(replay);
 	if (world)
 		free_world(world);
 	else
