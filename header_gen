@@ -36,8 +36,8 @@ print $src "#endif\n";
 close($src);
 
 # Generate spawnlist
-open(my $src,'>','src/spawnlist.c');
-print $src "#include \"spawnlist.h\"\netype_t *spawnlist[]={\n";
+open(my $src,'>','src/spawn.c');
+print $src "#include \"spawn.h\"\netype_t *spawnlist[]={\n";
 open(my $et,'<','src/creatures.h');
 for (<$et>) {print $src "\t&$1,\n" if (/^extern etype_t (\w*);/)}
 close($et);
