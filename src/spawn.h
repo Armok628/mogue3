@@ -1,5 +1,5 @@
-#ifndef SPAWNLIST_H
-#define SPAWNLIST_H
+#ifndef SPAWN_H
+#define SPAWN_H
 #include "entity.h"
 #include "creatures.h"
 #include "types.h"
