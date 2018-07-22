@@ -89,7 +89,7 @@ void spawn_items(wtile_t *w,tile_t *area,itype_t *type,int count)
 	add_item(area[get_coord(area)].pile,type,count);
 }
 void spawn_loot(wtile_t *w,tile_t *area,ltab_t *table)
-{
+{ // TODO: Make dynamic with loot table of all items
 	for (int i=0;table->items[i];i++) {
 		if (rand()%100>table->chances[i])
 			continue;

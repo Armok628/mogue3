@@ -43,10 +43,15 @@ void announce(char *fmt, ...)
 			break;
 		case 'e':
 			e=va_arg(ap,entity_t *);
-			printf("%s (",e->name);
-			draw_entity(e);
-			set_color(RESET,BG RESET);
-			putchar(')');
+			if (e->flags&PERSISTS) {
+				printf("%s (",e->name);
+				draw_entity(e);
+				set_color(RESET,BG RESET);
+				putchar(')');
+			} else {
+				draw_entity(e);
+				set_color(RESET,BG RESET);
+			}
 			break;
 		case 'd':
 			d=va_arg(ap,int);
