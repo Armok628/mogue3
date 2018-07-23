@@ -88,15 +88,15 @@ void spawn_items(wtile_t *w,tile_t *area,itype_t *type,int count)
 		get_coord=&outside_coords;
 	add_item(area[get_coord(area)].pile,type,count);
 }
-void spawn_loot(wtile_t *w,tile_t *area,ltab_t *table)
+void spawn_loot(wtile_t *w,tile_t *area,ltab_t *lt)
 { // TODO: Make dynamic with loot table of all items
-	for (int i=0;table->items[i];i++) {
-		if (rand()%100>table->chances[i])
+	for (int i=0;(*lt)[i].type;i++) {
+		if (rand()%100>(*lt)[i].freq.chance)
 			continue;
-		int o=ranged_rand(table->occurrences[i]);
+		int o=ranged_rand((*lt)[i].freq.times);
 		for (int j=0;j<o;j++) {
-			int c=ranged_rand(table->amounts[i]);
-			spawn_items(w,area,table->items[i],c);
+			int c=ranged_rand((*lt)[i].freq.counts);
+			spawn_items(w,area,(*lt)[i].type,c);
 		}
 	}
 }

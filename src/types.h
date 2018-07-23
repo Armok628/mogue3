@@ -42,6 +42,12 @@ static inline bool in_range(int i,range_t r)
 	return r[0]<=i&&i<=r[1];
 }
 
+typedef struct freq_s {
+	int chance;
+	range_t counts;
+	range_t times;
+} freq_t;
+
 // Effects
 typedef struct effect_s {
 	void (*start)(int);
@@ -68,13 +74,11 @@ typedef struct islot_s {
 	itype_t *type;
 	int count;
 } islot_t; // i(tem)slot
-typedef struct ltab_s {
-	int count;
-	itype_t *items[INV_SIZE];
-	range_t amounts[INV_SIZE];
-	int chances[INV_SIZE]; // Percentages
-	range_t occurrences[INV_SIZE];
-} ltab_t; // l(oot)tab(le)
+typedef struct ltslot_s { //l(oot)t(able)slot
+	itype_t *type;
+	freq_t freq;
+} ltslot_t;
+typedef ltslot_t ltab_t[INV_SIZE]; // l(oot)tab(le)
 
 // Entities
 typedef struct spell_s spell_t;

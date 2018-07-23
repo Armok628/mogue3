@@ -26,9 +26,8 @@ etype_t human_etype={
 	.str={5,15},
 	.flags=PERSISTS|SOLID|MOBILE|USES_ITEMS|CASTS_SPELLS,
 	.loot_table={
-		.items={&sword,&gold},
-		.chances={50,100},
-		.amounts={{1,1},{2,10}},
+		{&sword,{50,{1,1}}},
+		{&gold,{100,{2,10}}},
 	},
 	.spells={
 		&heal_self_spell,
@@ -51,9 +50,7 @@ etype_t monster_etype={
 	.str={10,15},
 	.flags=SOLID|MOBILE|USES_ITEMS|CASTS_SPELLS,
 	.loot_table={
-		.items={&gold},
-		.chances={50},
-		.amounts={{5,25}},
+		{&gold,{50,{5,25}}},
 	},
 	.spells={
 		&magic_missile_spell,
@@ -98,9 +95,7 @@ etype_t mage_etype={
 	.str={5,10},
 	.flags=PERSISTS|SOLID|MOBILE|USES_ITEMS|CASTS_SPELLS,
 	.loot_table={
-		.items={&gold},
-		.chances={100},
-		.amounts={{10,20}},
+		{&gold,{100,{10,20}}},
 	},
 	.spells={
 		&heal_self_spell,
@@ -251,9 +246,7 @@ etype_t dragon_etype={
 	.str={15,20},
 	.flags=PERSISTS|SOLID|MOBILE|CASTS_SPELLS,
 	.loot_table={
-		.items={&gold},
-		.chances={100},
-		.amounts={{100,200}},
+		{&gold,{100,{100,200}}},
 	},
 	.spells={
 		&breathe_fire_spell,

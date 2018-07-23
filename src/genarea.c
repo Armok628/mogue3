@@ -150,10 +150,9 @@ void wallify(tile_t *t)
 	t->fg_c=t->bg_c;
 }
 ltab_t dungeon_loot={
-	.items={&scepter,&gold,&poison_apple},
-	.chances={50,100,50},
-	.amounts={{1,1},{5,20},{1,1}},
-	.occurrences={{1,1},{1,5},{1,1}},
+	{&scepter,{50,{1,1},{1,1}}},
+	{&gold,{100,{5,20},{1,5}}},
+	{&poison_apple,{50,{1,1},{1,1}}},
 };
 AREA_TYPE(dungeon," ",1,gray(), // Note: ' ' is not nothing
 	for (int i=0;i<AREA;i++)

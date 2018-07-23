@@ -49,6 +49,12 @@ void debug_command()
 	} else if (!strcmp(input,"fog_of_war")) {
 		fog_of_war=!fog_of_war;
 		draw_local_area();
+	} else if (!strcmp(input,"inventory")) {
+		int c=player_target();
+		entity_t *e=local_area[c].e;
+		if (!e)
+			return;
+		item_menu(e->inventory);
 	} else if (!strcmp(input,"dragon")) {
 		int c=player_target();
 		local_area[c].e=spawn(&dragon_etype);

@@ -31,11 +31,11 @@ void transform(entity_t *e,etype_t *type)
 		e->spells[i]=type->spells[i];
 	int n=0;
 	ltab_t *lt=&type->loot_table;
-	for (int i=0;lt->items[i];i++) {
-		if (lt->chances[i]<(rand()%100))
+	for (int i=0;(*lt)[i].type;i++) {
+		if ((*lt)[i].freq.chance<(rand()%100))
 			continue;
-		int c=ranged_rand(lt->amounts[i]);
-		add_item(e->inventory,lt->items[i],c);
+		int c=ranged_rand((*lt)[i].freq.counts);
+		add_item(e->inventory,(*lt)[i].type,c);
 	}
 	e->type=type;
 }
