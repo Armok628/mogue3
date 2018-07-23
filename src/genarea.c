@@ -8,14 +8,10 @@ static inline color_t gray() {
 void place_tree(tile_t *area)
 {
 	int c=empty_coords(area);
-	if (rand()%10) {
-		area[c].fg='|';
-		area[c].fg_c=BROWN;
-		area[c].bg='o';
-		area[c].bg_c=BROWN;
-	} else {
-		add_item(area[c].pile,&lumber,1);
-	}
+	area[c].fg='|';
+	area[c].fg_c=BROWN;
+	area[c].bg='o';
+	area[c].bg_c=BROWN;
 }
 void place_trees(tile_t *area,int n)
 {

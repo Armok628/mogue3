@@ -22,46 +22,23 @@ void rand_fixed_sum(int n,int max,int ret[])
 	for (int i=0;i<n;i++)
 		ret[i]=arr[i+1]-arr[i];
 }
-void populate_with(tile_t *area,etype_t *type,int amt,bool dungeon)
-{
-	if (rand()%100>=type->freq.chance)
-		return;
-	amt=enforce_range(amt,type->freq.counts);
-	if (amt<1)
-		return;
-	sflag_t sf=type->spawn_flags;
-	void (*spawn_fp)(tile_t *,etype_t *)=&spawn_randomly;
-	if (dungeon) { // Force inside
-		spawn_fp=spawn_inside;
-	} else if ((sf&INSIDE)&&(sf&OUTSIDE)) {
-		for (int i=0;i<amt/2;i++) {
-			spawn_inside(area,type);
-			spawn_outside(area,type);
-		}
-		return;
-	} else if (sf&INSIDE)
-		spawn_fp=&spawn_inside;
-	else if (sf&OUTSIDE)
-		spawn_fp=&spawn_outside;
-	for (int i=0;i<amt;i++)
-		spawn_fp(area,type);
-}
-bool appropriate(wtile_t *tile,sflag_t sf,range_t elev)
-{ // Returns true if type should spawn in tile's area
+int (*loc_finder(wtile_t *w,sflag_t sf,range_t elev))(tile_t *)
+{ // Returns function for getting spawn location, null if inappropriate
 	if (sf==NONE)
-		return false;
-	if (!tile) // NULL tile : temporary area (i.e. dungeon)
-		return sf&DUNGEON;
-	if (tile->town&&!(sf&TOWN)) {
-		return false;
-	}
-	if (!tile->town&&!(sf&WILDERNESS)) {
-		return false;
-	}
-	if (!in_range(tile->elevation,elev)) {
-		return false;
-	}
-	return true;
+		return NULL;
+	if (!w)
+		return sf&DUNGEON?&empty_coords:NULL;
+	else if ((!in_range(w->elevation,elev))
+			||(w->town&&!(sf&TOWN))
+			||(!w->town&&!(sf&WILDERNESS)))
+		return NULL;
+	if ((sf&INSIDE)&&(sf&OUTSIDE))
+		return &empty_coords;
+	else if (sf&INSIDE)
+		return &inside_coords;
+	else if (sf&OUTSIDE)
+		return &outside_coords;
+	return NULL;
 }
 void populate(wtile_t *w,tile_t *area,bool persist)
 {
@@ -69,29 +46,18 @@ void populate(wtile_t *w,tile_t *area,bool persist)
 	int pops[entityspawn_size];
 	rand_fixed_sum(entityspawn_size,n_creatures,pops);
 	for (int i=0;i<entityspawn_size;i++) {
-		if (w&&(!persist^!(entityspawn[i]->flags&PERSISTS)))
+		etype_t *e=entityspawn[i];
+		if (w&&(!persist^!(e->flags&PERSISTS)))
 			continue;
-		if (appropriate(w,entityspawn[i]->spawn_flags,entityspawn[i]->elev))
-			populate_with(area,entityspawn[i],pops[i]+1,!w);
+		if (rand()%100>=e->freq.chance)
+			continue;
+		int (*spawn_loc)(tile_t *)=loc_finder(w,e->spawn_flags,e->elev);
+		if (!spawn_loc)
+			continue;
+		int n=enforce_range(pops[i]+1,e->freq.counts);
+		for (int i=0;i<n;i++)
+			spawn_at(area,e,spawn_loc(area));
 	}
-}
-void spawn_pile(wtile_t *w,tile_t *area,itype_t *type,int count)
-{ // TODO: Abstract mutual task(s) between spawn_pile and populate_with
-	if (!count)
-		return;
-	int (*get_coord)(tile_t *)=&empty_coords;
-	sflag_t sf=type->spawn_flags;
-	if (!w&&sf&DUNGEON)
-		get_coord=&inside_coords;
-	else if (!w)
-		return;
-	else if ((sf&INSIDE)&&(sf&OUTSIDE))
-		get_coord=&empty_coords;
-	else if (sf&INSIDE)
-		get_coord=&inside_coords;
-	else if (sf&OUTSIDE)
-		get_coord=&outside_coords;
-	add_item(area[get_coord(area)].pile,type,count);
 }
 void spawn_loot(wtile_t *w,tile_t *area)
 {
@@ -99,12 +65,14 @@ void spawn_loot(wtile_t *w,tile_t *area)
 		itype_t *t=itemspawn[i];
 		if (rand()%100>=t->freq.chance)
 			continue;
-		if (!appropriate(w,t->spawn_flags,t->elev))
+		int (*spawn_loc)(tile_t *)=loc_finder(w,t->spawn_flags,t->elev);
+		if (!spawn_loc)
 			continue;
 		int p=ranged_rand(t->freq.times);
 		for (int j=0;j<p;j++) {
-			int c=ranged_rand(t->freq.counts);
-			spawn_pile(w,area,t,c);
+			int c=spawn_loc(area);
+			int amt=ranged_rand(t->freq.counts);
+			add_item(area[c].pile,t,amt);
 		}
 	}
 }

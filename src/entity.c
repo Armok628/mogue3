@@ -53,22 +53,10 @@ void init_perm_effects(entity_t *ent)
 	for (int i=0;t[i];i++)
 		add_effect(e,t[i],-1,c);
 }
-void spawn_at(tile_t *area,int c,etype_t *type)
+void spawn_at(tile_t *area,etype_t *type,int c)
 {
 	entity_t *e=spawn(type);
 	e->coords=c;
 	area[c].e=e;
 	init_perm_effects(e);
-}
-void spawn_randomly(tile_t *area,etype_t *type)
-{
-	spawn_at(area,empty_coords(area),type);
-}
-void spawn_inside(tile_t *area,etype_t *type)
-{
-	spawn_at(area,inside_coords(area),type);
-}
-void spawn_outside(tile_t *area,etype_t *type)
-{
-	spawn_at(area,outside_coords(area),type);
 }
