@@ -104,7 +104,7 @@ etype_t hen_etype={
 	},
 	.spawn_flags=TOWN|OUTSIDE,
 	.elev={51,60},
-	.quota={5,10},
+	.freq={100,{5,10}},
 	.perm_effects={&egg_layer},
 };
 etype_t rooster_etype={
@@ -132,7 +132,7 @@ etype_t rooster_etype={
 	},
 	.spawn_flags=TOWN|OUTSIDE,
 	.elev={51,60},
-	.quota={1,5},
+	.freq={100,{1,5}},
 };
 void chick_timer(int c)
 {

@@ -97,7 +97,7 @@ typedef struct etype_s {
 	ltab_t loot_table;
 	sflag_t spawn_flags;
 	range_t elev;
-	range_t quota;
+	freq_t freq;
 	effect_t *perm_effects[INV_SIZE];
 } etype_t; // e(ntity)type
 struct entity_s {

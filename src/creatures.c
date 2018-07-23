@@ -37,7 +37,7 @@ etype_t human_etype={
 	},
 	.spawn_flags=TOWN|INSIDE|OUTSIDE,
 	.elev={1,100},
-	.quota={5,AREA/128},
+	.freq={100,{5,AREA/128}},
 };
 etype_t monster_etype={
 	.name="Monster",
@@ -65,7 +65,7 @@ etype_t monster_etype={
 	},
 	.spawn_flags=TOWN|WILDERNESS|DUNGEON|OUTSIDE,
 	.elev={1,100},
-	.quota={8,AREA/128},
+	.freq={100,{8,AREA/128}},
 };
 etype_t toad_etype={
 	.name="Toad",
@@ -82,7 +82,7 @@ etype_t toad_etype={
 	},
 	.spawn_flags=WILDERNESS|OUTSIDE,
 	.elev={51,60},
-	.quota={8,AREA/128},
+	.freq={100,{8,AREA/128}},
 };
 etype_t mage_etype={
 	.name="Mage",
@@ -111,7 +111,7 @@ etype_t mage_etype={
 	},
 	.spawn_flags=TOWN|INSIDE,
 	.elev={1,100},
-	.quota={2,AREA/128},
+	.freq={100,{2,AREA/128}},
 };
 // Dragons and firebreathing
 // Entity effect: Burning
@@ -259,5 +259,5 @@ etype_t dragon_etype={
 	},
 	.spawn_flags=TOWN|WILDERNESS|OUTSIDE,
 	.elev={66,100},
-	.quota={0,1},
+	.freq={50,{1,1}},
 };

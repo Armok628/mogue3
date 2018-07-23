@@ -24,7 +24,9 @@ void rand_fixed_sum(int n,int max,int ret[])
 }
 void populate_with(tile_t *area,etype_t *type,int amt,bool dungeon)
 {
-	amt=enforce_range(amt,type->quota);
+	if (rand()%100>=type->freq.chance)
+		return;
+	amt=enforce_range(amt,type->freq.counts);
 	if (amt<1)
 		return;
 	sflag_t sf=type->spawn_flags;
