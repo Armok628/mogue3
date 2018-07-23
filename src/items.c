@@ -120,9 +120,9 @@ itype_t rock={
 	.category=UTILITY,
 	.effect=0,
 	.value=0,
-	.symbol='*',
+	.symbol='*', // How to distinguish from ground texture?
 	.color=DGRAY,
-	.spawn_flags=WILDERNESS|TOWN|OUTSIDE,
+	.spawn_flags=NONE,//WILDERNESS|TOWN|OUTSIDE,
 	.elev={1,100},
 	.freq={100,{1,2},{2,5}},
 };

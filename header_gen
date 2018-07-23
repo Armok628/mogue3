@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 
-# Generate item header
+# Generate item header (list of all items)
 open(my $src,'>','src/items.h');
 print $src
 "#ifndef ITEMS_H
@@ -18,7 +18,7 @@ for (@items) {
 print $src "#endif\n";
 close($src);
 
-# Generate creature header
+# Generate creature header (list of all creatures)
 open(my $src,'>','src/creatures.h');
 print $src
 "#ifndef CREATURES_H
@@ -35,11 +35,17 @@ for (@creatures) {
 print $src "#endif\n";
 close($src);
 
-# Generate spawnlist
+# Generate entityspawn
 open(my $src,'>','src/spawn.c');
-print $src "#include \"spawn.h\"\netype_t *spawnlist[]={\n";
+print $src "#include \"spawn.h\"\netype_t *entityspawn[]={\n";
 open(my $et,'<','src/creatures.h');
 for (<$et>) {print $src "\t&$1,\n" if (/^extern etype_t (\w*);/)}
 close($et);
-print $src "};\nint spawnlist_size=sizeof(spawnlist)/sizeof(etype_t *);\n";
+# Generate itemspawn
+print $src "};\nint entityspawn_size=sizeof(entityspawn)/sizeof(etype_t *);\n";
+print $src "itype_t *itemspawn[]={\n";
+open(my $et,'<','src/items.h');
+for (<$et>) {print $src "\t&$1,\n" if (/^extern itype_t (\w*);/)}
+close($et);
+print $src "};\nint itemspawn_size=sizeof(itemspawn)/sizeof(itype_t *);\n";
 close($src);

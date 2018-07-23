@@ -38,6 +38,7 @@ void populate_with(tile_t *area,etype_t *type,int amt,bool dungeon)
 			spawn_inside(area,type);
 			spawn_outside(area,type);
 		}
+		return;
 	} else if (sf&INSIDE)
 		spawn_fp=&spawn_inside;
 	else if (sf&OUTSIDE)
@@ -64,41 +65,46 @@ bool appropriate(wtile_t *tile,sflag_t sf,range_t elev)
 }
 void populate(wtile_t *w,tile_t *area,bool persist)
 {
-	int n_creatures=2*spawnlist_size+rand()%(persist?(AREA/96):(AREA/192));
-	int pops[spawnlist_size];
-	rand_fixed_sum(spawnlist_size,n_creatures,pops);
-	for (int i=0;i<spawnlist_size;i++) {
-		if (w&&(!persist^!(spawnlist[i]->flags&PERSISTS)))
+	int n_creatures=2*entityspawn_size+rand()%(persist?(AREA/96):(AREA/192));
+	int pops[entityspawn_size];
+	rand_fixed_sum(entityspawn_size,n_creatures,pops);
+	for (int i=0;i<entityspawn_size;i++) {
+		if (w&&(!persist^!(entityspawn[i]->flags&PERSISTS)))
 			continue;
-		if (appropriate(w,spawnlist[i]->spawn_flags,spawnlist[i]->elev))
-			populate_with(area,spawnlist[i],pops[i]+1,!w);
+		if (appropriate(w,entityspawn[i]->spawn_flags,entityspawn[i]->elev))
+			populate_with(area,entityspawn[i],pops[i]+1,!w);
 	}
 }
-void spawn_items(wtile_t *w,tile_t *area,itype_t *type,int count)
-{
+void spawn_pile(wtile_t *w,tile_t *area,itype_t *type,int count)
+{ // TODO: Abstract mutual task(s) between spawn_pile and populate_with
 	if (!count)
 		return;
 	int (*get_coord)(tile_t *)=&empty_coords;
 	sflag_t sf=type->spawn_flags;
 	if (!w&&sf&DUNGEON)
 		get_coord=&inside_coords;
+	else if (!w)
+		return;
 	else if ((sf&INSIDE)&&(sf&OUTSIDE))
 		get_coord=&empty_coords;
 	else if (sf&INSIDE)
-		get_coord=&empty_coords;
+		get_coord=&inside_coords;
 	else if (sf&OUTSIDE)
 		get_coord=&outside_coords;
 	add_item(area[get_coord(area)].pile,type,count);
 }
-void spawn_loot(wtile_t *w,tile_t *area,ltab_t *lt)
-{ // TODO: Make dynamic with loot table of all items
-	for (int i=0;(*lt)[i].type;i++) {
-		if (rand()%100>(*lt)[i].freq.chance)
+void spawn_loot(wtile_t *w,tile_t *area)
+{
+	for (int i=0;i<itemspawn_size;i++) {
+		itype_t *t=itemspawn[i];
+		if (rand()%100>=t->freq.chance)
 			continue;
-		int o=ranged_rand((*lt)[i].freq.times);
-		for (int j=0;j<o;j++) {
-			int c=ranged_rand((*lt)[i].freq.counts);
-			spawn_items(w,area,(*lt)[i].type,c);
+		if (!appropriate(w,t->spawn_flags,t->elev))
+			continue;
+		int p=ranged_rand(t->freq.times);
+		for (int j=0;j<p;j++) {
+			int c=ranged_rand(t->freq.counts);
+			spawn_pile(w,area,t,c);
 		}
 	}
 }

@@ -92,9 +92,7 @@ etype_t hen_etype={
 	.str={5,10},
 	.flags=SOLID|MOBILE|PERSISTS,
 	.loot_table={
-		.items={&chicken_leg},
-		.chances={100},
-		.amounts={{2,2}},
+		{&chicken_leg,{100,{2,2}}},
 	},
 	.friends={
 		&hen_etype,
@@ -118,9 +116,7 @@ etype_t rooster_etype={
 	.str={5,10},
 	.flags=SOLID|MOBILE|PERSISTS,
 	.loot_table={
-		.items={&chicken_leg},
-		.chances={100},
-		.amounts={{2,2}},
+		{&chicken_leg,{100,{2,2}}},
 	},
 	.friends={
 		&hen_etype,

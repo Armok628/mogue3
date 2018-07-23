@@ -11,11 +11,11 @@ void place_tree(tile_t *area)
 	if (rand()%10) {
 		area[c].fg='|';
 		area[c].fg_c=BROWN;
+		area[c].bg='o';
+		area[c].bg_c=BROWN;
 	} else {
 		add_item(area[c].pile,&lumber,1);
 	}
-	area[c].bg='o';
-	area[c].bg_c=BROWN;
 }
 void place_trees(tile_t *area,int n)
 {
@@ -135,13 +135,12 @@ tile_t *generate_area(wtile_t *w)
 		for (int i=0;i<r;i++)
 			random_room(area);
 		fix_rooms(area);
-		if (rand()%2)
-			place_axe(area);
 		int c=inside_coords(area);
 		area[c].bg='>';
 		area[c].bg_c=BROWN;
 	}
 	populate(w,area,true);
+	spawn_loot(w,area);
 	return area;
 }
 void wallify(tile_t *t)
@@ -149,11 +148,6 @@ void wallify(tile_t *t)
 	t->fg=t->bg;
 	t->fg_c=t->bg_c;
 }
-ltab_t dungeon_loot={
-	{&scepter,{50,{1,1},{1,1}}},
-	{&gold,{100,{5,20},{1,5}}},
-	{&poison_apple,{50,{1,1},{1,1}}},
-};
 AREA_TYPE(dungeon," ",1,gray(), // Note: ' ' is not nothing
 	for (int i=0;i<AREA;i++)
 		wallify(&area[i]);
@@ -162,5 +156,5 @@ AREA_TYPE(dungeon," ",1,gray(), // Note: ' ' is not nothing
 	fix_rooms(area);
 	for (int i=0;i<AREA/384;i++)
 		random_path(area);
-	spawn_loot(NULL,area,&dungeon_loot);
+	spawn_loot(NULL,area);
 )
