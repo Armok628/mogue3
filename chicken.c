@@ -40,7 +40,7 @@ void hatch_chick(entity_t *e)
 {
 	char dir=alt_dir(e->coords,'0'+1+rand()%9);
 	int t=e->coords+input_offset(dir);
-	spawn_at(local_area,t,&chick_etype);
+	spawn_at(local_area,&chick_etype,t);
 	announce("e s",e,"hatches a chick from an egg");
 	remove_item(e->inventory,&fert_egg,1);
 }
