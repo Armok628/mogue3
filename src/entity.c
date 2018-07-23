@@ -5,10 +5,6 @@ void draw_entity(entity_t *e)
 	set_color(e->color,e->hp?BG BLACK:BG RED);
 	putchar(e->symbol);
 }
-static inline int rand_in_range(int min,int max)
-{
-	return min+rand()%(max-min);
-}
 void transform(entity_t *e,etype_t *type)
 {
 	e->flags=type->flags;

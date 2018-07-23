@@ -12,7 +12,6 @@ extern etype_t monster_etype;
 extern entity_t *player;
 
 void draw_entity(entity_t *);
-void redraw(entity_t *);
 void transform(entity_t *,etype_t *);
 entity_t *spawn(etype_t *);
 void init_perm_effects(entity_t *e);
