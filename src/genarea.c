@@ -22,11 +22,6 @@ void place_trees(tile_t *area,int n)
 	for (int i=0;i<n;i++)
 		place_tree(area);
 }
-void place_axe(tile_t *area)
-{
-	int c=inside_coords(area);
-	add_item(area[c].pile,&axe,1);
-}
 void place_spike(tile_t *area,color_t color)
 {
 	int c=empty_coords(area);
