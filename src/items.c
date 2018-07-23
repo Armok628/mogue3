@@ -16,6 +16,7 @@ itype_t gold={
 	.symbol='$',
 	.color=YELLOW,
 	.spawn_flags=DUNGEON,
+	.freq={100,{5,20},{2,5}},
 };
 int target_chop(int coords)
 {
@@ -58,6 +59,8 @@ itype_t axe={
 	.color=WHITE,
 	.use=&axe_use,
 	.spawn_flags=TOWN|INSIDE,
+	.elev={1,100},
+	.freq={50,{1,1},{1,1}},
 };
 itype_t raft={
 	.name="Raft",
@@ -107,8 +110,10 @@ itype_t lumber={
 	.value=5,
 	.symbol='=',
 	.color=BROWN,
-	.spawn_flags=WILDERNESS|TOWN|OUTSIDE,
 	.use=&lumber_use,
+	.spawn_flags=WILDERNESS|TOWN|OUTSIDE,
+	.elev={51,60},
+	.freq={100,{1,1},{1,5}},
 };
 itype_t rock={
 	.name="Rock",
@@ -118,6 +123,8 @@ itype_t rock={
 	.symbol='*',
 	.color=DGRAY,
 	.spawn_flags=WILDERNESS|TOWN|OUTSIDE,
+	.elev={1,100},
+	.freq={100,{1,2},{2,5}},
 };
 itype_t scepter={
 	.name="Scepter",
@@ -128,6 +135,7 @@ itype_t scepter={
 	.color=PURPLE,
 	.use=&raise_dead,
 	.spawn_flags=DUNGEON,
+	.freq={25,{1,1},{1,1}},
 };
 void eat_poison_apple(entity_t *e)
 {
@@ -145,4 +153,5 @@ itype_t poison_apple={
 	.color=RED,
 	.use=&eat_poison_apple,
 	.spawn_flags=DUNGEON,
+	.freq={50,{1,1},{1,2}},
 };

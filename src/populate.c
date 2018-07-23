@@ -45,19 +45,19 @@ void populate_with(tile_t *area,etype_t *type,int amt,bool dungeon)
 	for (int i=0;i<amt;i++)
 		spawn_fp(area,type);
 }
-bool appropriate(wtile_t *tile,etype_t *type)
+bool appropriate(wtile_t *tile,sflag_t sf,range_t elev)
 { // Returns true if type should spawn in tile's area
-	if (type->spawn_flags==NONE)
+	if (sf==NONE)
 		return false;
 	if (!tile) // NULL tile : temporary area (i.e. dungeon)
-		return type->spawn_flags&DUNGEON;
-	if (tile->town&&!(type->spawn_flags&TOWN)) {
+		return sf&DUNGEON;
+	if (tile->town&&!(sf&TOWN)) {
 		return false;
 	}
-	if (!tile->town&&!(type->spawn_flags&WILDERNESS)) {
+	if (!tile->town&&!(sf&WILDERNESS)) {
 		return false;
 	}
-	if (!in_range(tile->elevation,type->elev)) {
+	if (!in_range(tile->elevation,elev)) {
 		return false;
 	}
 	return true;
@@ -70,7 +70,7 @@ void populate(wtile_t *w,tile_t *area,bool persist)
 	for (int i=0;i<spawnlist_size;i++) {
 		if (w&&(!persist^!(spawnlist[i]->flags&PERSISTS)))
 			continue;
-		if (appropriate(w,spawnlist[i]))
+		if (appropriate(w,spawnlist[i]->spawn_flags,spawnlist[i]->elev))
 			populate_with(area,spawnlist[i],pops[i]+1,!w);
 	}
 }

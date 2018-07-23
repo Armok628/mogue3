@@ -69,6 +69,8 @@ typedef struct itype_s { // TODO: Maximum stack size
 	color_t color;
 	void (*use)(entity_t *);
 	sflag_t spawn_flags;
+	range_t elev;
+	freq_t freq;
 } itype_t; // i(tem)type
 typedef struct islot_s {
 	itype_t *type;
@@ -95,10 +97,10 @@ typedef struct etype_s {
 	struct etype_s *enemies[INV_SIZE];
 	eflag_t flags;
 	ltab_t loot_table;
+	effect_t *perm_effects[INV_SIZE];
 	sflag_t spawn_flags;
 	range_t elev;
 	freq_t freq;
-	effect_t *perm_effects[INV_SIZE];
 } etype_t; // e(ntity)type
 struct entity_s {
 	char *name,symbol;
