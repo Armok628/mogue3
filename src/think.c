@@ -4,6 +4,10 @@ bool would_flee(entity_t *flee_r,entity_t *flee_e)
 	int d=flee_r->wis>10?max_damage(flee_e,flee_r):damage(flee_e,flee_r);
 	return d>flee_r->hp||flee_r->res*2<flee_e->str+flee_e->agi;
 }
+bool will_flee(entity_t *flee_r,entity_t *flee_e)
+{
+	return would_flee(flee_r,flee_e)&&!would_flee(flee_e,flee_r);
+}
 char cw(char dir)
 {
 	static const char *cws="00142132475563788996";
@@ -84,7 +88,7 @@ char think(entity_t *e)
 			if (t&&enemy(e,t)&&!friend(e,t))
 				atk_opts[n_atk++]=c; // Possible attack
 			// Check for entity being nonfriend or enemy to target and would flee
-			if (t&&(enemy(t,e)||!friend(t,e))&&would_flee(e,t))
+			if (t&&(enemy(t,e)||!friend(t,e))&&will_flee(e,t))
 				flee_opts[n_flee++]=c; // Possible flight
 		}
 	int dest=coords;
