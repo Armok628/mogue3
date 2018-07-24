@@ -1,9 +1,9 @@
 #include "genarea.h"
 static inline color_t green() {
-	return (rand()%2?GREEN:LGREEN);
+	return (rand()%2?GREEN:L_GREEN);
 }
 static inline color_t gray() {
-	return (rand()%2?DGRAY:LGRAY);
+	return (rand()%2?D_GRAY:L_GRAY);
 }
 void place_tree(tile_t *area)
 {
@@ -28,7 +28,7 @@ void place_boulder(tile_t *area)
 {
 	int c=empty_coords(area);
 	area[c].fg='O';
-	area[c].fg_c=DGRAY;
+	area[c].fg_c=D_GRAY;
 }
 void place_boulders(tile_t *area,int n)
 {
@@ -38,11 +38,11 @@ void place_boulders(tile_t *area,int n)
 AREA_TYPE(sand,"~~~___.,",8,
 	symbol=='.'||symbol==','?BROWN:YELLOW,;)
 AREA_TYPE(meadow,",.\'\'\"\"`;;*",10,
-	symbol=='*'?YELLOW:(rand()%5?LGREEN:GREEN),
+	symbol=='*'?YELLOW:(rand()%5?L_GREEN:GREEN),
 	place_trees(area,rand()%5); // 0-4 trees
 )
 AREA_TYPE(field,",.\'`;",5,
-	rand()%5?GREEN:LGREEN,
+	rand()%5?GREEN:L_GREEN,
 	place_trees(area,rand()%25); // 0-24 trees
 )
 AREA_TYPE(sparse_grass,",.\'`;_",6,
@@ -59,14 +59,14 @@ AREA_TYPE(snowy_rock,".,*`:",5,
 		place_boulders(area,rand()%10);
 		int n=rand()%10;
 		for (int i=0;i<n;i++)
-			place_spike(area,rand()%2?DGRAY:WHITE);
+			place_spike(area,rand()%2?D_GRAY:WHITE);
 )
 AREA_TYPE(mountain,"-~~~_.",6,
-		symbol=='.'?LGRAY:WHITE,
+		symbol=='.'?L_GRAY:WHITE,
 		place_boulders(area,rand()%5);
 		int n=rand()%20;
 		for (int i=0;i<n;i++)
-			place_spike(area,LCYAN);
+			place_spike(area,L_CYAN);
 )
 AREA_TYPE(forest,",.\'\"`;",6,
 		symbol=='.'||symbol==','?gray():green(),
@@ -83,7 +83,7 @@ tile_t *generate_area(wtile_t *w)
 		case YELLOW:
 			area=sand_gen();
 			break;
-		case LGREEN:
+		case L_GREEN:
 			area=meadow_gen();
 			break;
 		case GREEN:
@@ -102,10 +102,10 @@ tile_t *generate_area(wtile_t *w)
 		break;
 	case '=':
 		switch (map_color) {
-		case LGRAY:
+		case L_GRAY:
 			area=rock_gen();
 			break;
-		case DGRAY:
+		case D_GRAY:
 			area=snowy_rock_gen();
 			break;
 		default:

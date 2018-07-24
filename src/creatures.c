@@ -2,7 +2,7 @@
 etype_t player_etype={
 	.name="Player",
 	.symbol='@',
-	.color=LCYAN,
+	.color=L_CYAN,
 	.hp={50,100},
 	.res={5,15},
 	.agi={5,15},
@@ -42,7 +42,7 @@ etype_t human_etype={
 etype_t monster_etype={
 	.name="Monster",
 	.symbol='&',
-	.color=DGRAY,
+	.color=D_GRAY,
 	.hp={50,100},
 	.res={5,15},
 	.agi={5,15},
@@ -120,17 +120,17 @@ void burn_start(int c)
 {
 	entity_t *e=local_area[c].e;
 	announce("e s",e,"bursts into flames!");
-	e->color=LRED;
+	e->color=L_RED;
 	draw_posl(e->coords);
 }
 void burn_turn(int c)
 {
 	entity_t *e=local_area[c].e;
 	int d=1+rand()%5;
-	if (e->color==LRED)
+	if (e->color==L_RED)
 		e->color=YELLOW;
 	else
-		e->color=LRED;
+		e->color=L_RED;
 	announce("e s d s",e,"burns for",d,"damage");
 	e->hp-=d;
 	if (e->hp<=0) {
@@ -155,7 +155,7 @@ effect_t burning={
 // Tile effect: Growing grass
 bool has_grass(tile_t *t)
 {
-	return t->bg_c==GREEN||t->bg_c==LGREEN;
+	return t->bg_c==GREEN||t->bg_c==L_GREEN;
 }
 bool grass_adjacent(int c)
 {
@@ -178,7 +178,7 @@ effect_t growing_grass={
 void try_grow(int c)
 {
 	if (grass_adjacent(c)&&!(rand()%50)) {
-		local_area[c].bg_c=rand()%2?GREEN:LGREEN;
+		local_area[c].bg_c=rand()%2?GREEN:L_GREEN;
 		end_effect(local_area[c].effects,&growing_grass,c);
 		draw_posl(c);
 	}
@@ -186,22 +186,22 @@ void try_grow(int c)
 // Tile effect: Burning
 void tile_burning_start(int c)
 {
-	local_area[c].bg_c=rand()%2?LRED:YELLOW;
+	local_area[c].bg_c=rand()%2?L_RED:YELLOW;
 }
 void tile_burning_turn(int c)
 {
 	tile_t *t=&local_area[c];
 	if (t->e&&t->e->type!=&dragon_etype)
 		add_effect(t->e->effects,&burning,5+rand()%5,c);
-	if (t->bg_c==LRED)
+	if (t->bg_c==L_RED)
 		t->bg_c=YELLOW;
 	else
-		t->bg_c=LRED;
+		t->bg_c=L_RED;
 	draw_posl(c);
 }
 void tile_burning_end(int c)
 {
-	local_area[c].bg_c=LGRAY;
+	local_area[c].bg_c=L_GRAY;
 	draw_posl(c);
 	//add_effect(local_area[c].effects,&growing_grass,1000,c);
 }

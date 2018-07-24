@@ -8,13 +8,13 @@ void draw_tile(tile_t tile)
 	else if (tile.corpse)
 		draw_entity(tile.corpse);
 	else if (tile.pile[0].count) {
-		set_color(tile.pile[0].type->color,BG BLACK);
+		set_color(FG tile.pile[0].type->color BG BLACK);
 		putchar(tile.pile[0].type->symbol);
 	} else if (tile.fg) {
-		set_color(tile.fg_c,BG BLACK);
+		set_color(FG tile.fg_c BG BLACK);
 		putchar(tile.fg);
 	} else {
-		set_color(tile.bg_c,BG BLACK);
+		set_color(FG tile.bg_c BG BLACK);
 		putchar(tile.bg);
 	}
 }
@@ -26,7 +26,7 @@ void draw_pos(int x,int y)
 		return;
 	move_cursor(x,y);
 	if (fog_of_war&&!visible(player->coords,lin(x,y))) {
-		set_color(BLACK,BG BLACK);
+		set_color(FG BLACK BG BLACK);
 		putchar(' ');
 	} else
 		draw_tile(local_area[lin(x,y)]);
@@ -39,7 +39,7 @@ void draw_posl(int c)
 		return;
 	move_cursor(xcmp(c),ycmp(c));
 	if (fog_of_war&&!visible(player->coords,c)) {
-		set_color(BLACK,BG BLACK);
+		set_color(FG BLACK BG BLACK);
 		putchar(' ');
 	} else
 		draw_tile(local_area[c]);

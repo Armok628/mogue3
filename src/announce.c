@@ -8,10 +8,10 @@ void print_stats(entity_t *e)
 {
 	if (replay!=stdin)
 		return;
-	set_color(RESET,BG RESET);
+	set_color(FG RESET BG RESET);
 	printf("%s ",e->name);
 	draw_entity(e);
-	set_color(RESET,BG RESET);
+	set_color(FG RESET BG RESET);
 	printf(" %s %d%s%d %s %d %s %d %s %d %s %d",
 			"HP:",e->hp,"/",e->maxhp,
 			"RES:",e->res,
@@ -34,7 +34,7 @@ void announce(char *fmt, ...)
 	char *s;
 	va_start(ap,fmt);
 	next_line();
-	set_color(RESET,BG RESET);
+	set_color(FG RESET BG RESET);
 	for (;*fmt;fmt++) {
 		switch (*fmt) {
 		case 's':
@@ -46,11 +46,11 @@ void announce(char *fmt, ...)
 			if (e->flags&PERSISTS) {
 				printf("%s (",e->name);
 				draw_entity(e);
-				set_color(RESET,BG RESET);
+				set_color(FG RESET BG RESET);
 				putchar(')');
 			} else {
 				draw_entity(e);
-				set_color(RESET,BG RESET);
+				set_color(FG RESET BG RESET);
 			}
 			break;
 		case 'd':

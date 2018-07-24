@@ -2,7 +2,7 @@
 entity_t *player;
 void draw_entity(entity_t *e)
 {
-	set_color(e->color,e->hp?BG BLACK:BG RED);
+	set_color(FG e->color BG (e->hp?BLACK:RED));
 	putchar(e->symbol);
 }
 void transform(entity_t *e,etype_t *type)

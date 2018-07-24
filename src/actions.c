@@ -57,7 +57,7 @@ void action_menu()
 		t=&local_area[player->coords];
 		if (t->bg!='.'&&t->bg!=',')
 			announce("s","You are not on any rocks");
-		else if (t->bg_c!=DGRAY&&t->bg_c!=LGRAY) {
+		else if (t->bg_c!=D_GRAY&&t->bg_c!=L_GRAY) {
 			announce("s","You have trouble finding rocks here");
 			rocks=!(rand()%10);
 		} else

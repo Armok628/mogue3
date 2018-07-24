@@ -32,7 +32,7 @@ int menu_at_pos(char **opts,int n_opts,int off_x,int off_y) // TODO: Fix ugly go
 		maxl=maxl>len?maxl:len;
 	}
 	// Draw box
-	set_color(WHITE,BG BLACK);
+	set_color(FG WHITE BG BLACK);
 	draw_box(off_x,off_y,maxl,n_opts);
 	// Print options
 	for (int o=0;o<n_opts;o++) {
@@ -48,11 +48,11 @@ MENU_CONTROL_LOOP:
 			goto MENU_KEY_CASE;
 		}
 		move_cursor(off_x+1,off_y+1+index);
-		set_color(YELLOW,BG BLUE);
+		set_color(FG YELLOW BG BLUE);
 		fputs(opts[index],stdout);
 		input=get_input();
 		move_cursor(off_x+1,off_y+1+index);
-		set_color(WHITE,BG BLACK);
+		set_color(FG WHITE BG BLACK);
 		fputs(opts[index],stdout);
 MENU_KEY_CASE:
 		switch (input) {

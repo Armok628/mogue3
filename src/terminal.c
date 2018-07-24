@@ -10,12 +10,12 @@ void putc_pos(char ch,int x,int y)
 }
 void clear_screen()
 {
-	set_color(RESET,BG RESET);
+	set_color(FG RESET BG RESET);
 	fputs("\033[2J",stdout);
 }
 void clear_line()
 {
-	set_color(RESET,BG RESET);
+	set_color(FG RESET BG RESET);
 	fputs("\033[2K",stdout);
 }
 void set_cursor_visible(int v)
@@ -39,9 +39,9 @@ void set_blocking(int b)
 	term.c_cc[VMIN]=!!b;
 	tcsetattr(0,TCSANOW,&term);
 }
-void set_color(color_t c,color_t bg)
+void set_color(color_t c)
 {
-	printf("\033[%d;%d;%dm",c/100,c%100,bg);
+	printf("\033[%d;%d;%dm",c/10000,c/100%100,c%100);
 }
 int get_cursor_pos(int xf,int yf)
 {

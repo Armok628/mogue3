@@ -29,17 +29,17 @@ color_t elevation_color(int elevation)
 	if (elevation>65)
 		return WHITE;
 	else if (elevation>63)
-		return DGRAY;
+		return D_GRAY;
 	else if (elevation>60)
-		return LGRAY;
+		return L_GRAY;
 	else if (elevation>53)
 		return GREEN;
 	else if (elevation>50)
-		return LGREEN;
+		return L_GREEN;
 	else if (elevation>48)
 		return YELLOW;
 	else if (elevation>44)
-		return LBLUE;
+		return L_BLUE;
 	else if (elevation>24)
 		return BLUE;
 	else
@@ -65,7 +65,7 @@ void draw_land(int land[WIDTH][HEIGHT])
 	for (int y=0;y<HEIGHT;y++) {
 		for (int x=0;x<WIDTH;x++) {
 			int h=land[x][y];
-			set_color(elevation_color(h),BG BLACK);
+			set_color(FG elevation_color(h) BG BLACK);
 			putchar(elevation_symbol(h));
 		}
 		putchar('\n');
@@ -110,13 +110,13 @@ wtile_t *worldgen(int erosion,int offset)
 void draw_world_tile(wtile_t *tile)
 {
 	if (tile->landing) {
-		set_color(BROWN,BG BLACK);
+		set_color(FG BROWN BG BLACK);
 		putchar('>');
 	} else if (tile->town) {
-		set_color(LRED,BG BLACK);
+		set_color(FG L_RED BG BLACK);
 		putchar('#');
 	} else {
-		set_color(tile->color,BG BLACK);
+		set_color(FG tile->color BG BLACK);
 		putchar(tile->symbol);
 	}
 }

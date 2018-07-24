@@ -41,9 +41,9 @@ int player_target()
 			continue;
 		}
 		if (visible(player->coords,c))
-			set_color(YELLOW,BG BLACK);
+			set_color(FG YELLOW BG BLACK);
 		else
-			set_color(LRED,BG BLACK);
+			set_color(FG L_RED BG BLACK);
 		putc_pos('X',xcmp(c),ycmp(c));
 		if (local_area[c].e)
 			announce_stats(local_area[c].e);

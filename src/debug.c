@@ -57,8 +57,7 @@ void debug_command()
 		item_menu(e->inventory);
 	} else if (!strcmp(input,"dragon")) {
 		int c=player_target();
-		local_area[c].e=spawn(&dragon_etype);
-		local_area[c].e->coords=c;
+		spawn_at(local_area,&dragon_etype,c);
 	} else if (sscanf(input,"set %3[^=]=%d",stat,&num)==2) {
 		entity_t *t=local_area[player_target()].e;
 		if (!t)

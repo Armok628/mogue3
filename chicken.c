@@ -14,7 +14,7 @@ itype_t chicken_leg={
 	.effect=0,
 	.value=10,
 	.symbol='?',
-	.color=LRED,
+	.color=L_RED,
 	.use=&eat_chicken,
 	.spawn_flags=NONE,
 };

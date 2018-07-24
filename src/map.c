@@ -4,7 +4,7 @@ int map_coords;
 void draw_star(int pos)
 {
 	if (replay==stdin) {
-		set_color(player_etype.color,BG BLACK);
+		set_color(FG player_etype.color BG BLACK);
 		putc_pos('*',xcmp(pos),ycmp(pos));
 	}
 }

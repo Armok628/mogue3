@@ -10,14 +10,14 @@ void make_floor(tile_t *t)
 {
 	t->fg='\0';
 	t->bg='#';
-	t->bg_c=LGRAY;
+	t->bg_c=L_GRAY;
 }
 void make_wall(tile_t *t)
 {
 	t->fg='%';
-	t->fg_c=DGRAY;
+	t->fg_c=D_GRAY;
 	t->bg='%';
-	t->bg_c=DGRAY;
+	t->bg_c=D_GRAY;
 }
 void make_room(tile_t *a,int x,int y,int w,int h,dir_t direction)
 {
@@ -133,7 +133,7 @@ int cull_walls(tile_t *area)
 		if (wall_needs_cull(area,i)) {
 			area[i].fg='\0';
 			area[i].bg='#';
-			area[i].bg_c=LGRAY;
+			area[i].bg_c=L_GRAY;
 			walls_removed++;
 		}
 	return walls_removed;

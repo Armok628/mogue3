@@ -36,7 +36,7 @@ void quit()
 		free_world(world);
 	else
 		free_area(local_area);
-	set_color(RESET,BG RESET);
+	set_color(FG RESET BG RESET);
 	set_canon(1);
 	set_cursor_visible(1);
 	next_line();
