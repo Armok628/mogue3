@@ -41,8 +41,8 @@ print $src "#include \"spawn.h\"\netype_t *entityspawn[]={\n";
 open(my $et,'<','src/creatures.h');
 for (<$et>) {print $src "\t&$1,\n" if (/^extern etype_t (\w*);/)}
 close($et);
-# Generate itemspawn
 print $src "};\nint entityspawn_size=sizeof(entityspawn)/sizeof(etype_t *);\n";
+# Generate itemspawn
 print $src "itype_t *itemspawn[]={\n";
 open(my $et,'<','src/items.h');
 for (<$et>) {print $src "\t&$1,\n" if (/^extern itype_t (\w*);/)}
