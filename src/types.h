@@ -82,8 +82,8 @@ typedef struct ltslot_s { //l(oot)t(able)slot
 } ltslot_t;
 typedef ltslot_t ltab_t[INV_SIZE]; // l(oot)tab(le)
 
-// Entities
 typedef struct spell_s spell_t;
+// Entities
 typedef struct etype_s {
 	char *name,symbol;
 	color_t color;
@@ -115,11 +115,11 @@ struct entity_s {
 };
 
 // Spells
-typedef struct spell_s {
+struct spell_s {
 	void (*function)(entity_t *);
 	char *name;
 	cat_t category;
-} spell_t;
+};
 
 // Tiles
 struct tile_s {
